@@ -29,11 +29,10 @@ const Card: React.FC<CardProps> = ({className, image, captionSlot, title, subtit
         
         <div className="card__content">
             
-            {captionSlot && <Text tag='div' className='card__capt-slot' view='p-14' weight='medium' color='secondary'>{captionSlot}</Text>}
             <div className="" onClick={onClick}>
-            <Text view='p-20' weight='medium' maxLines={2} color='primary' className='card__title'>{title}</Text>
-            <Text className='card__subtitle' view='p-16' color='secondary' maxLines={3}>{subtitle}</Text>
-                
+                {captionSlot && <Text tag='div' className='card__capt-slot' view='p-14' weight='medium' color='secondary'>{captionSlot}</Text>}
+                <Text view='p-20' weight='medium' maxLines={2} color='primary' className='card__title'>{title}</Text>
+                <Text className='card__subtitle' view='p-16' color='secondary' maxLines={3}>{subtitle}</Text>
             </div>
             {contentSlot || actionSlot ? <div className="card__other-info">
                 {contentSlot && <Text tag='span' view='p-18' weight='bold'>{contentSlot}</Text>}

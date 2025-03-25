@@ -3,7 +3,7 @@ import * as React from 'react'
 
 import s from "./Icon.module.scss"
 
-// eslint-disable-next-line no-undef
+ 
 export type IconProps = React.SVGAttributes<SVGElement> & {
     className?: string;
     color?: 'primary' | 'secondary' | 'accent';

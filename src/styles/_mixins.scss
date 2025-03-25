@@ -1,0 +1,9 @@
+@mixin align-items-center () {
+    display: flex;
+    align-items: center;
+}
+
+@mixin square($size) {
+    width: $size;
+    height: $size;
+}

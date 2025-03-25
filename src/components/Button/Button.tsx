@@ -4,7 +4,7 @@ import React from "react";
 import Loader from "../Loader";
 import "./Button.scss";
 
-// eslint-disable-next-line no-undef
+ 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   /** Состояние загрузки */
   loading?: boolean;
