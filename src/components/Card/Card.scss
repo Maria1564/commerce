@@ -1,0 +1,47 @@
+@use "styles/variables" as v;
+
+.card {
+  width: 360px;
+  background: v.$white;
+  overflow: hidden;
+
+  &__content {
+    background: v.$white;
+    padding: 48px v.$space-xs 48px v.$space-xs;
+    width: 360px;
+  }
+
+  &__info {
+
+  }
+
+  &__image {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__capt-slot,
+  &__title,
+  &__subtitle {
+    text-align: start;
+  }
+
+  &__subtitle {
+    height: 40px;
+  }
+
+  &__title {
+    margin: v.$space-xxs 0;
+  }
+
+  &__other-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 10px 0 #00000040;
+  }
+}
