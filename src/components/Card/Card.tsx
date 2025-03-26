@@ -29,7 +29,7 @@ const Card: React.FC<CardProps> = ({className, image, captionSlot, title, subtit
         
         <div className="card__content">
             
-            <div className="" onClick={onClick}>
+            <div className="card__about" onClick={onClick}>
                 {captionSlot && <Text tag='div' className='card__capt-slot' view='p-14' weight='medium' color='secondary'>{captionSlot}</Text>}
                 <Text view='p-20' weight='medium' maxLines={2} color='primary' className='card__title'>{title}</Text>
                 <Text className='card__subtitle' view='p-16' color='secondary' maxLines={3}>{subtitle}</Text>

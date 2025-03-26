@@ -1,6 +1,8 @@
 import React from 'react'
 import Text from 'components/Text'
 import Filter from './components/Filter'
+import ListProducts from './components/ListProducts'
+import Pagination from './components/Pagination'
 import style from "./CatalogPage.module.scss"
 
 const CatalogPage: React.FC = () => {
@@ -12,6 +14,8 @@ const CatalogPage: React.FC = () => {
           to see our old products please enter the name of the item</Text>
         </div>
         <Filter/>
+        <ListProducts/>
+        <Pagination/>
     </div>
   )
 }
