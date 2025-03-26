@@ -1,6 +1,6 @@
 @use "styles/variables" as v;
 
-.icon {
+.icon { 
     &__primary {
         color: v.$primary-color;
     }
@@ -12,4 +12,8 @@
     &__secondary {
         color: v.$secondary-color;
     }
+}
+
+svg {
+    cursor: pointer;
 }

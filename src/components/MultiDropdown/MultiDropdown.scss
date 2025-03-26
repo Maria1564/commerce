@@ -15,7 +15,14 @@
     font-weight: 400;
     font-size: v.$p-16;
     line-height: 20px;
+    cursor: pointer;
+
+    &_select {
+        color: v.$brand;
+    }
 }
+
+
 
 .item:hover {
     color: v.$secondary-color;

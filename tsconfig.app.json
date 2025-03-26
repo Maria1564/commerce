@@ -31,7 +31,8 @@
       "utils/*": ["utils/*"],
       "layout/*": ["layout/*"],
       "types/*": ["types/*"],
-      "store/*": ["store/*"]
+      "store/*": ["store/*"],
+      "App/*": ["App/*"]
 
     }
   },

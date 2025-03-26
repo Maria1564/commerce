@@ -1,0 +1,21 @@
+@use "styles/mixins" as m;
+@use "styles/variables" as v;
+
+.wrapper {
+    width: 100%;
+    margin-bottom: 48px;
+}
+
+.search {
+    width: 100%;
+    @include m.align-items-center;
+    gap: v.$space-xl;
+
+    &> input {
+        flex-grow: 1;
+    }
+}
+
+.dropdown {
+    margin-top: v.$space-xl;
+}
