@@ -74,7 +74,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({className:cn, value, optio
       const newValue = isSelected
         ? value.filter(v => v.key !== option.key)
         : [...value, option]; 
-       console.log(newValue)
+      
         onChange(newValue)
     }
   

@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import { useNavigate } from "react-router";
 import Button from "components/Button";
 import Card from "components/Card";
 
@@ -9,8 +10,8 @@ type CardItemProps = {
 };
 
 const CardItem: React.FC<CardItemProps> = ({ item }) => {
-
-  const onClick = useCallback(() => {}, [])
+const navigate = useNavigate()
+  const onClick = useCallback(() => {navigate(`/product/${item.id}`)}, [])
 
   return (
     <Card
@@ -25,4 +26,4 @@ const CardItem: React.FC<CardItemProps> = ({ item }) => {
   );
 };
 
-export default CardItem;
+export default React.memo(CardItem);
