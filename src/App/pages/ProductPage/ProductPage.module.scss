@@ -1,0 +1,18 @@
+@use "styles/mixins" as m;
+
+.wrapper {
+  padding: 60px 0 146px;
+}
+
+.link_back {
+  @include m.align-items-center;
+  gap: 18px;
+  
+  & svg {
+    transition: transform 0.5s;
+  }
+
+  &:hover svg {
+    transform: translate(-5px);
+  }
+}

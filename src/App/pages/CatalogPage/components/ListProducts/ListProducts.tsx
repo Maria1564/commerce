@@ -4,8 +4,8 @@ import { useQueryContext } from "App/provider/QueryContext";
 import Text from "components/Text";
 import { apiClient } from "config/axiosConfig";
 import { Product } from "types/index";
+import { normalizeData } from "utils/normalize";
 import CardItem from "./CardItem";
-import { normalizeData } from "./utils/normalize";
 import style from "./ListProducts.module.scss";
 
 const ListProducts: React.FC = () => {
