@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import qs from "qs";
 import React, { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router";
 import { useQueryContext } from "App/provider/QueryContext";
 import ArrowRightIcon from "components/icons/ArrowRightIcon";
 import { apiClient } from "config/axiosConfig";
@@ -9,7 +8,6 @@ import { createPagination } from "./utils";
 import style from "./Pagination.module.scss";
 
 const Pagination: React.FC = () => {
-  const [searchParams] = useSearchParams()
   const [totalPage, setTotalPage] = useState<number>(4);
   const [pages, setPages] = useState<(string | number)[]>([]);
   
@@ -20,30 +18,38 @@ const Pagination: React.FC = () => {
    }
  
    const { params, changeParamByKey} = queryContext;
- 
-  const [currPage, setCurrPage] = useState<number>(Number(searchParams.get("page")) || Number(params.page));
+   const [currPage, setCurrPage] = useState<number>(Number(params.page));
+   
+   useEffect(() => {
+     setPages(createPagination(totalPage, currPage));
+    }, [totalPage, currPage]);
 
+    
   useEffect(() => {
-    setPages(createPagination(totalPage, currPage));
-  }, [totalPage, currPage]);
-
-  useEffect(() => {
-    const params = {
+    const newParams = {
       pagination: {
-        page: currPage,
+        page: params.page,
         pageSize: 9,
       },
+      ...(params.search && 
+        {
+          filters: {
+            title: {
+              $containsi: params.search
+            }
+          }
+        })
     };
+    let queryParams = qs.stringify(newParams);
 
-    let queryParams = qs.stringify(params);
+    
     apiClient
-      .get(`/products?${queryParams}`)
-      .then(({ data }) => {
+    .get(`/products?${queryParams}`)
+    .then(({ data }) => {
+        setCurrPage(Number(params.page))
         setTotalPage(data.meta.pagination.pageCount)
-      });
-
-      
-  }, [currPage]);
+      }); 
+  }, [currPage, params.search]);
 
   const handleNextPage = useCallback(() => {
     setCurrPage(currPage+1)

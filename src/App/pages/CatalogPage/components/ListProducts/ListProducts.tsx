@@ -19,6 +19,7 @@ const ListProducts: React.FC = () => {
 
   const { params: queryParams } = queryContext;
 
+
   //получение общего количества товаров
   useEffect(() => {
     apiClient
@@ -32,10 +33,17 @@ const ListProducts: React.FC = () => {
       populate: ["images", "productCategory"],
       pagination: {
         pageSize: 9,
-        page: queryParams.page,
+        page: queryParams.page
       },
+      ...(queryParams.search && 
+        {
+          filters: {
+            title: {
+              $containsi: queryParams.search
+            }
+          }
+        })
     };
-
     apiClient.get(`/products?${qs.stringify(params)}`).then(({ data }) => {
       setProducts(normalizeData(data.data));
     });

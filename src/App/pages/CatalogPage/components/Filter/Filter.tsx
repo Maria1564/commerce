@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
-import Button from "components/Button";
-import Input from "components/Input";
 import MultiDropdown, { Option } from "components/MultiDropdown";
+import Search from "./Search";
 import style from "./Filter.module.scss";
 
 const Filter: React.FC = () => {
@@ -20,11 +19,7 @@ const [data, setData] = useState<Option[]>([])
 
   return (
     <div className={style.wrapper}>
-      <div className={style.search}>
-        <Input placeholder="Search product" value="" onChange={() => {}} />
-        <Button>Find now</Button>
-      </div>
-      
+      <Search/>
       <MultiDropdown
         options={[
           { key: "el", value: "electrical" },

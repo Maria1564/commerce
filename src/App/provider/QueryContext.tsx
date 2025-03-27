@@ -26,6 +26,7 @@ const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
 
   const initialParams = {
     page: searchParams.get("page") || "1",
+    ...(searchParams.get("search") && {search: searchParams.get("search")!})
   };
 
   const [params, setParams] = useState<{ [key: string]: string }>(
@@ -34,16 +35,24 @@ const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
 
   const changeParamByKey = useCallback(
     (key: string, value: string) => {
-      
-      setParams((prev) => ({
-        ...prev,
-        [key]: value,
-      }));
       const newParams = new URLSearchParams(window.location.search);
 
-      newParams.set(key, value);
+      if (value.trim() === "") {
+        setParams((prev) => {
+          const { [key]: selectKey, ...otherKey } = prev;
+          return otherKey;
+        });
 
-      
+        newParams.delete(key);
+      } else {
+        setParams((prev) => ({
+          ...prev,
+          [key]: value,
+        }));
+
+        newParams.set(key, value);
+      }
+
       navigate(`?${newParams.toString()}`);
     },
     [searchParams, navigate]
@@ -51,7 +60,7 @@ const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
 
   //добавление параметров при инициализации
   useEffect(() => {
-    updateQueryParams(navigate, params)
+    updateQueryParams(navigate, params);
   }, []);
 
   const value: typeQueryContext = {
