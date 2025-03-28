@@ -1,31 +1,74 @@
-import React, { useCallback, useState } from "react";
+import qs from "qs";
+import React, { useCallback, useEffect, useState } from "react";
+import { useQueryContext } from "App/provider/QueryContext";
 import MultiDropdown, { Option } from "components/MultiDropdown";
+import { apiClient } from "config/axiosConfig";
 import Search from "./Search";
 import style from "./Filter.module.scss";
 
 const Filter: React.FC = () => {
-const [data, setData] = useState<Option[]>([])
+  const [selectCategories, setSelectCategories] = useState<Option[]>([]);
+  const [categories, setCategories] = useState<Option[]>([]);
+  const queryContext = useQueryContext();
+
+  if (!queryContext) {
+    return;
+  }
+
+  const { changeParamByKey, params } = queryContext;
+
+  useEffect(() => {
+    const queryParams = {
+      fields: ["id", "title"],
+    };
+
+    apiClient
+      .get(`/product-categories?${qs.stringify(queryParams)}`)
+      .then(({ data }) => {
+        setCategories(
+          data.data.map((item: { id: number; title: string }) => ({
+            key: item.id,
+            value: item.title,
+          }))
+        );
+
+        const newCategories = data.data.filter((item: { title: string }) =>
+          params.category.split(",").includes(item.title)
+        );
+
+        setSelectCategories(
+          newCategories.map((item: { id: number; title: string }) => ({
+            key: item.id,
+            value: item.title,
+          }))
+        );
+      });
+  }, []);
 
   const handlerChange = useCallback(
-    (value: Option[]) =>{
-      setData([...value])
-    },[setData]
+    (value: Option[]) => {
+      let strCategory = value.map((item) => item.value).join(",");
+      setSelectCategories([...value]);
+      changeParamByKey("category", strCategory);
+      changeParamByKey("page", "1");
+    },
+    [setSelectCategories]
   );
 
-  const getTitle = useCallback((value: Option[]) => {
-    const valuesStr = value.map(item => item.value)
-    return valuesStr.join(", ")
-  }, [data])
+  const getTitle = useCallback(
+    (value: Option[]) => {
+      const valuesStr = value.map((item) => item.value);
+      return valuesStr.join(", ");
+    },
+    [selectCategories]
+  );
 
   return (
     <div className={style.wrapper}>
-      <Search/>
+      <Search />
       <MultiDropdown
-        options={[
-          { key: "el", value: "electrical" },
-          { key: "cl", value: "closest" },
-        ]}
-        value={data}
+        options={categories}
+        value={selectCategories}
         onChange={handlerChange}
         getTitle={getTitle}
         className={style.dropdown}

@@ -31,25 +31,36 @@ const Pagination: React.FC = () => {
         page: params.page,
         pageSize: 9,
       },
-      ...(params.search && 
+      ...((params.search || params.category) && 
         {
           filters: {
-            title: {
-              $containsi: params.search
-            }
+            ...(params.search && {
+              title: {
+                $containsi: params.search
+              }
+            }),
+
+            ...(params.category && {
+              productCategory: {
+                title: {
+                  $containsi: params.category.split(",")
+                }
+              }
+            })
           }
-        })
+        }
+      ),
     };
     let queryParams = qs.stringify(newParams);
 
-    
+   
     apiClient
     .get(`/products?${queryParams}`)
     .then(({ data }) => {
         setCurrPage(Number(params.page))
         setTotalPage(data.meta.pagination.pageCount)
       }); 
-  }, [currPage, params.search]);
+  }, [currPage, params.search, params.category]);
 
   const handleNextPage = useCallback(() => {
     setCurrPage(currPage+1)

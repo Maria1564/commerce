@@ -35,15 +35,27 @@ const ListProducts: React.FC = () => {
         pageSize: 9,
         page: queryParams.page
       },
-      ...(queryParams.search && 
+      ...((queryParams.search || queryParams.category) && 
         {
           filters: {
-            title: {
-              $containsi: queryParams.search
-            }
+            ...(queryParams.search && {
+              title: {
+                $containsi: queryParams.search
+              }
+            }),
+
+            ...(queryParams.category && {
+              productCategory: {
+                title: {
+                  $containsi: queryParams.category.split(",")
+                }
+              }
+            })
           }
-        })
+        }
+      ),
     };
+    
     apiClient.get(`/products?${qs.stringify(params)}`).then(({ data }) => {
       setProducts(normalizeData(data.data));
     });

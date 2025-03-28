@@ -26,7 +26,8 @@ const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
 
   const initialParams = {
     page: searchParams.get("page") || "1",
-    ...(searchParams.get("search") && {search: searchParams.get("search")!})
+    ...(searchParams.get("search") && { search: searchParams.get("search")!}),
+    ...(searchParams.get("category") && {category: searchParams.get("category")!}),
   };
 
   const [params, setParams] = useState<{ [key: string]: string }>(
@@ -60,6 +61,7 @@ const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
 
   //добавление параметров при инициализации
   useEffect(() => {
+    console.log(params);
     updateQueryParams(navigate, params);
   }, []);
 
