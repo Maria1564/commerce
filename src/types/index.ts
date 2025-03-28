@@ -2,7 +2,8 @@
 export enum Routes {
     main = "/",
     catalog ="/catalog",
-    productById = "/product/:id"
+    productById = "/product/:id",
+    other = "*"
 }
 
 export type Product = {

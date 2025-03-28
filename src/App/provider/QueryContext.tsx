@@ -61,7 +61,6 @@ const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
 
   //добавление параметров при инициализации
   useEffect(() => {
-    console.log(params);
     updateQueryParams(navigate, params);
   }, []);
 
