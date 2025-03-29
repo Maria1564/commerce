@@ -28,6 +28,7 @@ const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
     page: searchParams.get("page") || "1",
     ...(searchParams.get("search") && { search: searchParams.get("search")!}),
     ...(searchParams.get("category") && {category: searchParams.get("category")!}),
+    ...(searchParams.get("sort") && {sort: searchParams.get("sort")!})
   };
 
   const [params, setParams] = useState<{ [key: string]: string }>(

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useQueryContext } from "App/provider/QueryContext";
 import MultiDropdown, { Option } from "components/MultiDropdown";
 import { apiClient } from "config/axiosConfig";
+import Dropdown from "./Dropdown";
 import Search from "./Search";
 import style from "./Filter.module.scss";
 
@@ -32,8 +33,10 @@ const Filter: React.FC = () => {
           }))
         );
 
+       
+
         const newCategories = data.data.filter((item: { title: string }) =>
-          params.category.split(",").includes(item.title)
+         params.category && params.category.split(",").includes(item.title)
         );
 
         setSelectCategories(
@@ -66,13 +69,16 @@ const Filter: React.FC = () => {
   return (
     <div className={style.wrapper}>
       <Search />
-      <MultiDropdown
-        options={categories}
-        value={selectCategories}
-        onChange={handlerChange}
-        getTitle={getTitle}
-        className={style.dropdown}
-      />
+      <div className={style.filters}>
+        <MultiDropdown
+          options={categories}
+          value={selectCategories}
+          onChange={handlerChange}
+          getTitle={getTitle}
+          className={style.dropdown}
+        />
+        <Dropdown/>
+      </div>
     </div>
   );
 };

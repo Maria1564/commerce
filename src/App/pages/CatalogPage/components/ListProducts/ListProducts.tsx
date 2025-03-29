@@ -54,10 +54,12 @@ const ListProducts: React.FC = () => {
           }
         }
       ),
+      ...(queryParams.sort && {sort: queryParams.sort})
     };
     
     apiClient.get(`/products?${qs.stringify(params)}`).then(({ data }) => {
       setProducts(normalizeData(data.data));
+      setTotalProducts(data.meta.pagination.total)
     });
   }, [queryParams]);
 
