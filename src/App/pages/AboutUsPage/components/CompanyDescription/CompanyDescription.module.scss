@@ -1,0 +1,14 @@
+.info {
+    display: flex;
+    gap: 60px;
+}
+
+.name {
+    display: inline;
+}
+
+.text {
+    & p {
+        margin-bottom: 20px;
+    }
+}

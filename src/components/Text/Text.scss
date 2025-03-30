@@ -1,0 +1,65 @@
+@use "styles/variables" as v;
+
+.text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 48px;
+  
+}
+
+.button {
+  font-size: v.$p-18;
+  line-height: 18px;
+}
+
+.p-20 {
+  font-size: v.$p-20;
+  line-height: 24px;
+}
+
+.p-18 {
+  font-size: v.$p-18;
+  line-height: 22px;
+}
+
+.p-16 {
+  font-size: v.$p-16;
+  line-height: 20px;
+}
+
+.p-14 {
+  font-size: v.$p-14;
+  line-height: 18px;
+}
+
+.normal {
+  font-weight: normal;
+}
+
+.medium {
+  font-weight: 600;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+
+.text_color_primary {
+  color: v.$primary-color
+}
+
+.text_color_secondary {
+  color: v.$secondary-color;
+}
+
+.text_color_accent {
+  color: v.$brand;
+}

@@ -29,9 +29,10 @@
       "config/*": ["config/*"],
       "styles/*": ["styles/*"],
       "utils/*": ["utils/*"],
-      "layout": ["layout/*"],
+      "layout/*": ["layout/*"],
       "types/*": ["types/*"],
-      "store/*": ["store/*"]
+      "store/*": ["store/*"],
+      "App/*": ["App/*"]
 
     }
   },

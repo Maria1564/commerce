@@ -1,0 +1,12 @@
+@use "styles/variables" as v;
+
+.wrapper {
+    width: 100%;
+    margin-bottom: 48px;
+    margin-top: 50px;
+}
+
+.filters {
+    margin-top: v.$space-xl;
+    display: flex;
+}

@@ -1,0 +1,42 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+
+.image {
+    width: 600px;
+    height: 600px;
+}
+
+.info {
+    margin: 32px 0 48px;
+    display: flex;
+    justify-content: space-between;
+    gap: 48px;
+}
+
+.description {
+    margin: 24px 0 80px;
+}
+
+.actions {
+    @include m.align-items-center;
+    gap: 48px;
+    margin-top: 48px;
+}
+
+.btn_outline {
+    border: 1px solid v.$primary-color;
+    background-color: v.$white;
+    color: v.$primary-color;
+
+
+    &:hover {
+        background-color: v.$white;
+        border-color: v.$secondary-color;
+        color: v.$secondary-color;
+    }
+
+    &:active {
+        background-color: v.$white;
+    }
+}

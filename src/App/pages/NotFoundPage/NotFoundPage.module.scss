@@ -1,0 +1,22 @@
+@use "styles/variables" as v;
+
+.wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    & a {
+        text-decoration: underline;
+    }
+}
+
+.bold_text {
+    color: v.$brand;
+    font-size: 48px;
+}
+
+.text {
+    margin: 20px 10px;
+}
