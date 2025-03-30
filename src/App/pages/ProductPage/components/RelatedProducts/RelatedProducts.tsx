@@ -1,5 +1,6 @@
 import qs from "qs";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import Text from "components/Text";
 import { apiClient } from "config/axiosConfig";
 import { Product } from "types/index";
@@ -9,6 +10,8 @@ import style from "./RelatedProducts.module.scss"
 
 const RelatedProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+
+  const {id} = useParams()
 
   useEffect(() => {
     const params = {
@@ -22,7 +25,7 @@ const RelatedProducts: React.FC = () => {
     apiClient
       .get(`/products?${qs.stringify(params)}`)
       .then(({ data }) => setProducts(normalizeData(data.data)));
-  }, []);
+  }, [id]);
 
   return (
     <div>

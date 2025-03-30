@@ -10,8 +10,10 @@ type CardItemProps = {
 };
 
 const CardItem: React.FC<CardItemProps> = ({ item }) => {
-const navigate = useNavigate()
-  const onClick = useCallback(() => {navigate(`/product/${item.id}`)}, [])
+  const navigate = useNavigate();
+  const onClick = useCallback(() => {
+    navigate(`/product/${item.id}`);
+  }, []);
 
   return (
     <Card
@@ -22,7 +24,7 @@ const navigate = useNavigate()
       contentSlot={`$${item.price}`}
       actionSlot={<Button>Add to Cart</Button>}
       onClick={onClick}
-    />  
+    />
   );
 };
 

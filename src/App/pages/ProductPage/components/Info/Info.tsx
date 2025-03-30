@@ -20,7 +20,7 @@ const Info: React.FC = () => {
 
         apiClient.get(`/products/${id}?${qs.stringify(params)}`)
         .then(({data}) => setInfoProduct(normalizeData(data.data)))
-    }, [])
+    }, [id])
 
   return (
     <div className={style.info}>
