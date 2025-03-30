@@ -1,80 +1,80 @@
-/* eslint-disable no-unused-vars */
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { useNavigate, useSearchParams } from "react-router";
-import { updateQueryParams } from "utils";
+ 
+// import React, {
+//   createContext,
+//   useCallback,
+//   useContext,
+//   useEffect,
+//   useState,
+// } from "react";
+// import { useNavigate, useSearchParams } from "react-router";
 
-type typeQueryContext = {
-  params: { [key: string]: string };
-  changeParamByKey: (value: string, key: string) => void;
-};
 
-export const queryContext = createContext<null | typeQueryContext>(null);
+// type typeQueryContext = {
+//   params: { [key: string]: string };
+//   changeParamByKey: (value: string, key: string) => void;
+// };
 
-type QueryProviderProps = {
-  children: React.ReactNode;
-};
+// export const queryContext = createContext<null | typeQueryContext>(null);
 
-const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+// type QueryProviderProps = {
+//   children: React.ReactNode;
+// };
 
-  const initialParams = {
-    page: searchParams.get("page") || "1",
-    ...(searchParams.get("search") && { search: searchParams.get("search")!}),
-    ...(searchParams.get("category") && {category: searchParams.get("category")!}),
-    ...(searchParams.get("sort") && {sort: searchParams.get("sort")!})
-  };
+// const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
+//   const [searchParams] = useSearchParams();
+//   const navigate = useNavigate();
 
-  const [params, setParams] = useState<{ [key: string]: string }>(
-    initialParams
-  );
+//   const initialParams = {
+//     page: searchParams.get("page") || "1",
+//     ...(searchParams.get("search") && { search: searchParams.get("search")!}),
+//     ...(searchParams.get("category") && {category: searchParams.get("category")!}),
+//     ...(searchParams.get("sort") && {sort: searchParams.get("sort")!})
+//   };
 
-  const changeParamByKey = useCallback(
-    (key: string, value: string) => {
-      const newParams = new URLSearchParams(window.location.search);
+//   const [params, setParams] = useState<{ [key: string]: string }>(
+//     initialParams
+//   );
 
-      if (value.trim() === "") {
-        setParams((prev) => {
-          const { [key]: selectKey, ...otherKey } = prev;
-          return otherKey;
-        });
+//   const changeParamByKey = useCallback(
+//     (key: string, value: string) => {
+//       const newParams = new URLSearchParams(window.location.search);
 
-        newParams.delete(key);
-      } else {
-        setParams((prev) => ({
-          ...prev,
-          [key]: value,
-        }));
+//       if (value.trim() === "") {
+//         setParams((prev) => {
+//           const { [key]: _, ...otherKey } = prev;
+//           return otherKey;
+//         });
 
-        newParams.set(key, value);
-      }
+//         newParams.delete(key);
+//       } else {
+//         setParams((prev) => ({
+//           ...prev,
+//           [key]: value,
+//         }));
 
-      navigate(`?${newParams.toString()}`);
-    },
-    [searchParams, navigate]
-  );
+//         newParams.set(key, value);
+//       }
 
-  //добавление параметров при инициализации
-  useEffect(() => {
-    updateQueryParams(navigate, params);
-  }, []);
+//       navigate(`?${newParams.toString()}`);
+//     },
+//     [searchParams, navigate]
+//   );
 
-  const value: typeQueryContext = {
-    params,
-    changeParamByKey,
-  };
+//   //добавление параметров при инициализации
+//   useEffect(() => {
+//     updateQueryParams(navigate, params);
+//   }, []);
 
-  return (
-    <queryContext.Provider value={value}>{children}</queryContext.Provider>
-  );
-};
+//   const value: typeQueryContext = {
+//     params,
+//     changeParamByKey,
+//   };
 
-export const useQueryContext = () => useContext(queryContext);
+//   return (
+//     <queryContext.Provider value={value}>{children}</queryContext.Provider>
+//   );
+// };
 
-export default QueryProvider;
+// export const useQueryContext = () => useContext(queryContext);
+
+// export default QueryProvider;

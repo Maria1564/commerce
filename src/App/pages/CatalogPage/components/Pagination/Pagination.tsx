@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import qs from "qs";
 import React, { useCallback, useEffect, useState } from "react";
-import { useQueryContext } from "App/provider/QueryContext";
+import { useQueryContext } from "app/provider/QueryContext";
 import ArrowRightIcon from "components/icons/ArrowRightIcon";
 import { apiClient } from "config/axiosConfig";
 import { createPagination } from "./utils";

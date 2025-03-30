@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useQueryContext } from "App/provider/QueryContext";
-import Text from "components/Text";
 import { updateQueryParams } from "utils";
+import { useQueryContext } from "app/provider/QueryContext";
+import Text from "components/Text";
 import Filter from "./components/Filter";
 import ListProducts from "./components/ListProducts";
 import Pagination from "./components/Pagination";

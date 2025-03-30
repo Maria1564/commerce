@@ -1,6 +1,6 @@
 import qs from "qs";
 import React, { useCallback, useEffect, useState } from "react";
-import { useQueryContext } from "App/provider/QueryContext";
+import { useQueryContext } from "app/provider/QueryContext";
 import MultiDropdown, { Option } from "components/MultiDropdown";
 import { apiClient } from "config/axiosConfig";
 import Dropdown from "./Dropdown";

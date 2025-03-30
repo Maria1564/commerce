@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
-export enum Routes {
-    main = "/",
-    catalog ="/catalog",
-    productById = "/product/:id",
-    about = "/about",
-    other = "*"
+export  const Routes = {
+    main: "/",
+    catalog: "/catalog",
+    productById:"/product/:id",
+    about: "/about",
+    other: "*"
 }
 
 export type Product = {

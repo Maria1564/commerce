@@ -1,10 +1,10 @@
 import qs from "qs";
 import React, { useEffect, useState } from "react";
-import { useQueryContext } from "App/provider/QueryContext";
+import { normalizeData } from "utils/normalize";
+import { useQueryContext } from "app/provider/QueryContext";
 import Text from "components/Text";
 import { apiClient } from "config/axiosConfig";
 import { Product } from "types/index";
-import { normalizeData } from "utils/normalize";
 import CardItem from "./CardItem";
 import style from "./ListProducts.module.scss";
 

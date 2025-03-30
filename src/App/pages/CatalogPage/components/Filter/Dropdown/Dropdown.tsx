@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useQueryContext } from "App/provider/QueryContext";
+import { useQueryContext } from "app/provider/QueryContext";
 import ArrowDownIcon from "components/icons/ArrowDownIcon";
 import { dataOptions, Option } from "./data";
 import style from "./Dropdown.module.scss";

@@ -36,7 +36,17 @@ export default [
     },
     rules: {
       'no-console': 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error', 
+        { 
+          argsIgnorePattern: '^_',  // Игнорировать переменные, начинающиеся с _
+          varsIgnorePattern: '^_' 
+        }
+      ],
       'no-undef': 'off',
+      'react/jsx-uses-vars': 'error',
+      'react/jsx-uses-react': 'error',
       'import/order': [
         'error',
         {

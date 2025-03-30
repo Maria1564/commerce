@@ -1,5 +1,5 @@
-import { Product } from "types/index";
 import { TypeApiResponse } from "utils/normalize";
+import { Product } from "types/index";
 
 export const normalizeData = (data: TypeApiResponse): Omit<Product, "category"> => {
   return {

@@ -8,7 +8,7 @@ React.InputHTMLAttributes<HTMLInputElement>,
   /** Значение поля */
   value: string;
   /** Callback, вызываемый при вводе данных в поле */
-  // eslint-disable-next-line no-unused-vars
+   
   onChange: (value: string) => void;
   /** Слот для иконки справа */
   afterSlot?: React.ReactNode;

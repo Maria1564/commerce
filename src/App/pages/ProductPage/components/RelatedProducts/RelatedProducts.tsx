@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Text from "components/Text";
 import { apiClient } from "config/axiosConfig";
+import { normalizeProductApi } from "store/model/product/product";
 import { Product } from "types/index";
-import { normalizeData } from "utils/normalize";
+ 
 import CardItem from "./CardItem";
 import style from "./RelatedProducts.module.scss"
 
@@ -24,7 +25,7 @@ const RelatedProducts: React.FC = () => {
 
     apiClient
       .get(`/products?${qs.stringify(params)}`)
-      .then(({ data }) => setProducts(normalizeData(data.data)));
+      .then(({ data }) => setProducts(normalizeProductApi(data.data)));
   }, [id]);
 
   return (

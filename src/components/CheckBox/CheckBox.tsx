@@ -9,7 +9,6 @@ export type CheckBoxProps = Omit<
   'onChange'
 > & {
   /** Вызывается при клике на чекбокс */
-  // eslint-disable-next-line no-unused-vars
   onChange: (checked: boolean) => void;
 };
 
@@ -24,7 +23,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({ onChange, disabled, ...other }) => 
         {...other}
         className="checkbox"
         type="checkbox"
-        checked={other.checked as boolean}
+        checked={other.checked}
         onChange={!disabled ? handlerChange : () => {}}
       />
     </div>

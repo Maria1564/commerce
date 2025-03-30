@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { useQueryContext } from "App/provider/QueryContext";
+import { useQueryContext } from "app/provider/QueryContext";
 import Button from "components/Button";
 import Input from "components/Input";
 import style from "./Search.module.scss"
