@@ -2,7 +2,7 @@ import qs from "qs";
 import React, { useCallback, useEffect, useState } from "react";
 import { useQueryContext } from "app/provider/QueryContext";
 import MultiDropdown, { Option } from "components/MultiDropdown";
-import { apiClient } from "config/axiosConfig";
+import { apiClient } from "utils/axiosConfig";
 import Dropdown from "./Dropdown";
 import Search from "./Search";
 import style from "./Filter.module.scss";
@@ -30,20 +30,19 @@ const Filter: React.FC = () => {
           data.data.map((item: { id: number; title: string }) => ({
             key: item.id,
             value: item.title,
-          }))
+          })),
         );
 
-       
-
-        const newCategories = data.data.filter((item: { title: string }) =>
-         params.category && params.category.split(",").includes(item.title)
+        const newCategories = data.data.filter(
+          (item: { title: string }) =>
+            params.category && params.category.split(",").includes(item.title),
         );
 
         setSelectCategories(
           newCategories.map((item: { id: number; title: string }) => ({
             key: item.id,
             value: item.title,
-          }))
+          })),
         );
       });
   }, []);
@@ -55,7 +54,7 @@ const Filter: React.FC = () => {
       changeParamByKey("category", strCategory);
       changeParamByKey("page", "1");
     },
-    [setSelectCategories]
+    [setSelectCategories],
   );
 
   const getTitle = useCallback(
@@ -63,7 +62,7 @@ const Filter: React.FC = () => {
       const valuesStr = value.map((item) => item.value);
       return valuesStr.join(", ");
     },
-    [selectCategories]
+    [selectCategories],
   );
 
   return (
@@ -77,7 +76,7 @@ const Filter: React.FC = () => {
           getTitle={getTitle}
           className={style.dropdown}
         />
-        <Dropdown/>
+        <Dropdown />
       </div>
     </div>
   );

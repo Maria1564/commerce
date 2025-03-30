@@ -40,7 +40,7 @@ export default [
       '@typescript-eslint/no-unused-vars': [
         'error', 
         { 
-          argsIgnorePattern: '^_',  // Игнорировать переменные, начинающиеся с _
+          argsIgnorePattern: '^_',
           varsIgnorePattern: '^_' 
         }
       ],

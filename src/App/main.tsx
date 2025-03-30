@@ -2,9 +2,44 @@
 import { createRoot } from 'react-dom/client'
 
 import './index.scss'
-import { createBrowserRouter, RouterProvider } from 'react-router'
-import { routeConfig } from 'config/routes'
+import { createBrowserRouter, Navigate, RouteObject, RouterProvider } from 'react-router'
+import { Routes } from 'config/routes';
+import App from './App';
+import AboutUsPage from './pages/AboutUsPage';
+import CatalogPage from './pages/CatalogPage';
+import NotFoundPage from './pages/NotFoundPage';
+import ProductPage from './pages/ProductPage';
 
+
+export const routeConfig: RouteObject[] = [
+    {
+        path: Routes.main,
+        element: <App />,
+        
+        children: [
+        {
+          index: true,
+          element: <Navigate to={Routes.catalog} replace />,
+        },
+        {
+            path: Routes.catalog,
+            element: <CatalogPage />,
+        },
+        {
+            path: Routes.productById,
+            element: <ProductPage />,
+        },
+        {
+            path: Routes.about,
+            element: <AboutUsPage />,
+        },
+    ],
+},
+{
+    path: Routes.other,
+    element: <NotFoundPage />,
+},
+];
 const router = createBrowserRouter(routeConfig)
 
 createRoot(document.getElementById('root')!).render(

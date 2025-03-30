@@ -1,15 +1,14 @@
 import qs from "qs";
 import React, { useEffect, useState } from "react";
-import { normalizeData } from "utils/normalize";
 import { useQueryContext } from "app/provider/QueryContext";
 import Text from "components/Text";
-import { apiClient } from "config/axiosConfig";
-import { Product } from "types/index";
+import { apiClient } from "utils/axiosConfig";
+import { ProductModel } from "store/model/product/product";
 import CardItem from "./CardItem";
 import style from "./ListProducts.module.scss";
 
 const ListProducts: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductModel[]>([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const queryContext = useQueryContext();
 
@@ -18,7 +17,6 @@ const ListProducts: React.FC = () => {
   }
 
   const { params: queryParams } = queryContext;
-
 
   //получение общего количества товаров
   useEffect(() => {
@@ -33,33 +31,31 @@ const ListProducts: React.FC = () => {
       populate: ["images", "productCategory"],
       pagination: {
         pageSize: 9,
-        page: queryParams.page
+        page: queryParams.page,
       },
-      ...((queryParams.search || queryParams.category) && 
-        {
-          filters: {
-            ...(queryParams.search && {
-              title: {
-                $containsi: queryParams.search
-              }
-            }),
+      ...((queryParams.search || queryParams.category) && {
+        filters: {
+          ...(queryParams.search && {
+            title: {
+              $containsi: queryParams.search,
+            },
+          }),
 
-            ...(queryParams.category && {
-              productCategory: {
-                title: {
-                  $containsi: queryParams.category.split(",")
-                }
-              }
-            })
-          }
-        }
-      ),
-      ...(queryParams.sort && {sort: queryParams.sort})
+          ...(queryParams.category && {
+            productCategory: {
+              title: {
+                $containsi: queryParams.category.split(","),
+              },
+            },
+          }),
+        },
+      }),
+      ...(queryParams.sort && { sort: queryParams.sort }),
     };
-    
+
     apiClient.get(`/products?${qs.stringify(params)}`).then(({ data }) => {
-      setProducts(normalizeData(data.data));
-      setTotalProducts(data.meta.pagination.total)
+      // setProducts(normalizeData(data.data));
+      setTotalProducts(data.meta.pagination.total);
     });
   }, [queryParams]);
 

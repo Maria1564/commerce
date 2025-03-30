@@ -2,17 +2,17 @@ import qs from "qs";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Text from "components/Text";
-import { apiClient } from "config/axiosConfig";
+import { apiClient } from "utils/axiosConfig";
 import { normalizeProductApi } from "store/model/product/product";
 import { Product } from "types/index";
- 
+
 import CardItem from "./CardItem";
-import style from "./RelatedProducts.module.scss"
+import style from "./RelatedProducts.module.scss";
 
 const RelatedProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  const {id} = useParams()
+  const { id } = useParams();
 
   useEffect(() => {
     const params = {

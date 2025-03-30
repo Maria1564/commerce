@@ -1,19 +1,15 @@
 @use "styles/variables" as v;
 
-.icon { 
-    &__primary {
-        color: v.$primary-color;
-    }
+.icon {
+  &_primary {
+    color: v.$primary-color;
+  }
 
-    &__accent {
-        color: v.$brand;
-    }
+  &_accent {
+    color: v.$brand;
+  }
 
-    &__secondary {
-        color: v.$secondary-color;
-    }
-}
-
-svg {
-    cursor: pointer;
+  &_secondary {
+    color: v.$secondary-color;
+  }
 }

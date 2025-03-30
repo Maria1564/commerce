@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { updateQueryParams } from "utils";
 import { useQueryContext } from "app/provider/QueryContext";
 import Text from "components/Text";
 import Filter from "./components/Filter";
@@ -15,12 +14,12 @@ const CatalogPage: React.FC = () => {
     return
   }
 
-  const { params } = queryContext;
+  // const { params } = queryContext;
   const navigate = useNavigate();
 
   //присвоение query-параметров при переходе на страницу каталог
   useEffect(() => {
-    updateQueryParams(navigate, params)
+    // updateQueryParams(navigate, params)
   }, []);
 
   return (
