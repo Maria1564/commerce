@@ -2,14 +2,15 @@ import classNames from "classnames";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useQueryContext } from "app/provider/QueryContext";
 import ArrowDownIcon from "components/icons/ArrowDownIcon";
+import { useClickOutside } from "utils/hooks/useClickOutside";
 import { dataOptions, Option } from "./data";
 import style from "./Dropdown.module.scss";
 
 const Dropdown: React.FC = () => {
   const [selectOption, setSelectOption] = useState<string>("по популярности");
-  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const refMenu = useRef<null | HTMLUListElement>(null);
+  const refSelect = useRef<null | HTMLDivElement>(null);
   const queryContext = useQueryContext();
+  const { openModal, setOpenModal } = useClickOutside(refSelect);
 
   if (!queryContext) {
     return;
@@ -17,18 +18,6 @@ const Dropdown: React.FC = () => {
   const { params, changeParamByKey } = queryContext;
 
   useEffect(() => {
-    const closeMenu = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (
-        target.closest(`.${style.menu}`) === null &&
-        !target.closest(`.${style.select}`)
-      ) {
-        setIsOpenMenu(false);
-      }
-    };
-
-    window.document.addEventListener("click", closeMenu);
-
     const selectedOption = dataOptions.find((item: Option) => {
       if (params.sort) {
         return item.value === params.sort;
@@ -41,12 +30,13 @@ const Dropdown: React.FC = () => {
       setSelectOption(selectedOption.text);
     }
 
-    return () => window.document.removeEventListener("click", closeMenu);
+  
   }, []);
 
   const handleClick = useCallback(
-    () => setIsOpenMenu(!isOpenMenu),
-    [isOpenMenu]
+    
+    () => setOpenModal(!openModal),
+    [openModal],
   );
 
   const onSelectOption = useCallback((option: Option) => {
@@ -54,16 +44,14 @@ const Dropdown: React.FC = () => {
     changeParamByKey("sort", option.value);
   }, []);
 
-  
   return (
     <div className={style.dropdown}>
-      <div className={style.select} onClick={handleClick}>
+      <div className={style.select} onClick={handleClick} ref={refSelect}>
         <div className={style.select_item}>{selectOption}</div>
         <ArrowDownIcon />
       </div>
       <ul
-        className={classNames(style.menu, { [style.menu_open]: isOpenMenu })}
-        ref={refMenu}
+        className={classNames(style.menu, { [style.menu_open]: openModal })}
       >
         {dataOptions.map((item, index) => (
           <li

@@ -4,7 +4,6 @@ import React from "react";
 import Loader from "../Loader";
 import "./Button.scss";
 
- 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   /** Состояние загрузки */
   loading?: boolean;
