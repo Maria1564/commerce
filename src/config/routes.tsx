@@ -1,5 +1,6 @@
 import { Navigate, RouteObject } from "react-router";
 
+import AboutUsPage from "App/pages/AboutUsPage";
 import CatalogPage from "App/pages/CatalogPage";
 import NotFoundPage from "App/pages/NotFoundPage";
 import ProductPage from "App/pages/ProductPage";
@@ -24,6 +25,10 @@ export const routeConfig: RouteObject[] = [
                 path: Routes.productById,
                 element: <ProductPage/>
             },
+            {
+                path: Routes.about,
+                element: <AboutUsPage/>
+            }
             
         ]
     },

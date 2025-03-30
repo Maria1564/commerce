@@ -3,6 +3,7 @@ export enum Routes {
     main = "/",
     catalog ="/catalog",
     productById = "/product/:id",
+    about = "/about",
     other = "*"
 }
 

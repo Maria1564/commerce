@@ -1,0 +1,32 @@
+@use "styles/variables" as v;
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+    margin-top: 60px;
+}
+
+
+.list_item {
+    font-size: 20px;
+    position: relative;
+
+    &:not(:last-child) {
+        margin-bottom: 20px;
+    }
+
+
+    &:before {
+        content: "";
+        width: 25px;
+        height: 25px;
+        border: 5px solid v.$brand;
+        border-radius: 50%;
+        position: absolute;
+
+        top: 50%;
+        transform: translateY(-50%);
+        left: -35px;
+    }
+}

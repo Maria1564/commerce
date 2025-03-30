@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
               Categories
             </Text>
           </NavLink>
-          <NavLink to={"/"}
+          <NavLink to={Routes.about}
           className={({ isActive }) => (isActive ? style.active : "")}>
             <Text view="p-18" weight="medium">
               About us
