@@ -7,14 +7,14 @@ import style from "./NotFoundPage.module.scss";
 
 const NotFoundPage: React.FC = () => {
   return (
-    <div className={style.wrapper}>
-      <Text view="title" className={style.bold_text}>
+    <div className={style[`not-found`]}>
+      <Text view="title" className={style[`not-found__text_bold`]}>
         404
       </Text>
-      <Text view="p-20" weight="medium" className={style.text}>
+      <Text view="p-20" weight="medium" className={style[`not-found__text`]}>
         К сожалению страница не найдена(
       </Text>
-      <Link to={Routes.catalog}>Вернуться на главную</Link>
+      <Link to={Routes.catalog} className={style[`not-found__link`]}>Вернуться на главную</Link>
     </div>
   );
 };

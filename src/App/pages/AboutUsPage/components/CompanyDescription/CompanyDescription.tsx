@@ -6,14 +6,14 @@ import style from "./CompanyDescription.module.scss"
 const CompanyDescription: React.FC = () => {
   return (
     <div className={style.info}>
-        <div className={style.text}>
-          <Text view="p-20" tag="p">
+        <div>
+          <Text view="p-20" tag="p"  className={style.info__text}>
             <Text
               tag="span"
               color="accent"
               weight="medium"
               view="p-20"
-              className={style.name}
+              className={style[`info__name-company`]}
             >
               Lalasia
             </Text>
@@ -23,11 +23,11 @@ const CompanyDescription: React.FC = () => {
             совершенствуем сервис, чтобы вы получали лучшее сочетание качества,
             цены и сервиса.
           </Text>
-          <Text view="p-20" tag="p">
+          <Text view="p-20" tag="p"  className={style.info__text}>
             Мы стремимся изменить представление об онлайн-шопинге, превратив
             каждую покупку в приятное и вдохновляющее событие.
           </Text>
-          <Text view="p-20" tag="p">
+          <Text view="p-20" tag="p"  className={style.info__text}>
             За нашим магазином стоит команда увлеченных профессионалов — от
             маркетологов и закупщиков до IT-специалистов и службы поддержки. Мы
             постоянно учимся, внедряем новые технологии и прислушиваемся к вашим

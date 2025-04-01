@@ -1,12 +1,11 @@
-import React, { useCallback } from "react";
-import { useNavigate } from "react-router";
-import Button from "components/Button";
-import Card from "components/Card";
-
-import { Product } from "types/index";
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router';
+import Button from 'components/Button';
+import Card from 'components/Card';
+import { ProductModel } from 'store/model/product/product';
 
 type CardItemProps = {
-  item: Product;
+  item: ProductModel;
 };
 
 const CardItem: React.FC<CardItemProps> = ({ item }) => {

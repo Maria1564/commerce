@@ -9,12 +9,13 @@ import AboutUsPage from './pages/AboutUsPage';
 import CatalogPage from './pages/CatalogPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProductPage from './pages/ProductPage';
+import { QueryProvider } from './provider/QueryContext';
 
 
 export const routeConfig: RouteObject[] = [
     {
         path: Routes.main,
-        element: <App />,
+        element: <QueryProvider><App/></QueryProvider>,
         
         children: [
         {

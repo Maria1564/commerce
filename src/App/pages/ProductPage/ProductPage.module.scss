@@ -1,18 +1,18 @@
 @use "styles/mixins" as m;
 
-.wrapper {
+.product {
   padding: 60px 0 146px;
-}
 
-.link_back {
-  @include m.align-items-center;
-  gap: 18px;
-  
-  & svg {
+  &__link-back {
+    @include m.align-items-center;
+    gap: 18px;
+  }
+
+  &__icon {
     transition: transform 0.5s;
   }
 
-  &:hover svg {
+  &:hover &__icon {
     transform: translate(-5px);
   }
 }

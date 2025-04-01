@@ -1,14 +1,12 @@
 .info {
-    display: flex;
-    gap: 60px;
-}
+  display: flex;
+  gap: 60px;
 
-.name {
+  &__text {
+    margin-bottom: 20px;
+  }
+
+  &__name-company {
     display: inline;
-}
-
-.text {
-    & p {
-        margin-bottom: 20px;
-    }
+  }
 }

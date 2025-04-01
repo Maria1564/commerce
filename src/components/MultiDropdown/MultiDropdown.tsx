@@ -1,10 +1,10 @@
-import classNames from "classnames";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Input from "components/Input";
-import ArrowDownIcon from "components/icons/ArrowDownIcon";
-import "./MultiDropdown.scss";
-import { useClickOutside } from "utils/hooks/useClickOutside";
-import OptionItem from "./components/OptionItem/OptionItem";
+import classNames from 'classnames';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Input from 'components/Input';
+import ArrowDownIcon from 'components/icons/ArrowDownIcon';
+import { useClickOutside } from 'utils/hooks/useClickOutside';
+import OptionItem from './components/OptionItem/OptionItem';
+import style from './MultiDropdown.module.scss';
 
 export type Option = {
   /** Ключ варианта, используется для отправки на бек/использования в коде */
@@ -36,18 +36,17 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   getTitle,
   disabled,
 }) => {
-  const [inpValue, setInpValue] = useState<string>("");
+  const [inpValue, setInpValue] = useState<string>('');
   const [filteredOptions, setFilteredOptions] = useState<Option[]>([]);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const { openModal, setOpenModal } = useClickOutside(dropdownRef);
 
-  console.log(value);
   const placeholder = getTitle(value);
   useEffect(() => {
     if (!openModal) {
       setInpValue(placeholder);
     } else {
-      setInpValue("");
+      setInpValue('');
       setFilteredOptions(options);
     }
   }, [openModal, placeholder, options]);
@@ -62,7 +61,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     (str: string) => {
       setInpValue(str);
       setFilteredOptions(options.filter((item) => item.value.includes(str)));
-      if (str.trim() === "") {
+      if (str.trim() === '') {
         setFilteredOptions(options);
       }
     },
@@ -70,26 +69,20 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   );
 
   return (
-    <div ref={dropdownRef} className={classNames("wrapper", cn)}>
+    <div ref={dropdownRef} className={classNames(style.multydropdown, cn)}>
       <Input
         value={inpValue}
         onChange={handlerChange}
         afterSlot={<ArrowDownIcon />}
         onClick={handlerClickInput}
-        placeholder={placeholder || "Text"}
+        placeholder={placeholder || 'Text'}
         disabled={disabled}
       />
-      <div className="wrapper_items">
+      <div className={style.multydropdown__list}>
         {openModal &&
           !disabled &&
           filteredOptions.map((elem) => (
-            <OptionItem
-              placeholder={placeholder}
-              key={elem.key}
-              option={elem}
-              onChange={onChange}
-              value={value}
-            />
+            <OptionItem placeholder={placeholder} key={elem.key} option={elem} onChange={onChange} value={value} />
           ))}
       </div>
     </div>

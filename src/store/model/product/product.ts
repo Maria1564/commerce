@@ -1,6 +1,6 @@
 export type ProductModel = {
   id: number;
-  category: string;
+  category?: string;
   title: string;
   description: string;
   urlImage: string;
@@ -22,7 +22,7 @@ export const normalizeProductApi = (data: ProductApi): ProductModel => {
     title: data.title,
     description: data.description,
     urlImage: data.images[0].url,
-    category: data.productCategory.title,
+    ...(data.productCategory && { category: data.productCategory.title }),
     price: data.price,
   };
 };

@@ -4,17 +4,17 @@ import style from "./KeyBenefits.module.scss";
 
 const KeyBenefits: React.FC = () => {
   return (
-    <div className={style.wrapper}>
+    <div className={style.benefits}>
       <ul>
         {benefits.map(
           (item, index) =>
-            index < 2 && <li className={style.list_item}>{item}</li>
+            index < 2 && <li key={index} className={style.benefits__item}>{item}</li>
         )}
       </ul>
       <ul>
         {benefits.map(
           (item, index) =>
-            index >= 2 && <li className={style.list_item}>{item}</li>
+            index >= 2 && <li key={index} className={style.benefits__item}>{item}</li>
         )}
       </ul>
     </div>

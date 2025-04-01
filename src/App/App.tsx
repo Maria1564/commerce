@@ -1,17 +1,31 @@
-import { Outlet } from "react-router";
-import "./App.scss";
-import Navbar from "layout/Navbar";
-import QueryProvider from "./provider/QueryContext";
+import { useEffect } from 'react';
+import { Outlet, useSearchParams } from 'react-router';
+import './App.scss';
+import Navbar from 'layout/Navbar';
+import { useQueryContext } from './provider/QueryContext';
 
 function App() {
+  const { values, updaterQueryParams } = useQueryContext();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.size === 0) {
+      updaterQueryParams({ page: '1' });
+      return;
+    }
+
+    for (const [paramName, paramValue] of searchParams.entries()) {
+      updaterQueryParams({ [paramName]: paramValue });
+    }
+  }, []);
+
+  useEffect(() => {}, [values]);
   return (
     <>
-      <QueryProvider>
-        <Navbar />
-        <div className="container">
-          <Outlet />
-        </div>
-      </QueryProvider>
+      <Navbar />
+      <div className="container">
+        <Outlet />
+      </div>
     </>
   );
 }

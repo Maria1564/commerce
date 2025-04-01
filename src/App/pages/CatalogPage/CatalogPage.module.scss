@@ -1,18 +1,17 @@
 @use "styles/variables" as v;
 @use "styles/mixins" as m;
 
+.catalog {
+  padding: 100px 0 112px;
+  @include m.align-items-center;
+  flex-direction: column;
 
-.wrapper {
-    padding: 100px 0 112px;
-    @include m.align-items-center;
-    flex-direction: column;
-}
-
-.about {
+  &__title {
     text-align: center;
+  }
 
-    .text {
-        margin-top: 24px;
-        max-width: 650px;
-    }
+  &__text {
+    margin-top: 24px;
+    max-width: 650px;
+  }
 }

@@ -1,11 +1,11 @@
-import qs from "qs";
-import React, { useEffect, useState } from "react";
-import { useQueryContext } from "app/provider/QueryContext";
-import Text from "components/Text";
-import { apiClient } from "utils/axiosConfig";
-import { ProductModel } from "store/model/product/product";
-import CardItem from "./CardItem";
-import style from "./ListProducts.module.scss";
+import qs from 'qs';
+import React, { useEffect, useState } from 'react';
+import { useQueryContext } from 'app/provider/QueryContext';
+import Text from 'components/Text';
+import { normalizeProductApi, ProductApi, ProductModel } from 'store/model/product/product';
+import { apiClient } from 'utils/axiosConfig';
+import CardItem from './CardItem';
+import style from './ListProducts.module.scss';
 
 const ListProducts: React.FC = () => {
   const [products, setProducts] = useState<ProductModel[]>([]);
@@ -16,19 +16,17 @@ const ListProducts: React.FC = () => {
     return;
   }
 
-  const { params: queryParams } = queryContext;
+  const { values: queryParams } = queryContext;
 
   //получение общего количества товаров
   useEffect(() => {
-    apiClient
-      .get("/products")
-      .then(({ data }) => setTotalProducts(data.meta.pagination.total));
+    apiClient.get('/products').then(({ data }) => setTotalProducts(data.meta.pagination.total));
   }, []);
 
   //получение списка товаров
   useEffect(() => {
     const params = {
-      populate: ["images", "productCategory"],
+      populate: ['images', 'productCategory'],
       pagination: {
         pageSize: 9,
         page: queryParams.page,
@@ -44,7 +42,7 @@ const ListProducts: React.FC = () => {
           ...(queryParams.category && {
             productCategory: {
               title: {
-                $containsi: queryParams.category.split(","),
+                $containsi: queryParams.category.split(','),
               },
             },
           }),
@@ -54,20 +52,21 @@ const ListProducts: React.FC = () => {
     };
 
     apiClient.get(`/products?${qs.stringify(params)}`).then(({ data }) => {
-      // setProducts(normalizeData(data.data));
+      const normalizedProducts = data.data.map((item: ProductApi) => normalizeProductApi(item));
+      setProducts(normalizedProducts);
       setTotalProducts(data.meta.pagination.total);
     });
   }, [queryParams]);
 
   return (
-    <div className={style.wrapper}>
-      <div className={style.text}>
-        <Text className={style.subtitle}>Total products</Text>
+    <div className={style.products}>
+      <div className={style.products__total}>
+        <Text className={style.products__text}>Total products</Text>
         <Text view="p-20" tag="span" color="accent" weight="bold">
           {totalProducts}
         </Text>
       </div>
-      <div className={style.list}>
+      <div className={style.products__list}>
         {products.map((item) => (
           <CardItem key={item.id} item={item} />
         ))}

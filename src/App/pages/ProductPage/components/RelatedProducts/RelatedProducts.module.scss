@@ -1,6 +1,7 @@
-
-.list {
+.related-products {
+  &__list {
     display: flex;
     gap: 79px;
     margin-top: 32px;
+  }
 }
