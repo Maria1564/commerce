@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router';
 import './App.scss';
+import CheckBox from 'components/CheckBox';
 import Navbar from 'layout/Navbar';
 import { useQueryContext } from './provider/QueryContext';
 

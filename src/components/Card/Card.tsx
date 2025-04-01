@@ -1,6 +1,7 @@
-import React from "react";
-import Text from "components/Text";
-import "./Card.scss";
+import classNames from 'classnames';
+import React from 'react';
+import Text from 'components/Text';
+import style from './Card.module.scss';
 
 export type CardProps = {
   /** Дополнительный classname */
@@ -32,42 +33,25 @@ const Card: React.FC<CardProps> = ({
   actionSlot,
 }) => {
   return (
-    <div className={`card ${className}`}>
-      <img src={image} alt="" className="card__image" width={360} />
+    <div className={classNames(style.card, className)}>
+      <img src={image} alt="" className={style.card__image} width={360} />
 
-      <div className="card__content">
-        <div className="card__about" onClick={onClick}>
+      <div className={style.card__content}>
+        <div className={style.card__about} onClick={onClick}>
           {captionSlot && (
-            <Text
-              tag="div"
-              className="card__capt-slot"
-              view="p-14"
-              weight="medium"
-              color="secondary"
-            >
+            <Text tag="div" className={style['card__capt-slot']} view="p-14" weight="medium" color="secondary">
               {captionSlot}
             </Text>
           )}
-          <Text
-            view="p-20"
-            weight="medium"
-            maxLines={2}
-            color="primary"
-            className="card__title"
-          >
+          <Text view="p-20" weight="medium" maxLines={2} color="primary" className={style.card__title}>
             {title}
           </Text>
-          <Text
-            className="card__subtitle"
-            view="p-16"
-            color="secondary"
-            maxLines={3}
-          >
+          <Text className={style.card__subtitle} view="p-16" color="secondary" maxLines={3}>
             {subtitle}
           </Text>
         </div>
         {(contentSlot || actionSlot) && (
-          <div className="card__other-info">
+          <div className={style['card__other-info']}>
             {contentSlot && (
               <Text tag="span" view="p-18" weight="bold">
                 {contentSlot}

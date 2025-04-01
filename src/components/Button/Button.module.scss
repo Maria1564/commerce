@@ -1,6 +1,6 @@
 @use "styles/variables" as v;
 
-button {
+.btn {
   border: none;
   color: v.$white;
   background: v.$brand;
@@ -11,20 +11,23 @@ button {
   cursor: pointer;
   font-style: normal;
   height: max-content;
+  transition: background 0.5s;
 
   &:active {
     background-color: v.$brand-active;
   }
-}
 
-.button__loader {
-  color: white;
-}
+  &__loader {
+    color: white;
+  }
 
-.btn-disable {
-  background-color: v.$button-primary-bg-disabled;
-}
+  &_disabled {
+    background-color: v.$button-primary-bg-disabled;
+  }
 
-.btn-hover:hover {
-  background-color: v.$brand-hover;
+  &_hover {
+    &:hover {
+      background-color: v.$brand-hover;
+    }
+  }
 }

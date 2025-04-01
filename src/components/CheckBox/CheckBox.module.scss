@@ -1,0 +1,39 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.checkbox {
+  position: relative;
+  @include m.square(40px);
+  background-color: v.$white;
+  cursor: pointer;
+  overflow: hidden;
+
+  &:hover {
+    border: 1px solid v.$brand;
+  }
+
+  &_disabled {
+    background-color: v.$checkbox-border;
+
+    &:hover {
+      border-color: v.$checkbox-hove-border;
+    }
+  }
+
+  &__field {
+    @include m.square(40px);
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &:disabled {
+      color: v.$checkbox-color-disabled;
+    }
+  }
+}
