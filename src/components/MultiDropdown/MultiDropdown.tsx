@@ -55,7 +55,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     if (openModal === false) {
       setOpenModal(true);
     }
-  }, [openModal]);
+  }, [openModal, setOpenModal]);
 
   const handlerChange = useCallback(
     (str: string) => {

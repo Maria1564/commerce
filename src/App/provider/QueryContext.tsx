@@ -125,7 +125,6 @@ export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
 
     setValues(newObjParams);
   };
-  
 
   return (
     <QueryParamsStoreContext.Provider value={{ values, updaterQueryParams }}>

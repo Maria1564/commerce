@@ -1,6 +1,9 @@
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
-import { useQueryContext } from 'app/provider/QueryContext';
+import { useSearchParams } from 'react-router';
 import Text from 'components/Text';
+import rootStore from 'store/RootStore/instance';
 import Filter from './components/Filter';
 import ListProducts from './components/ListProducts';
 import Pagination from './components/Pagination';
@@ -8,14 +11,17 @@ import Pagination from './components/Pagination';
 import style from './CatalogPage.module.scss';
 
 const CatalogPage: React.FC = () => {
-  const queryContext = useQueryContext();
-  const { values, updaterQueryParams } = queryContext;
+  const [_, setSearchParams] = useSearchParams();
+
+  console.log('render catalog', toJS(rootStore.queryParams.params));
 
   useEffect(() => {
-    for (let key in values) {
-      updaterQueryParams({ [key]: values[key] });
+    const newParams = new URLSearchParams();
+    for (let key in rootStore.queryParams.params) {
+      newParams.set(key, rootStore.queryParams.params[key]);
     }
-  }, []);
+    setSearchParams(newParams);
+  }, [rootStore.queryParams.params]);
 
   return (
     <div className={style.catalog}>
@@ -36,4 +42,4 @@ const CatalogPage: React.FC = () => {
   );
 };
 
-export default CatalogPage;
+export default observer(CatalogPage);

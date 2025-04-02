@@ -17,7 +17,7 @@ const OptionItem: React.FC<OptionItemProps> = ({ option, onChange, placeholder, 
     const newValue = isSelected ? value.filter((v) => v.key !== option.key) : [...value, option];
 
     onChange(newValue);
-  }, [value]);
+  }, [onChange, option, value]);
 
   return (
     <div

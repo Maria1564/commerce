@@ -1,7 +1,8 @@
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useQueryContext } from 'app/provider/QueryContext';
 import ArrowDownIcon from 'components/icons/ArrowDownIcon';
+import rootStore from 'store/RootStore/instance';
 import { useClickOutside } from 'utils/hooks/useClickOutside';
 import { dataOptions, Option } from './data';
 import style from './Dropdown.module.scss';
@@ -9,18 +10,13 @@ import style from './Dropdown.module.scss';
 const Dropdown: React.FC = () => {
   const [selectOption, setSelectOption] = useState<string>('по популярности');
   const refSelect = useRef<null | HTMLDivElement>(null);
-  const queryContext = useQueryContext();
-  const { openModal, setOpenModal } = useClickOutside(refSelect);
 
-  if (!queryContext) {
-    return;
-  }
-  const { values, updaterQueryParams } = queryContext;
+  const { openModal, setOpenModal } = useClickOutside(refSelect);
 
   useEffect(() => {
     const selectedOption = dataOptions.find((item: Option) => {
-      if (values.sort) {
-        return item.value === values.sort;
+      if (rootStore.queryParams.params.sort) {
+        return item.value === rootStore.queryParams.params.sort;
       } else {
         return item.value === '';
       }
@@ -29,13 +25,13 @@ const Dropdown: React.FC = () => {
     if (selectedOption) {
       setSelectOption(selectedOption.text);
     }
-  }, [values]);
+  }, [rootStore.queryParams.params]);
 
-  const handleClick = useCallback(() => setOpenModal(!openModal), [openModal]);
+  const handleClick = useCallback(() => setOpenModal(!openModal), [openModal, setOpenModal]);
 
   const onSelectOption = useCallback((option: Option) => {
     setSelectOption(option.text);
-    updaterQueryParams({ sort: option.value });
+    rootStore.queryParams.updateParam('sort', option.value);
   }, []);
 
   return (
@@ -61,4 +57,4 @@ const Dropdown: React.FC = () => {
   );
 };
 
-export default Dropdown;
+export default observer(Dropdown);

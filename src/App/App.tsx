@@ -1,26 +1,11 @@
-import { useEffect } from 'react';
-import { Outlet, useSearchParams } from 'react-router';
+import { Outlet } from 'react-router';
 import './App.scss';
-import CheckBox from 'components/CheckBox';
 import Navbar from 'layout/Navbar';
-import { useQueryContext } from './provider/QueryContext';
+import { useQueryParamsInit } from 'store/RootStore/hooks/useQueryParamsInit';
 
 function App() {
-  const { values, updaterQueryParams } = useQueryContext();
-  const [searchParams] = useSearchParams();
+  useQueryParamsInit();
 
-  useEffect(() => {
-    if (searchParams.size === 0) {
-      updaterQueryParams({ page: '1' });
-      return;
-    }
-
-    for (const [paramName, paramValue] of searchParams.entries()) {
-      updaterQueryParams({ [paramName]: paramValue });
-    }
-  }, []);
-
-  useEffect(() => {}, [values]);
   return (
     <>
       <Navbar />

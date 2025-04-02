@@ -1,18 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { useQueryContext } from 'app/provider/QueryContext';
 import Button from 'components/Button';
 import Input from 'components/Input';
+import rootStore from 'store/RootStore/instance';
 import style from './Search.module.scss';
 
 const Search: React.FC = () => {
   const [valueInp, setValueInp] = useState<string>('');
-  const queryContext = useQueryContext();
 
-  if (!queryContext) {
-    return;
-  }
-
-  const { updaterQueryParams } = queryContext;
 
   const handlerChangeValue = useCallback(
     (value: string) => {
@@ -22,13 +16,13 @@ const Search: React.FC = () => {
   );
 
   const findProducts = useCallback(() => {
-    updaterQueryParams({ search: valueInp });
+    rootStore.queryParams.updateParam("search",  valueInp );
 
     if (valueInp.trim() !== '') {
-      updaterQueryParams({ page: '1' });
+      rootStore.queryParams.updateParam("page", "1");
     }
     setValueInp('');
-  }, [updaterQueryParams, valueInp, setValueInp]);
+  }, [valueInp, setValueInp]);
 
   return (
     <div className={style.search}>

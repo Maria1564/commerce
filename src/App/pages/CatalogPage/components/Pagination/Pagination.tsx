@@ -1,7 +1,9 @@
+import { observer } from 'mobx-react-lite';
 import qs from 'qs';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useQueryContext } from 'app/provider/QueryContext';
 import ArrowRightIcon from 'components/icons/ArrowRightIcon';
+import rootStore from 'store/RootStore/instance';
 import { apiClient } from 'utils/axiosConfig';
 import PageItem from './PageItem';
 import { createPagination } from './utils';
@@ -17,7 +19,6 @@ const Pagination: React.FC = () => {
     return;
   }
 
-  const { values: params, updaterQueryParams } = queryContext;
   const [currPage, setCurrPage] = useState<number | null>(null);
   useEffect(() => {
     if (currPage) {
@@ -26,24 +27,24 @@ const Pagination: React.FC = () => {
   }, [totalPage, currPage]);
 
   useEffect(() => {
-    if (params.page) {
+    if (rootStore.queryParams.params.page) {
       const newParams = {
         pagination: {
-          page: params.page,
+          page: rootStore.queryParams.params.page,
           pageSize: 9,
         },
-        ...((params.search || params.category) && {
+        ...((rootStore.queryParams.params.search || rootStore.queryParams.params.category) && {
           filters: {
-            ...(params.search && {
+            ...(rootStore.queryParams.params.search && {
               title: {
-                $containsi: params.search,
+                $containsi: rootStore.queryParams.params.search,
               },
             }),
 
-            ...(params.category && {
+            ...(rootStore.queryParams.params.category && {
               productCategory: {
                 title: {
-                  $containsi: params.category.split(','),
+                  $containsi: rootStore.queryParams.params.category.split(','),
                 },
               },
             }),
@@ -56,19 +57,19 @@ const Pagination: React.FC = () => {
         setTotalPage(data.meta.pagination.pageCount);
       });
     }
-  }, [params.search, params.category, params.page]);
+  }, [rootStore.queryParams.params.search, rootStore.queryParams.params.category, rootStore.queryParams.params.page]);
 
   const handleNextPage = useCallback(() => {
     if (currPage) {
       setCurrPage(currPage + 1);
-      updaterQueryParams({ page: String(currPage + 1) });
+      rootStore.queryParams.updateParam('page', String(currPage + 1));
     }
   }, [currPage]);
 
   const handlePrevPage = useCallback(() => {
     if (currPage) {
       setCurrPage(currPage - 1);
-      updaterQueryParams({ page: String(currPage - 1) });
+      rootStore.queryParams.updateParam('page', String(currPage - 1));
     }
   }, [currPage]);
   return (
@@ -81,14 +82,14 @@ const Pagination: React.FC = () => {
       )}
       <div className={style.pagination__pages}>
         {pages.map((page) => (
-          <PageItem currPage={currPage!} page={page} setCurrPage={setCurrPage} />
+          <PageItem key={page} currPage={currPage!} page={page} setCurrPage={setCurrPage} />
         ))}
       </div>
-      {currPage && currPage !== totalPage && (
+      {currPage && currPage !== totalPage && totalPage ? (
         <ArrowRightIcon onClick={currPage === totalPage ? () => {} : handleNextPage} />
-      )}
+      ) : null}
     </div>
   );
 };
 
-export default Pagination;
+export default observer(Pagination);

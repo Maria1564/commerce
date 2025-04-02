@@ -12,7 +12,7 @@ const CardItem: React.FC<CardItemProps> = ({ item }) => {
   const navigate = useNavigate();
   const onClick = useCallback(() => {
     navigate(`/product/${item.id}`);
-  }, []);
+  }, [item.id, navigate]);
 
   return (
     <Card

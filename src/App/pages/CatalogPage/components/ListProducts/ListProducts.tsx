@@ -1,7 +1,8 @@
+import { observer } from 'mobx-react-lite';
 import qs from 'qs';
 import React, { useEffect, useState } from 'react';
-import { useQueryContext } from 'app/provider/QueryContext';
 import Text from 'components/Text';
+import rootStore from 'store/RootStore/instance';
 import { normalizeProductApi, ProductApi, ProductModel } from 'store/model/product/product';
 import { apiClient } from 'utils/axiosConfig';
 import CardItem from './CardItem';
@@ -10,53 +11,42 @@ import style from './ListProducts.module.scss';
 const ListProducts: React.FC = () => {
   const [products, setProducts] = useState<ProductModel[]>([]);
   const [totalProducts, setTotalProducts] = useState(0);
-  const queryContext = useQueryContext();
 
-  if (!queryContext) {
-    return;
-  }
-
-  const { values: queryParams } = queryContext;
-
-  //получение общего количества товаров
+  // получение списка товаров
   useEffect(() => {
-    apiClient.get('/products').then(({ data }) => setTotalProducts(data.meta.pagination.total));
-  }, []);
-
-  //получение списка товаров
-  useEffect(() => {
-    const params = {
-      populate: ['images', 'productCategory'],
-      pagination: {
-        pageSize: 9,
-        page: queryParams.page,
-      },
-      ...((queryParams.search || queryParams.category) && {
-        filters: {
-          ...(queryParams.search && {
-            title: {
-              $containsi: queryParams.search,
-            },
-          }),
-
-          ...(queryParams.category && {
-            productCategory: {
-              title: {
-                $containsi: queryParams.category.split(','),
-              },
-            },
-          }),
+    if (Object.keys(rootStore.queryParams.params).length) {
+      const params = {
+        populate: ['images', 'productCategory'],
+        pagination: {
+          pageSize: 9,
+          page: rootStore.queryParams.params.page,
         },
-      }),
-      ...(queryParams.sort && { sort: queryParams.sort }),
-    };
+        ...((rootStore.queryParams.params.search || rootStore.queryParams.params.category) && {
+          filters: {
+            ...(rootStore.queryParams.params.search && {
+              title: {
+                $containsi: rootStore.queryParams.params.search,
+              },
+            }),
 
-    apiClient.get(`/products?${qs.stringify(params)}`).then(({ data }) => {
-      const normalizedProducts = data.data.map((item: ProductApi) => normalizeProductApi(item));
-      setProducts(normalizedProducts);
-      setTotalProducts(data.meta.pagination.total);
-    });
-  }, [queryParams]);
+            ...(rootStore.queryParams.params.category && {
+              productCategory: {
+                title: {
+                  $containsi: rootStore.queryParams.params.category.split(','),
+                },
+              },
+            }),
+          },
+        }),
+        ...(rootStore.queryParams.params.sort && { sort: rootStore.queryParams.params.sort }),
+      };
+      apiClient.get(`/products?${qs.stringify(params)}`).then(({ data }) => {
+        const normalizedProducts = data.data.map((item: ProductApi) => normalizeProductApi(item));
+        setProducts(normalizedProducts);
+        setTotalProducts(data.meta.pagination.total);
+      });
+    }
+  }, [rootStore.queryParams.params]);
 
   return (
     <div className={style.products}>
@@ -75,4 +65,4 @@ const ListProducts: React.FC = () => {
   );
 };
 
-export default ListProducts;
+export default observer(ListProducts);

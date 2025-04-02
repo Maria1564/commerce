@@ -1,11 +1,15 @@
 export const createPagination = (totalPages: number, currentPage: number) => {
   const pages: number[] = [];
-  if(totalPages === 1) {
-    return [1]
+
+  if (totalPages === 0) {
+    return [];
+  }
+  if (totalPages === 1) {
+    return [1];
   }
 
-  if(totalPages === 2) {
-    return [1,2]
+  if (totalPages === 2) {
+    return [1, 2];
   }
 
   if (currentPage === 1) {

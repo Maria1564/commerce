@@ -1,6 +1,7 @@
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
-import { useQueryContext } from 'app/provider/QueryContext';
+import rootStore from 'store/RootStore/instance';
 import style from './PageItem.module.scss';
 
 type PageItemProps = {
@@ -10,18 +11,10 @@ type PageItemProps = {
 };
 
 const PageItem: React.FC<PageItemProps> = ({ page, currPage, setCurrPage }) => {
-  const queryContext = useQueryContext();
-
-  if (!queryContext) {
-    return;
-  }
-
-  const { updaterQueryParams } = queryContext;
-
   const togglePage = useCallback(() => {
     setCurrPage(page);
-    updaterQueryParams({ page: String(page) });
-  }, [page]);
+    rootStore.queryParams.updateParam('page', String(page));
+  }, [page, setCurrPage]);
   return (
     <div key={page} className={classNames(style.page, page === currPage && style.page_active)} onClick={togglePage}>
       {page}
@@ -29,4 +22,4 @@ const PageItem: React.FC<PageItemProps> = ({ page, currPage, setCurrPage }) => {
   );
 };
 
-export default PageItem;
+export default observer(PageItem);
