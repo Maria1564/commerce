@@ -1,36 +1,20 @@
 import { observer } from 'mobx-react-lite';
-import qs from 'qs';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useQueryContext } from 'app/provider/QueryContext';
+import React, { useCallback, useEffect } from 'react';
 import ArrowRightIcon from 'components/icons/ArrowRightIcon';
+import { PaginationStore } from 'store/PaginationStore/PaginationStore';
 import rootStore from 'store/RootStore/instance';
-import { apiClient } from 'utils/axiosConfig';
+import { useLocalStore } from 'utils/hooks/useLocalStore';
 import PageItem from './PageItem';
-import { createPagination } from './utils';
 import style from './Pagination.module.scss';
 
 const Pagination: React.FC = () => {
-  const [totalPage, setTotalPage] = useState<number>(4);
-  const [pages, setPages] = useState<number[]>([]);
-
-  const queryContext = useQueryContext();
-
-  if (!queryContext) {
-    return;
-  }
-
-  const [currPage, setCurrPage] = useState<number | null>(null);
-  useEffect(() => {
-    if (currPage) {
-      setPages(createPagination(totalPage, currPage));
-    }
-  }, [totalPage, currPage]);
+  const paginationStore = useLocalStore(() => new PaginationStore());
 
   useEffect(() => {
     if (rootStore.queryParams.params.page) {
       const newParams = {
         pagination: {
-          page: rootStore.queryParams.params.page,
+          page: Number(rootStore.queryParams.params.page),
           pageSize: 9,
         },
         ...((rootStore.queryParams.params.search || rootStore.queryParams.params.category) && {
@@ -51,42 +35,45 @@ const Pagination: React.FC = () => {
           },
         }),
       };
-      let queryParams = qs.stringify(newParams);
-      apiClient.get(`/products?${queryParams}`).then(({ data }) => {
-        setCurrPage(data.meta.pagination.page);
-        setTotalPage(data.meta.pagination.pageCount);
-      });
+
+      paginationStore.getInfoPage(newParams);
     }
-  }, [rootStore.queryParams.params.search, rootStore.queryParams.params.category, rootStore.queryParams.params.page]);
+  }, [
+    rootStore.queryParams.params.search,
+    rootStore.queryParams.params.category,
+    rootStore.queryParams.params.page,
+    paginationStore,
+  ]);
 
   const handleNextPage = useCallback(() => {
-    if (currPage) {
-      setCurrPage(currPage + 1);
-      rootStore.queryParams.updateParam('page', String(currPage + 1));
-    }
-  }, [currPage]);
+    paginationStore.goToNextPage();
+    rootStore.queryParams.updateParam('page', String(paginationStore.currentPage));
+  }, [paginationStore]);
 
   const handlePrevPage = useCallback(() => {
-    if (currPage) {
-      setCurrPage(currPage - 1);
-      rootStore.queryParams.updateParam('page', String(currPage - 1));
-    }
-  }, [currPage]);
+    paginationStore.goToPrevPage();
+    rootStore.queryParams.updateParam('page', String(paginationStore.currentPage));
+  }, [paginationStore]);
+
   return (
     <div className={style.pagination}>
-      {currPage && currPage !== 1 && (
+      {paginationStore.currentPage && paginationStore.currentPage !== 1 && (
         <ArrowRightIcon
           className={style[`pagination__arrow-left`]}
-          onClick={currPage === 1 ? () => {} : handlePrevPage}
+          onClick={paginationStore.currentPage === 1 ? () => {} : handlePrevPage}
         />
       )}
       <div className={style.pagination__pages}>
-        {pages.map((page) => (
-          <PageItem key={page} currPage={currPage!} page={page} setCurrPage={setCurrPage} />
+        {paginationStore.pages.map((page) => (
+          <PageItem key={page} currPage={paginationStore.currentPage} page={page} />
         ))}
       </div>
-      {currPage && currPage !== totalPage && totalPage ? (
-        <ArrowRightIcon onClick={currPage === totalPage ? () => {} : handleNextPage} />
+      {paginationStore.currentPage &&
+      paginationStore.currentPage !== paginationStore.totalPages &&
+      paginationStore.totalPages ? (
+        <ArrowRightIcon
+          onClick={paginationStore.currentPage === paginationStore.totalPages ? () => {} : handleNextPage}
+        />
       ) : null}
     </div>
   );

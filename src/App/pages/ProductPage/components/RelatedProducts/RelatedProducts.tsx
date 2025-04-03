@@ -1,16 +1,17 @@
-import qs from 'qs';
+import { observer, useLocalStore } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import Loader from 'components/Loader';
 import Text from 'components/Text';
-import { normalizeProductApi, ProductApi, ProductModel } from 'store/model/product/product';
-
-import { apiClient } from 'utils/axiosConfig';
-
+import { ProductListStore } from 'store/ProductsListStore/ProductsListStore';
+import { ProductModel } from 'store/models/product/product';
+import { Meta } from 'utils/meta';
 import CardItem from './CardItem';
 import style from './RelatedProducts.module.scss';
 
 const RelatedProducts: React.FC = () => {
   const [products, setProducts] = useState<ProductModel[]>([]);
+  const productsStore = useLocalStore(() => new ProductListStore());
 
   const { id } = useParams();
 
@@ -23,21 +24,24 @@ const RelatedProducts: React.FC = () => {
       },
     };
 
-    apiClient
-      .get(`/products?${qs.stringify(params)}`)
-      .then(({ data }) => setProducts(data.data.map((item: ProductApi) => normalizeProductApi(item))));
+    productsStore.getProducts(params);
   }, [id]);
+
+  useEffect(() => {
+    if (productsStore.meta === Meta.success) {
+      setProducts(productsStore.relatedProducts);
+    }
+  }, [productsStore.meta]);
 
   return (
     <div className={style[`related-products`]}>
       <Text view="title">Related Items</Text>
       <div className={style[`related-products__list`]}>
-        {products.map((item) => (
-          <CardItem key={item.id} item={item} />
-        ))}
+        {productsStore.meta === Meta.loading && <Loader />}
+        {productsStore.meta === Meta.success && products.map((item) => <CardItem key={item.id} item={item} />)}
       </div>
     </div>
   );
 };
 
-export default RelatedProducts;
+export default observer(RelatedProducts);

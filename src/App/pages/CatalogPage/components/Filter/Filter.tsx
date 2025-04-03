@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import qs from 'qs';
 import React, { useCallback, useEffect, useState } from 'react';
 import MultiDropdown, { Option } from 'components/MultiDropdown';
+import { CategoryFilterStore } from 'store/CategoryFilterStore/CategoryFilterStore';
 import rootStore from 'store/RootStore/instance';
-import { apiClient } from 'utils/axiosConfig';
+import { useLocalStore } from 'utils/hooks/useLocalStore';
+import { Meta } from 'utils/meta';
 import Dropdown from './Dropdown';
 import Search from './Search';
 import style from './Filter.module.scss';
@@ -11,33 +12,29 @@ import style from './Filter.module.scss';
 const Filter: React.FC = () => {
   const [selectCategories, setSelectCategories] = useState<Option[]>([]);
   const [categories, setCategories] = useState<Option[]>([]);
+  const categoriesStore = useLocalStore(() => new CategoryFilterStore());
 
   useEffect(() => {
     const queryParams = {
       fields: ['id', 'title'],
     };
 
-    apiClient.get(`/product-categories?${qs.stringify(queryParams)}`).then(({ data }) => {
-      setCategories(
-        data.data.map((item: { id: number; title: string }) => ({
-          key: item.id,
-          value: item.title,
-        })),
+    categoriesStore.getCategories(queryParams);
+  }, [rootStore.queryParams.params]);
+
+  useEffect(() => {
+    if (categoriesStore.meta === Meta.success) {
+      setCategories(categoriesStore.categories as Option[]);
+
+      const newCategories = categoriesStore.categories.filter(
+        (item) =>
+          rootStore.queryParams.params.category &&
+          rootStore.queryParams.params.category.split(',').includes(item.value),
       );
 
-      const newCategories = data.data.filter(
-        (item: { title: string }) =>
-          rootStore.queryParams.params.category &&
-          rootStore.queryParams.params.category.split(',').includes(item.title),
-      );
-      setSelectCategories(
-        newCategories.map((item: { id: number; title: string }) => ({
-          key: item.id,
-          value: item.title,
-        })),
-      );
-    });
-  }, [rootStore.queryParams.params]);
+      setSelectCategories(newCategories);
+    }
+  }, [categoriesStore.meta]);
 
   const handlerChange = useCallback((value: Option[]) => {
     let strCategory = value.map((item) => item.value).join(',');

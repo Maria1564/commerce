@@ -1,20 +1,24 @@
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
+import { PaginationStore } from 'store/PaginationStore/PaginationStore';
 import rootStore from 'store/RootStore/instance';
+import { useLocalStore } from 'utils/hooks/useLocalStore';
 import style from './PageItem.module.scss';
 
 type PageItemProps = {
   page: number;
   currPage: number;
-  setCurrPage: (newState: number) => void;
 };
 
-const PageItem: React.FC<PageItemProps> = ({ page, currPage, setCurrPage }) => {
+const PageItem: React.FC<PageItemProps> = ({ page, currPage }) => {
+  const paginationStore = useLocalStore(() => new PaginationStore());
+
   const togglePage = useCallback(() => {
-    setCurrPage(page);
+    paginationStore.togglePage(page);
     rootStore.queryParams.updateParam('page', String(page));
-  }, [page, setCurrPage]);
+  }, [page, paginationStore]);
+
   return (
     <div key={page} className={classNames(style.page, page === currPage && style.page_active)} onClick={togglePage}>
       {page}

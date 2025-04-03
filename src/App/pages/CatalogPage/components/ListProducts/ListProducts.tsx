@@ -1,16 +1,18 @@
 import { observer } from 'mobx-react-lite';
-import qs from 'qs';
 import React, { useEffect, useState } from 'react';
+import Loader from 'components/Loader';
 import Text from 'components/Text';
+import { ProductListStore } from 'store/ProductsListStore/ProductsListStore';
 import rootStore from 'store/RootStore/instance';
-import { normalizeProductApi, ProductApi, ProductModel } from 'store/model/product/product';
-import { apiClient } from 'utils/axiosConfig';
+import { ProductModel } from 'store/models/product/product';
+import { useLocalStore } from 'utils/hooks/useLocalStore';
+import { Meta } from 'utils/meta';
 import CardItem from './CardItem';
 import style from './ListProducts.module.scss';
 
 const ListProducts: React.FC = () => {
   const [products, setProducts] = useState<ProductModel[]>([]);
-  const [totalProducts, setTotalProducts] = useState(0);
+  const productsStore = useLocalStore(() => new ProductListStore());
 
   // получение списка товаров
   useEffect(() => {
@@ -19,7 +21,7 @@ const ListProducts: React.FC = () => {
         populate: ['images', 'productCategory'],
         pagination: {
           pageSize: 9,
-          page: rootStore.queryParams.params.page,
+          page: Number(rootStore.queryParams.params.page),
         },
         ...((rootStore.queryParams.params.search || rootStore.queryParams.params.category) && {
           filters: {
@@ -40,26 +42,28 @@ const ListProducts: React.FC = () => {
         }),
         ...(rootStore.queryParams.params.sort && { sort: rootStore.queryParams.params.sort }),
       };
-      apiClient.get(`/products?${qs.stringify(params)}`).then(({ data }) => {
-        const normalizedProducts = data.data.map((item: ProductApi) => normalizeProductApi(item));
-        setProducts(normalizedProducts);
-        setTotalProducts(data.meta.pagination.total);
-      });
+
+      productsStore.getProducts(params);
     }
   }, [rootStore.queryParams.params]);
+
+  useEffect(() => {
+    if (productsStore.meta === Meta.success) {
+      setProducts(productsStore.allProducts);
+    }
+  }, [productsStore.allProducts, productsStore.meta]);
 
   return (
     <div className={style.products}>
       <div className={style.products__total}>
         <Text className={style.products__text}>Total products</Text>
         <Text view="p-20" tag="span" color="accent" weight="bold">
-          {totalProducts}
+          {productsStore.total}
         </Text>
       </div>
       <div className={style.products__list}>
-        {products.map((item) => (
-          <CardItem key={item.id} item={item} />
-        ))}
+        {productsStore.meta === Meta.loading && <Loader />}
+        {productsStore.meta === Meta.success && products.map((item) => <CardItem key={item.id} item={item} />)}
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
@@ -12,8 +11,6 @@ import style from './CatalogPage.module.scss';
 
 const CatalogPage: React.FC = () => {
   const [_, setSearchParams] = useSearchParams();
-
-  console.log('render catalog', toJS(rootStore.queryParams.params));
 
   useEffect(() => {
     const newParams = new URLSearchParams();

@@ -4,6 +4,7 @@
 .products {
   width: 100%;
   flex-grow: 1;
+    
 
   &__total {
     @include m.align-items-center;
