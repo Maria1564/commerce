@@ -1,0 +1,11 @@
+@use "styles/variables" as v;
+
+.page {
+  padding: 10px 14px;
+  cursor: pointer;
+
+  &_active {
+    background-color: v.$brand;
+    color: v.$white;
+  }
+}

@@ -1,0 +1,36 @@
+@use "styles/variables" as v;
+
+.input {
+  width: max-content;
+  position: relative;
+
+  &__field {
+    padding: v.$space-m 44px v.$space-m v.$space-xs;
+    width: 100%;
+    background-color: v.$white;
+    border: 1px solid v.$white;
+    font-weight: 400;
+    font-size: v.$p-16;
+    line-height: 20px;
+    height: max-content;
+
+    &:focus {
+      border-color: v.$brand;
+      outline: v.$brand;
+    }
+
+    &::placeholder {
+      color: v.$secondary-color;
+      font-weight: 400;
+      font-size: v.$p-16;
+      line-height: 20px;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

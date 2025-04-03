@@ -5,23 +5,23 @@ export type Option = {
 
 export const dataOptions: Option[] = [
   {
-    value: "",
-    text: "по популярности",
+    value: '',
+    text: 'по популярности',
   },
   {
-    value: "price",
-    text: "сначала дешёвые",
+    value: 'price',
+    text: 'сначала дешёвые',
   },
   {
-    value: "price:desc",
-    text: "сначала дорогие",
+    value: 'price:desc',
+    text: 'сначала дорогие',
   },
   {
-    value: "publishedAt",
-    text: "сначала старые"
+    value: 'publishedAt',
+    text: 'сначала старые',
   },
   {
-    value: "publishedAt:desc",
-    text: "сначала новые"
+    value: 'publishedAt:desc',
+    text: 'сначала новые',
   },
 ];

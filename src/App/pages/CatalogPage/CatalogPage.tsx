@@ -1,38 +1,35 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { useQueryContext } from "App/provider/QueryContext";
-import Text from "components/Text";
-import { updateQueryParams } from "utils";
-import Filter from "./components/Filter";
-import ListProducts from "./components/ListProducts";
-import Pagination from "./components/Pagination";
-import style from "./CatalogPage.module.scss";
+import { observer } from 'mobx-react-lite';
+import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router';
+import Text from 'components/Text';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
+import Filter from './components/Filter';
+import ListProducts from './components/ListProducts';
+import Pagination from './components/Pagination';
+import style from './CatalogPage.module.scss';
 
 const CatalogPage: React.FC = () => {
-  const queryContext = useQueryContext();
+  const [_, setSearchParams] = useSearchParams();
+  const rootStore = useRootStoreContext();
 
-  if (!queryContext) {
-    return
-  }
-
-  const { params } = queryContext;
-  const navigate = useNavigate();
-
-  //присвоение query-параметров при переходе на страницу каталог
   useEffect(() => {
-    updateQueryParams(navigate, params)
-  }, []);
+    const newParams = new URLSearchParams();
+    for (let key in rootStore.queryParams.params) {
+      newParams.set(key, rootStore.queryParams.params[key]);
+    }
+    setSearchParams(newParams);
+  }, [rootStore.queryParams.params]);
 
   return (
-    <div className={style.wrapper}>
-      <div className={style.about}>
+    <div className={style.catalog}>
+      <div className={style.catalog__title}>
         <Text view="title" weight="bold">
           Products
         </Text>
-        <Text view="p-20" color="secondary" className={style.text}>
-          {" "}
-          We display products based on the latest products we have, if you want
-          to see our old products please enter the name of the item
+        <Text view="p-20" color="secondary" className={style.catalog__text}>
+          {' '}
+          We display products based on the latest products we have, if you want to see our old products please enter the
+          name of the item
         </Text>
       </div>
       <Filter />
@@ -42,4 +39,4 @@ const CatalogPage: React.FC = () => {
   );
 };
 
-export default CatalogPage;
+export default observer(CatalogPage);

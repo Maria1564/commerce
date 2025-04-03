@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import './Text.scss';
+import style from './Text.module.scss';
 
 export type TextProps = {
   /** Дополнительный класс */
@@ -19,22 +19,21 @@ export type TextProps = {
   maxLines?: number;
 };
 
-const Text: React.FC<TextProps> = ({
-  className,
-  view = "p-14",
-  tag: Tag = 'p',
-  weight,
-  children,
-  color,
-  maxLines,
-}) => {
-    
-  return <Tag className={classNames("text", {
-        [className as string]: className ? className : "",
-        [view as string]: view,
-        [weight as string]: weight,
-        [`text_color_${color}`]: color
-    })} style={ {WebkitLineClamp: maxLines ? maxLines : 100}}>{children}</Tag>;
+const Text: React.FC<TextProps> = ({ className, view = 'p-14', tag: Tag = 'p', weight, children, color, maxLines }) => {
+  return (
+    <Tag
+      className={classNames(
+        style.text,
+        className,
+        view && style[`text_${view}`],
+        weight && style[`text_${weight}`],
+        color && style[`text__color_${color}`],
+      )}
+      style={{ WebkitLineClamp: maxLines ? maxLines : 100 }}
+    >
+      {children}
+    </Tag>
+  );
 };
 
 export default Text;

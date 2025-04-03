@@ -1,42 +1,57 @@
-import qs from "qs"
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
-import Button from "components/Button"
-import Text from "components/Text"
-import { apiClient } from 'config/axiosConfig'
-import { Product } from 'types/index'
-import { normalizeData } from "./utils/normalize"
-import style from "./Info.module.scss"
+import { observer } from 'mobx-react-lite';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import Button from 'components/Button';
+import Loader from 'components/Loader';
+import Text from 'components/Text';
+import { ProductDetailsStore } from 'store/ProductDetailsStore/ProductDetailsStore';
+import { ProductModel } from 'store/models/product/product';
+import { useLocalStore } from 'utils/hooks/useLocalStore';
+import { Meta } from 'utils/meta';
+import style from './Info.module.scss';
 
 const Info: React.FC = () => {
-    const [infoProduct, setInfoProduct] = useState<Omit<Product, "category"> | null>(null)
-    const {id} = useParams()
+  const [infoProduct, setInfoProduct] = useState<ProductModel | null>(null);
+  const { id } = useParams();
+  const productStore = useLocalStore(() => new ProductDetailsStore());
 
-    //получение данных о выбранном товаре
-    useEffect(() => {
-        const params = {
-            populate: "images"
-        }   
+  //получение данных о выбранном товаре
+  useEffect(() => {
+    const params = {
+      populate: 'images',
+    };
 
-        apiClient.get(`/products/${id}?${qs.stringify(params)}`)
-        .then(({data}) => setInfoProduct(normalizeData(data.data)))
-    }, [id])
+    productStore.getSelectedProduct(id!, params);
+  }, [id, productStore]);
+
+  useEffect(() => {
+    if (productStore.meta === Meta.success) {
+      setInfoProduct(productStore.product);
+    }
+  }, [productStore.meta, productStore.product]);
 
   return (
-    <div className={style.info}>
-        <img src={infoProduct?.urlImage} className={style.image}/>
+    <>
+      {productStore.meta === Meta.loading && <Loader />}
+      {productStore.meta === Meta.success && (
+        <div className={style.info}>
+          <img src={infoProduct?.urlImage} className={style.info__image} />
 
-        <div className={style.about}>
+          <div className={style.info__wrapper}>
             <Text view="title">{infoProduct?.title}</Text>
-            <Text view="p-20" color="secondary" className={style.description}>{infoProduct?.description}</Text>
+            <Text view="p-20" color="secondary" className={style.info__description}>
+              {infoProduct?.description}
+            </Text>
             <Text view="title">${infoProduct?.price}</Text>
-            <div className={style.actions}>
-                <Button>Buy now</Button>
-                <Button className={style.btn_outline}>Add to Cart</Button>
+            <div className={style.info__actions}>
+              <Button>Buy now</Button>
+              <Button className={style.info__btn_outline}>Add to Cart</Button>
             </div>
+          </div>
         </div>
-    </div>
-  )
-}
+      )}
+    </>
+  );
+};
 
-export default Info
+export default observer(Info);

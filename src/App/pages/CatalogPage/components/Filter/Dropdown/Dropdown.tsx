@@ -1,75 +1,51 @@
-import classNames from "classnames";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useQueryContext } from "App/provider/QueryContext";
-import ArrowDownIcon from "components/icons/ArrowDownIcon";
-import { dataOptions, Option } from "./data";
-import style from "./Dropdown.module.scss";
+import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import ArrowDownIcon from 'components/icons/ArrowDownIcon';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
+import { useClickOutside } from 'utils/hooks/useClickOutside';
+import { dataOptions, Option } from './data';
+import style from './Dropdown.module.scss';
 
 const Dropdown: React.FC = () => {
-  const [selectOption, setSelectOption] = useState<string>("по популярности");
-  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const refMenu = useRef<null | HTMLUListElement>(null);
-  const queryContext = useQueryContext();
-
-  if (!queryContext) {
-    return;
-  }
-  const { params, changeParamByKey } = queryContext;
+  const [selectOption, setSelectOption] = useState<string>('по популярности');
+  const refSelect = useRef<null | HTMLDivElement>(null);
+  const { openModal, setOpenModal } = useClickOutside(refSelect);
+  const rootStore = useRootStoreContext();
 
   useEffect(() => {
-    const closeMenu = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (
-        target.closest(`.${style.menu}`) === null &&
-        !target.closest(`.${style.select}`)
-      ) {
-        setIsOpenMenu(false);
-      }
-    };
-
-    window.document.addEventListener("click", closeMenu);
-
     const selectedOption = dataOptions.find((item: Option) => {
-      if (params.sort) {
-        return item.value === params.sort;
+      if (rootStore.queryParams.params.sort) {
+        return item.value === rootStore.queryParams.params.sort;
       } else {
-        return item.value === "";
+        return item.value === '';
       }
     });
 
     if (selectedOption) {
       setSelectOption(selectedOption.text);
     }
+  }, [rootStore.queryParams.params]);
 
-    return () => window.document.removeEventListener("click", closeMenu);
-  }, []);
-
-  const handleClick = useCallback(
-    () => setIsOpenMenu(!isOpenMenu),
-    [isOpenMenu]
-  );
+  const handleClick = useCallback(() => setOpenModal(!openModal), [openModal, setOpenModal]);
 
   const onSelectOption = useCallback((option: Option) => {
     setSelectOption(option.text);
-    changeParamByKey("sort", option.value);
+    rootStore.queryParams.updateParam('sort', option.value);
   }, []);
 
-  
   return (
     <div className={style.dropdown}>
-      <div className={style.select} onClick={handleClick}>
-        <div className={style.select_item}>{selectOption}</div>
+      <div className={style.dropdown__field} onClick={handleClick} ref={refSelect}>
+        <div className={style[`dropdown__select-item`]}>{selectOption}</div>
         <ArrowDownIcon />
       </div>
-      <ul
-        className={classNames(style.menu, { [style.menu_open]: isOpenMenu })}
-        ref={refMenu}
-      >
+      <ul className={classNames(style.dropdown__menu, { [style.dropdown__menu_open]: openModal })}>
         {dataOptions.map((item, index) => (
           <li
             key={index}
-            className={classNames(style.menu_item, {
-              [style.active]: item.text === selectOption,
+            className={classNames(style.dropdown__item, {
+              [style.dropdown__item_active]: item.text === selectOption,
             })}
             onClick={() => onSelectOption(item)}
           >
@@ -81,4 +57,4 @@ const Dropdown: React.FC = () => {
   );
 };
 
-export default Dropdown;
+export default observer(Dropdown);
