@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ArrowDownIcon from 'components/icons/ArrowDownIcon';
-import rootStore from 'store/RootStore/instance';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { useClickOutside } from 'utils/hooks/useClickOutside';
 import { dataOptions, Option } from './data';
 import style from './Dropdown.module.scss';
@@ -10,8 +10,8 @@ import style from './Dropdown.module.scss';
 const Dropdown: React.FC = () => {
   const [selectOption, setSelectOption] = useState<string>('по популярности');
   const refSelect = useRef<null | HTMLDivElement>(null);
-
   const { openModal, setOpenModal } = useClickOutside(refSelect);
+  const rootStore = useRootStoreContext();
 
   useEffect(() => {
     const selectedOption = dataOptions.find((item: Option) => {

@@ -2,15 +2,15 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import Text from 'components/Text';
-import rootStore from 'store/RootStore/instance';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import Filter from './components/Filter';
 import ListProducts from './components/ListProducts';
 import Pagination from './components/Pagination';
-
 import style from './CatalogPage.module.scss';
 
 const CatalogPage: React.FC = () => {
   const [_, setSearchParams] = useSearchParams();
+  const rootStore = useRootStoreContext();
 
   useEffect(() => {
     const newParams = new URLSearchParams();

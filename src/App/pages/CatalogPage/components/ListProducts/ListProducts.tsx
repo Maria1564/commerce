@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Loader from 'components/Loader';
 import Text from 'components/Text';
 import { ProductListStore } from 'store/ProductsListStore/ProductsListStore';
-import rootStore from 'store/RootStore/instance';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { ProductModel } from 'store/models/product/product';
 import { useLocalStore } from 'utils/hooks/useLocalStore';
 import { Meta } from 'utils/meta';
@@ -13,6 +13,7 @@ import style from './ListProducts.module.scss';
 const ListProducts: React.FC = () => {
   const [products, setProducts] = useState<ProductModel[]>([]);
   const productsStore = useLocalStore(() => new ProductListStore());
+  const rootStore = useRootStoreContext();
 
   // получение списка товаров
   useEffect(() => {

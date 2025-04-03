@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useState } from 'react';
 import MultiDropdown, { Option } from 'components/MultiDropdown';
 import { CategoryFilterStore } from 'store/CategoryFilterStore/CategoryFilterStore';
-import rootStore from 'store/RootStore/instance';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { useLocalStore } from 'utils/hooks/useLocalStore';
 import { Meta } from 'utils/meta';
 import Dropdown from './Dropdown';
@@ -13,6 +13,7 @@ const Filter: React.FC = () => {
   const [selectCategories, setSelectCategories] = useState<Option[]>([]);
   const [categories, setCategories] = useState<Option[]>([]);
   const categoriesStore = useLocalStore(() => new CategoryFilterStore());
+  const rootStore = useRootStoreContext();
 
   useEffect(() => {
     const queryParams = {

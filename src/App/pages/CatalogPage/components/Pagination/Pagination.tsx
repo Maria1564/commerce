@@ -2,13 +2,14 @@ import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect } from 'react';
 import ArrowRightIcon from 'components/icons/ArrowRightIcon';
 import { PaginationStore } from 'store/PaginationStore/PaginationStore';
-import rootStore from 'store/RootStore/instance';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { useLocalStore } from 'utils/hooks/useLocalStore';
 import PageItem from './PageItem';
 import style from './Pagination.module.scss';
 
 const Pagination: React.FC = () => {
   const paginationStore = useLocalStore(() => new PaginationStore());
+  const rootStore = useRootStoreContext();
 
   useEffect(() => {
     if (rootStore.queryParams.params.page) {

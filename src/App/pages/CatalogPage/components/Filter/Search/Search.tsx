@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import Button from 'components/Button';
 import Input from 'components/Input';
-import rootStore from 'store/RootStore/instance';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import style from './Search.module.scss';
 
 const Search: React.FC = () => {
   const [valueInp, setValueInp] = useState<string>('');
-
+  const rootStore = useRootStoreContext();
 
   const handlerChangeValue = useCallback(
     (value: string) => {
@@ -16,10 +16,10 @@ const Search: React.FC = () => {
   );
 
   const findProducts = useCallback(() => {
-    rootStore.queryParams.updateParam("search",  valueInp );
+    rootStore.queryParams.updateParam('search', valueInp);
 
     if (valueInp.trim() !== '') {
-      rootStore.queryParams.updateParam("page", "1");
+      rootStore.queryParams.updateParam('page', '1');
     }
     setValueInp('');
   }, [valueInp, setValueInp]);
