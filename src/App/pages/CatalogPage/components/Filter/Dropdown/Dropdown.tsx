@@ -6,7 +6,7 @@ import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { SortOptionsStore } from 'store/SortOptionsStore/SortOptionsStore';
 import { useClickOutside } from 'utils/hooks/useClickOutside';
 import { useLocalStore } from 'utils/hooks/useLocalStore';
-import OptionItem from './OptionItem/OptionItem';
+import OptionItem from './OptionItem';
 import style from './Dropdown.module.scss';
 
 const Dropdown: React.FC = () => {

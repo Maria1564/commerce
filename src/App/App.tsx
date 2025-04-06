@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import { Outlet } from 'react-router';
 import './App.scss';
 import Navbar from 'layout/Navbar';
@@ -9,11 +10,13 @@ function App() {
 const rootStore = useRootStoreContext();
 if (rootStore === null) {
   return;
-}
+} 
+
+
 
   return (
     <>
-      <Navbar />
+      {rootStore.auth.isAuth && <Navbar />}
       <div className="container">
         <Outlet />
       </div>
@@ -21,4 +24,4 @@ if (rootStore === null) {
   );
 }
 
-export default App;
+export default observer(App);

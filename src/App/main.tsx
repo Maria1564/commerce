@@ -11,6 +11,7 @@ import CatalogPage from './pages/CatalogPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProductPage from './pages/ProductPage';
 import 'config/configureMobX';
+import RegisterPage from './pages/RegisterPage';
 
 export const routeConfig: RouteObject[] = [
   {
@@ -38,6 +39,10 @@ export const routeConfig: RouteObject[] = [
         path: Routes.about,
         element: <AboutUsPage />,
       },
+      {
+        path: Routes.register,
+        element: <RegisterPage/>
+      }
     ],
   },
   {
