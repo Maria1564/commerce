@@ -39,7 +39,6 @@ export class AuthStore {
 
   private _restoreSessionFromStorage = () => {
     try {
-      this._meta = Meta.loading;
       const dataUser = localStorage.getItem('auth');
 
       if (dataUser) {
@@ -48,8 +47,6 @@ export class AuthStore {
         this._user = user;
         this._isAuth = true;
       }
-
-      this._meta = Meta.success;
     } catch {
       this._meta = Meta.error;
     }

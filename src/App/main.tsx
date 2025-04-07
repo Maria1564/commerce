@@ -1,6 +1,5 @@
 // import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client';
-
 import './index.scss';
 import { createBrowserRouter, Navigate, RouteObject, RouterProvider } from 'react-router';
 import { Routes } from 'config/routes';
@@ -8,10 +7,11 @@ import { RootStoreProvider } from 'store/RootStore/rootStoreProvider';
 import App from './App';
 import AboutUsPage from './pages/AboutUsPage';
 import CatalogPage from './pages/CatalogPage';
+import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProductPage from './pages/ProductPage';
-import 'config/configureMobX';
 import RegisterPage from './pages/RegisterPage';
+import 'config/configureMobX';
 
 export const routeConfig: RouteObject[] = [
   {
@@ -41,8 +41,12 @@ export const routeConfig: RouteObject[] = [
       },
       {
         path: Routes.register,
-        element: <RegisterPage/>
-      }
+        element: <RegisterPage />,
+      },
+      {
+        path: Routes.login,
+        element: <LoginPage />,
+      },
     ],
   },
   {

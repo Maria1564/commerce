@@ -1,21 +1,34 @@
 import { observer } from 'mobx-react-lite';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
+import { FormData } from 'components/Form';
+import Form from 'components/Form';
 import Text from 'components/Text';
 import { Routes } from 'config/routes';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
-import Form from './components/Form';
-import { FormData } from './components/Form/Form';
+import { Meta } from 'utils/meta';
 import style from './RegisterPage.module.scss';
 
 const RegisterPage: React.FC = () => {
   const rootStore = useRootStoreContext();
   const navigate = useNavigate();
+  const sendDataUser = useCallback(
+    (dataForm: FormData) => {
+      rootStore.auth.register(dataForm);
+    },
+    [rootStore.auth],
+  );
 
-  const sendDataUser = useCallback((dataForm: FormData) => {
-    rootStore.auth.register(dataForm);
-    navigate(Routes.login, { replace: true });
-  }, [navigate, rootStore.auth])
+  useEffect(() => {
+    if (rootStore.auth.meta === Meta.error) {
+      alert('Пользователь с таким именем/почтой уже есть');
+      return;
+    }
+
+    if (rootStore.auth.meta === Meta.success) {
+      navigate(Routes.login, { replace: true });
+    }
+  }, [navigate, rootStore.auth.meta]);
 
   return (
     <div className={style.register}>
