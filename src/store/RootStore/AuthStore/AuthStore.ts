@@ -39,6 +39,8 @@ export class AuthStore {
 
   private _restoreSessionFromStorage = () => {
     try {
+      this._user = null;
+      this._isAuth = false;
       const dataUser = localStorage.getItem('auth');
 
       if (dataUser) {

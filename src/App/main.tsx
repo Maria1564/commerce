@@ -4,6 +4,8 @@ import './index.scss';
 import { createBrowserRouter, Navigate, RouteObject, RouterProvider } from 'react-router';
 import { Routes } from 'config/routes';
 import { RootStoreProvider } from 'store/RootStore/rootStoreProvider';
+import PrivateRoute from 'utils/components/PrivateRoute';
+import PublicRoute from 'utils/components/PublicRoute';
 import App from './App';
 import AboutUsPage from './pages/AboutUsPage';
 import CatalogPage from './pages/CatalogPage';
@@ -29,23 +31,43 @@ export const routeConfig: RouteObject[] = [
       },
       {
         path: Routes.catalog,
-        element: <CatalogPage />,
+        element: (
+          <PrivateRoute>
+            <CatalogPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: Routes.productById,
-        element: <ProductPage />,
+        element: (
+          <PrivateRoute>
+            <ProductPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: Routes.about,
-        element: <AboutUsPage />,
+        element: (
+          <PrivateRoute>
+            <AboutUsPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: Routes.register,
-        element: <RegisterPage />,
+        element: (
+          <PublicRoute>
+            <RegisterPage />
+          </PublicRoute>
+        ),
       },
       {
         path: Routes.login,
-        element: <LoginPage />,
+        element: (
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        ),
       },
     ],
   },
