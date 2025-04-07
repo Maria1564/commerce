@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
-import Loader from 'components/Loader';
+import SkeletonCard from 'components/Card/Skeleton';
 import Text from 'components/Text';
 import { ProductListStore } from 'store/ProductsListStore/ProductsListStore';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
@@ -63,7 +63,13 @@ const ListProducts: React.FC = () => {
         </Text>
       </div>
       <div className={style.products__list}>
-        {productsStore.meta === Meta.loading && <Loader />}
+        {productsStore.meta !== Meta.success && (
+          <>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </>
+        )}
         {productsStore.meta === Meta.success && products.map((item) => <CardItem key={item.id} item={item} />)}
       </div>
     </div>

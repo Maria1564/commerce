@@ -7,12 +7,11 @@ import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 
 function App() {
   useQueryParamsInit();
-const rootStore = useRootStoreContext();
-if (rootStore === null) {
-  return;
-} 
-
-
+  const rootStore = useRootStoreContext();
+  
+  if (rootStore === null) {
+    return;
+  }
 
   return (
     <>

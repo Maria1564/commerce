@@ -1,7 +1,7 @@
 import { observer, useLocalStore } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import Loader from 'components/Loader';
+import SkeletonCard from 'components/Card/Skeleton';
 import Text from 'components/Text';
 import { ProductListStore } from 'store/ProductsListStore/ProductsListStore';
 import { ProductModel } from 'store/models/product/product';
@@ -37,7 +37,13 @@ const RelatedProducts: React.FC = () => {
     <div className={style[`related-products`]}>
       <Text view="title">Related Items</Text>
       <div className={style[`related-products__list`]}>
-        {productsStore.meta === Meta.loading && <Loader />}
+        {productsStore.meta !== Meta.success && (
+          <>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </>
+        )}
         {productsStore.meta === Meta.success && products.map((item) => <CardItem key={item.id} item={item} />)}
       </div>
     </div>
