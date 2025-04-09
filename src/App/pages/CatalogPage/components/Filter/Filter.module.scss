@@ -1,12 +1,16 @@
 @use "styles/variables" as v;
 
-.wrapper {
-    width: 100%;
-    margin-bottom: 48px;
-    margin-top: 50px;
-}
+.filter {
+  width: 100%;
+  margin-bottom: 48px;
+  margin-top: 50px;
 
-.filters {
+  &__fields {
     margin-top: v.$space-xl;
     display: flex;
+  }
+
+  &__dropdown {
+    margin-right: 30px;
+  }
 }

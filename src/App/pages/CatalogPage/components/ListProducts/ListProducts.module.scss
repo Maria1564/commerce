@@ -1,27 +1,28 @@
 @use "styles/mixins" as m;
 @use "styles/variables" as v;
 
-.text {
+.products {
+  width: 100%;
+  flex-grow: 1;
+
+  &__total {
     @include m.align-items-center;
     gap: v.$space-xl;
-   justify-self: flex-start;
-}
+    justify-self: flex-start;
+  }
 
-.wrapper {
-    width: 100%;
-}
-
-
-.subtitle {
+  &__text {
     font-weight: 700;
     font-size: 32px;
     line-height: 36px;
-}
+    color: v.$primary-color;
+  }
 
-.list {
+  &__list {
     margin-top: 35px;
     margin-bottom: 70px;
     display: flex;
     flex-wrap: wrap;
     gap: 30px 80px;
+  }
 }

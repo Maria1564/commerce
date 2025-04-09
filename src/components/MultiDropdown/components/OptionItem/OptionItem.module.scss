@@ -1,0 +1,18 @@
+@use "styles/variables" as v;
+
+.option {
+  padding: v.$space-s v.$space-xs;
+  font-weight: 400;
+  font-size: v.$p-16;
+  line-height: 20px;
+  cursor: pointer;
+  color: v.$primary-color;
+
+  &_select {
+    color: v.$brand;
+  }
+
+  &:hover {
+    color: v.$secondary-color;
+  }
+}

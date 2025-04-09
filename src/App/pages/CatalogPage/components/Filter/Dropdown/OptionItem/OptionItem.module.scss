@@ -1,0 +1,22 @@
+@use "styles/variables" as v;
+
+.dropdown {
+  &__item {
+    padding: 5px 3px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: v.$primary-color;
+
+    &:hover {
+      color: v.$secondary-color;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: v.$space-xs;
+    }
+
+    &_active {
+      color: v.$brand;
+    }
+  }
+}

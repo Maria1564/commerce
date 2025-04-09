@@ -1,83 +1,79 @@
-import qs from "qs";
-import React, { useEffect, useState } from "react";
-import { useQueryContext } from "App/provider/QueryContext";
-import Text from "components/Text";
-import { apiClient } from "config/axiosConfig";
-import { Product } from "types/index";
-import { normalizeData } from "utils/normalize";
-import CardItem from "./CardItem";
-import style from "./ListProducts.module.scss";
+import { observer } from 'mobx-react-lite';
+import React, { useEffect, useState } from 'react';
+import SkeletonCard from 'components/Card/Skeleton';
+import Text from 'components/Text';
+import { ProductListStore } from 'store/ProductsListStore/ProductsListStore';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
+import { ProductModel } from 'store/models/product/product';
+import { useLocalStore } from 'utils/hooks/useLocalStore';
+import { Meta } from 'utils/meta';
+import CardItem from './CardItem';
+import style from './ListProducts.module.scss';
 
 const ListProducts: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [totalProducts, setTotalProducts] = useState(0);
-  const queryContext = useQueryContext();
+  const [products, setProducts] = useState<ProductModel[]>([]);
+  const productsStore = useLocalStore(() => new ProductListStore());
+  const rootStore = useRootStoreContext();
 
-  if (!queryContext) {
-    return;
-  }
-
-  const { params: queryParams } = queryContext;
-
-
-  //получение общего количества товаров
+  // получение списка товаров
   useEffect(() => {
-    apiClient
-      .get("/products")
-      .then(({ data }) => setTotalProducts(data.meta.pagination.total));
-  }, []);
-
-  //получение списка товаров
-  useEffect(() => {
-    const params = {
-      populate: ["images", "productCategory"],
-      pagination: {
-        pageSize: 9,
-        page: queryParams.page
-      },
-      ...((queryParams.search || queryParams.category) && 
-        {
+    if (Object.keys(rootStore.queryParams.params).length) {
+      const params = {
+        populate: ['images', 'productCategory'],
+        pagination: {
+          pageSize: 9,
+          page: Number(rootStore.queryParams.params.page),
+        },
+        ...((rootStore.queryParams.params.search || rootStore.queryParams.params.category) && {
           filters: {
-            ...(queryParams.search && {
+            ...(rootStore.queryParams.params.search && {
               title: {
-                $containsi: queryParams.search
-              }
+                $containsi: rootStore.queryParams.params.search,
+              },
             }),
 
-            ...(queryParams.category && {
+            ...(rootStore.queryParams.params.category && {
               productCategory: {
                 title: {
-                  $containsi: queryParams.category.split(",")
-                }
-              }
-            })
-          }
-        }
-      ),
-      ...(queryParams.sort && {sort: queryParams.sort})
-    };
-    
-    apiClient.get(`/products?${qs.stringify(params)}`).then(({ data }) => {
-      setProducts(normalizeData(data.data));
-      setTotalProducts(data.meta.pagination.total)
-    });
-  }, [queryParams]);
+                  $containsi: rootStore.queryParams.params.category.split(','),
+                },
+              },
+            }),
+          },
+        }),
+        ...(rootStore.queryParams.params.sort && { sort: rootStore.queryParams.params.sort }),
+      };
+
+      productsStore.getProducts(params);
+    }
+  }, [rootStore.queryParams.params]);
+
+  useEffect(() => {
+    if (productsStore.meta === Meta.success) {
+      setProducts(productsStore.allProducts);
+    }
+  }, [productsStore.allProducts, productsStore.meta]);
 
   return (
-    <div className={style.wrapper}>
-      <div className={style.text}>
-        <Text className={style.subtitle}>Total products</Text>
+    <div className={style.products}>
+      <div className={style.products__total}>
+        <Text className={style.products__text}>Total products</Text>
         <Text view="p-20" tag="span" color="accent" weight="bold">
-          {totalProducts}
+          {productsStore.total}
         </Text>
       </div>
-      <div className={style.list}>
-        {products.map((item) => (
-          <CardItem key={item.id} item={item} />
-        ))}
+      <div className={style.products__list}>
+        {productsStore.meta !== Meta.success && (
+          <>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </>
+        )}
+        {productsStore.meta === Meta.success && products.map((item) => <CardItem key={item.id} item={item} />)}
       </div>
     </div>
   );
 };
 
-export default ListProducts;
+export default observer(ListProducts);

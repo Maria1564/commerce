@@ -1,0 +1,6 @@
+@use "styles/variables" as v;
+
+.toggle {
+  color: v.$primary-color;
+  cursor: pointer;
+}
