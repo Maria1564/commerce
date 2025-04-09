@@ -38,11 +38,15 @@ const Info: React.FC = () => {
           <img src={infoProduct?.urlImage} className={style.info__image} />
 
           <div className={style.info__wrapper}>
-            <Text view="title">{infoProduct?.title}</Text>
+            <Text view="title" color="primary">
+              {infoProduct?.title}
+            </Text>
             <Text view="p-20" color="secondary" className={style.info__description}>
               {infoProduct?.description}
             </Text>
-            <Text view="title">${infoProduct?.price}</Text>
+            <Text view="title" color="primary">
+              ${infoProduct?.price}
+            </Text>
             <div className={style.info__actions}>
               <Button>Buy now</Button>
               <Button className={style.info__btn_outline}>Add to Cart</Button>

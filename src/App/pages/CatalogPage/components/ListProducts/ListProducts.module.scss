@@ -4,7 +4,6 @@
 .products {
   width: 100%;
   flex-grow: 1;
-    
 
   &__total {
     @include m.align-items-center;
@@ -16,6 +15,7 @@
     font-weight: 700;
     font-size: 32px;
     line-height: 36px;
+    color: v.$primary-color;
   }
 
   &__list {

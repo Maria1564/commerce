@@ -42,7 +42,11 @@ const RegisterPage: React.FC = () => {
         <Form
           sendFormValues={sendDataUser}
           text="Зарегистрироваться"
-          link={<Link to={Routes.login}>Войти</Link>}
+          link={
+            <Link to={Routes.login} className={style.register__link}>
+              Войти
+            </Link>
+          }
           isRegister
         />
       </div>

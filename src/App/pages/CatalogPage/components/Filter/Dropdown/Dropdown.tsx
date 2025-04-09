@@ -25,7 +25,7 @@ const Dropdown: React.FC = () => {
     <div className={style.dropdown}>
       <div className={style.dropdown__field} onClick={handleClick} ref={refSelect}>
         <div className={style[`dropdown__select-item`]}>{sortStore.selectedNameOption}</div>
-        <ArrowDownIcon />
+        <ArrowDownIcon className={style.dropdown__arrow} />
       </div>
       <ul className={classNames(style.dropdown__menu, { [style.dropdown__menu_open]: openModal })}>
         {sortStore.listOptions.map((item, index) => (

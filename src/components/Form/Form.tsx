@@ -21,8 +21,6 @@ type FormProps = {
 };
 
 const Form: React.FC<FormProps> = ({ sendFormValues, link, text, isRegister = false }) => {
-
-
   const [formData, setFormData] = useState<FormState>({
     ...(isRegister && { username: '' }),
     login: '',
@@ -74,7 +72,7 @@ const Form: React.FC<FormProps> = ({ sendFormValues, link, text, isRegister = fa
         />
       )}
       <Input
-        placeholder="почта(логин)"
+        placeholder="почта (логин)"
         type="email"
         onChange={changeLogin}
         value={formData.login}

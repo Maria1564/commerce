@@ -39,7 +39,15 @@ const LoginPage: React.FC = () => {
         <Text className={style.login__subtitle} view="p-18" color="secondary">
           Добро пожаловать!
         </Text>
-        <Form sendFormValues={sendDataUser} text="Войти" link={<Link to={Routes.register}>Зарегистрироваться</Link>} />
+        <Form
+          sendFormValues={sendDataUser}
+          text="Войти"
+          link={
+            <Link to={Routes.register} className={style.login__link}>
+              Зарегистрироваться
+            </Link>
+          }
+        />
       </div>
     </div>
   );

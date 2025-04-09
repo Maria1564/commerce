@@ -8,18 +8,18 @@ import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 function App() {
   useQueryParamsInit();
   const rootStore = useRootStoreContext();
-  
+
   if (rootStore === null) {
     return;
   }
 
   return (
-    <>
+    <div>
       {rootStore.auth.isAuth && <Navbar />}
       <div className="container">
         <Outlet />
       </div>
-    </>
+    </div>
   );
 }
 

@@ -5,6 +5,7 @@
   position: relative;
 
   &__field {
+    color: v.$primary-color;
     padding: v.$space-m 44px v.$space-m v.$space-xs;
     width: 100%;
     background-color: v.$white;

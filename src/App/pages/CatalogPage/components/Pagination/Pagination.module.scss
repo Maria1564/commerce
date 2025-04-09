@@ -5,6 +5,7 @@
   @include m.align-items-center;
   gap: 15px;
 
+  color: v.$primary-color;
   &__arrow {
     &-left {
       transform: rotate(180deg);

@@ -4,7 +4,9 @@
   width: 360px;
   background: v.$white;
   overflow: hidden;
-  transition: box-shadow 0.5s;
+  transition:
+    box-shadow 0.5s,
+    transform 0.4s;
 
   &__content {
     background: v.$white;
@@ -43,5 +45,10 @@
 
   &:hover {
     box-shadow: 0 4px 10px 0 #00000040;
+    transform: scale(1.02);
+  }
+
+  &__content-slot {
+    color: v.$primary-color;
   }
 }

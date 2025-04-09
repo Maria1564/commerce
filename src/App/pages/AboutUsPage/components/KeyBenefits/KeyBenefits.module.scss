@@ -9,6 +9,7 @@
   &__item {
     font-size: 20px;
     position: relative;
+    color: v.$primary-color;
 
     &:not(:last-child) {
       margin-bottom: 20px;

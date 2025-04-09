@@ -16,6 +16,7 @@
 
   &__select-item {
     user-select: none;
+    color: v.$primary-color;
   }
 
   &__menu {
@@ -30,5 +31,9 @@
     &_open {
       display: block;
     }
+  }
+
+  &__arrow {
+    color: v.$primary-color;
   }
 }

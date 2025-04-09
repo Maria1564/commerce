@@ -73,7 +73,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
       <Input
         value={inpValue}
         onChange={handlerChange}
-        afterSlot={<ArrowDownIcon />}
+        afterSlot={<ArrowDownIcon className={style[`multydropdown__arrow-down`]} />}
         onClick={handlerClickInput}
         placeholder={placeholder || 'Text'}
         disabled={disabled}

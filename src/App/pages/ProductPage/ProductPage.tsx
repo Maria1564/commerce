@@ -12,7 +12,9 @@ const ProductPage: React.FC = () => {
     <div className={style.product}>
       <Link to={Routes.catalog} replace className={style[`product__link-back`]}>
         <ArrowLeftIcon className={style.product__icon} />
-        <Text view="p-20">back</Text>
+        <Text view="p-20" color="primary">
+          back
+        </Text>
       </Link>
       <Info />
       <RelatedProducts />

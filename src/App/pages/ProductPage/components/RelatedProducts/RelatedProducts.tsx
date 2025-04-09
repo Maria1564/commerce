@@ -35,7 +35,9 @@ const RelatedProducts: React.FC = () => {
 
   return (
     <div className={style[`related-products`]}>
-      <Text view="title">Related Items</Text>
+      <Text view="title" color="primary">
+        Related Items
+      </Text>
       <div className={style[`related-products__list`]}>
         {productsStore.meta !== Meta.success && (
           <>
