@@ -1,20 +1,19 @@
 @use "styles/variables" as v;
+@use 'styles/mixins' as m;
+
 .loader {
   color: v.$brand;
   animation: spin 1s linear infinite;
 
   &__size {
     &_s {
-      width: 24px;
-      height: 24px;
+      @include m.square(v.$space-xl);
     }
     &_m {
-      width: 48px;
-      height: 48px;
+      @include m.square(v.$space-48);
     }
     &_l {
-      width: 60px;
-      height: 60px;
+      @include m.square(v.$space-60);
     }
   }
 }

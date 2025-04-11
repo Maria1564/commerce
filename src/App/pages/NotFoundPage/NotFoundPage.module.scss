@@ -8,7 +8,7 @@
   text-align: center;
 
   &__text {
-    margin: 20px 10px;
+    margin: v.$space-l 10px;
 
     &_bold {
       color: v.$brand;

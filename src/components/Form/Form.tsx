@@ -1,93 +1,79 @@
-import React, { useCallback, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useEffect } from 'react';
 import Button from 'components/Button';
 import Input from 'components/Input';
 import Text from 'components/Text';
+import { FormFields, FormStore } from 'store/FormStore/FormStore';
+import { useLocalStore } from 'utils/hooks/useLocalStore';
 import style from './Form.module.scss';
 
-type FormState = {
-  username?: string;
-  login: string;
-  password: string;
-  errorMessage: string;
-};
-
-export type FormData = Omit<FormState, 'errorMessage'>;
-
 type FormProps = {
-  sendFormValues: (data: FormData) => void;
+  sendFormValues: (data: FormFields) => void;
   link?: React.ReactNode;
   text: string;
   isRegister?: boolean;
 };
 
 const Form: React.FC<FormProps> = ({ sendFormValues, link, text, isRegister = false }) => {
-  const [formData, setFormData] = useState<FormState>({
-    ...(isRegister && { username: '' }),
-    login: '',
-    password: '',
-    errorMessage: '',
-  });
+  const formStore = useLocalStore(() => new FormStore());
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (formData.login.trim() === '' || formData.password.trim() === '') {
-      setFormData((prev) => ({
-        ...prev,
-        errorMessage: 'Некорректно введён логин/пароль',
-      }));
-    } else {
-      const { errorMessage: _, ...otherData } = formData;
-      sendFormValues(otherData);
-      setFormData({
-        username: '',
-        login: '',
-        password: '',
-        errorMessage: '',
-      });
-    }
+    formStore.validate(sendFormValues);
   };
 
-  const changeLogin = useCallback((value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      login: value,
-    }));
-  }, []);
+  const changeUsername = useCallback(
+    (value: string) => {
+      formStore.setUsername(value);
+    },
+    [formStore],
+  );
 
-  const changePassword = useCallback((value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      password: value,
-    }));
-  }, []);
+  const changeEmail = useCallback(
+    (value: string) => {
+      formStore.setEmail(value);
+    },
+    [formStore],
+  );
+
+  const changePassword = useCallback(
+    (value: string) => {
+      formStore.setPassword(value);
+    },
+    [formStore],
+  );
+
+  useEffect(() => {
+    formStore.setRegisterMode(isRegister)
+  }, [formStore, isRegister])
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>
-      {isRegister && (
+      {formStore.isRegister && (
         <Input
           placeholder="имя пользователя"
-          onChange={(value) => setFormData((prev) => ({ ...prev, username: value }))}
-          value={formData.username!}
+          onChange={changeUsername}
+          value={formStore.username!}
           className={style.form__input}
         />
       )}
       <Input
         placeholder="почта (логин)"
         type="email"
-        onChange={changeLogin}
-        value={formData.login}
+        onChange={changeEmail}
+        value={formStore.email}
         className={style.form__input}
       />
       <Input
         placeholder="пароль"
         type="password"
         onChange={changePassword}
-        value={formData.password}
+        value={formStore.password}
         className={style.form__input}
       />
-      {formData.errorMessage && (
+      {formStore.errorMessage && (
         <Text className={style.form__error} view="p-14" tag="span" weight="medium">
-          {formData.errorMessage}
+          {formStore.errorMessage}
         </Text>
       )}
       <Button>{text}</Button>
@@ -96,4 +82,4 @@ const Form: React.FC<FormProps> = ({ sendFormValues, link, text, isRegister = fa
   );
 };
 
-export default React.memo(Form);
+export default observer(Form);

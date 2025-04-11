@@ -2,10 +2,9 @@ import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useRef } from 'react';
 import ArrowDownIcon from 'components/icons/ArrowDownIcon';
+import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
-import { SortOptionsStore } from 'store/SortOptionsStore/SortOptionsStore';
 import { useClickOutside } from 'utils/hooks/useClickOutside';
-import { useLocalStore } from 'utils/hooks/useLocalStore';
 import OptionItem from './OptionItem';
 import style from './Dropdown.module.scss';
 
@@ -13,7 +12,7 @@ const Dropdown: React.FC = () => {
   const refSelect = useRef<null | HTMLDivElement>(null);
   const { openModal, setOpenModal } = useClickOutside(refSelect);
   const rootStore = useRootStoreContext();
-  const sortStore = useLocalStore(() => new SortOptionsStore());
+  const { sortStore } = useCatalogPageContext();
 
   useEffect(() => {
     sortStore.updateSelectedNameOption(rootStore.queryParams.params.sort);

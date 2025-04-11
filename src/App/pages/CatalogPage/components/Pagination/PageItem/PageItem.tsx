@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
-import { PaginationStore } from 'store/PaginationStore/PaginationStore';
+import { PaginationStore } from 'store/CatalogPageStore/PaginationStore/PaginationStore';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { useLocalStore } from 'utils/hooks/useLocalStore';
 import style from './PageItem.module.scss';

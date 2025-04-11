@@ -2,7 +2,7 @@
 @use "styles/variables" as v;
 
 .product {
-  padding: 60px 0 146px;
+  padding: v.$space-60 0 146px;
 
   &__link-back {
     @include m.align-items-center;

@@ -1,4 +1,5 @@
-import { action, computed, makeObservable, observable, runInAction } from 'mobx';
+import { action, computed, makeObservable, observable, runInAction, toJS } from 'mobx';
+import { FormFields } from 'store/FormStore/FormStore';
 import { normalizeUserApi, UserApi, UserModel } from 'store/models/auth/user';
 import { apiClient } from 'utils/axiosConfig';
 import { Meta } from 'utils/meta';
@@ -54,14 +55,14 @@ export class AuthStore {
     }
   };
 
-  login(login: string, password: string): void {
+  login(email: string, password: string): void {
     this._meta = Meta.loading;
     this._user = null;
     this._isAuth = false;
     localStorage.removeItem('auth');
-
+    
     apiClient
-      .post<{ user: UserApi }>(`/auth/local`, { identifier: login, password })
+      .post<{ user: UserApi }>(`/auth/local`, { identifier: email, password })
       .then(({ data }) => {
         runInAction(() => {
           this._user = normalizeUserApi(data.user);
@@ -78,16 +79,16 @@ export class AuthStore {
       );
   }
 
-  register(dataForm: { login: string; password: string; username?: string }): void {
+  register(dataForm: FormFields): void {
     this._meta = Meta.loading;
     this._user = null;
     this._isAuth = false;
-    localStorage.removeItem('auth');
+    // localStorage.removeItem('auth');
 
     apiClient
       .post<{ user: UserApi }>(`/auth/local/register`, {
         username: dataForm.username,
-        email: dataForm.login,
+        email: dataForm.email,
         password: dataForm.password,
       })
       .then(() => {
@@ -100,5 +101,7 @@ export class AuthStore {
           this._meta = Meta.error;
         });
       });
+      console.log(toJS(this._isAuth))
   }
+
 }

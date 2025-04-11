@@ -1,9 +1,11 @@
+@use "styles/variables" as v;
+
 .info {
   display: flex;
-  gap: 60px;
+  gap: v.$space-60;
 
   &__text {
-    margin-bottom: 20px;
+    margin-bottom: v.$space-l;
   }
 
   &__name-company {

@@ -5,24 +5,27 @@ import {
   FilterCategoryModel,
   normalizeFilterCategoryApi,
 } from 'store/models/category/filterCategory';
-import { ParamsType } from 'types/typeParams';
+import { RequestParams } from 'types/typeParams';
 import { apiClient } from 'utils/axiosConfig';
 import { ILocalStore } from 'utils/hooks/useLocalStore';
 import { Meta } from 'utils/meta';
 
-type PrivateFields = '_categories' | '_meta';
+type PrivateFields = '_categories' | '_meta' | '_selectedCategories';
 
 export class CategoryFilterStore implements ILocalStore {
   private _categories: FilterCategoryModel[] = [];
   private _meta: string = Meta.initial;
+  private _selectedCategories: FilterCategoryModel[] = []
 
   constructor() {
     makeObservable<CategoryFilterStore, PrivateFields>(this, {
       _categories: observable.ref,
       _meta: observable,
+      _selectedCategories: observable.ref,
       meta: computed,
       categories: computed,
       getCategories: action,
+      addSelectedCategories: action,
     });
   }
 
@@ -34,7 +37,11 @@ export class CategoryFilterStore implements ILocalStore {
     return this._categories;
   }
 
-  getCategories(params: ParamsType): void {
+  get selectedCategories(): FilterCategoryModel[] {
+    return this._selectedCategories
+  }
+
+  getCategories(params: RequestParams): void {
     this._meta = Meta.loading;
     this._categories = [];
 
@@ -51,6 +58,10 @@ export class CategoryFilterStore implements ILocalStore {
           this._meta = Meta.error;
         });
       });
+  }
+
+  addSelectedCategories(categories:FilterCategoryModel[] ): void {
+    this._selectedCategories = categories
   }
 
   destroy(): void {}

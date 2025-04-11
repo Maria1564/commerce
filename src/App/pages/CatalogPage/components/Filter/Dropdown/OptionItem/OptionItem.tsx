@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
-import { Option } from 'store/SortOptionsStore/SortOptionsStore';
+import { Option } from 'store/CatalogPageStore/SortOptionsStore/SortOptionsStore';
 import style from './OptionItem.module.scss';
 
 type OptionItemProps = {

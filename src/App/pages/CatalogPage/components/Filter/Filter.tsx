@@ -1,48 +1,47 @@
 import { observer } from 'mobx-react-lite';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import MultiDropdown, { Option } from 'components/MultiDropdown';
-import { CategoryFilterStore } from 'store/CategoryFilterStore/CategoryFilterStore';
+import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
-import { useLocalStore } from 'utils/hooks/useLocalStore';
+import { RequestParams } from 'types/typeParams';
 import { Meta } from 'utils/meta';
 import Dropdown from './Dropdown';
 import Search from './Search';
 import style from './Filter.module.scss';
 
 const Filter: React.FC = () => {
-  const [selectCategories, setSelectCategories] = useState<Option[]>([]);
-  const [categories, setCategories] = useState<Option[]>([]);
-  const categoriesStore = useLocalStore(() => new CategoryFilterStore());
   const rootStore = useRootStoreContext();
+  const {categoriesStore} = useCatalogPageContext()
 
   useEffect(() => {
-    const queryParams = {
+    const queryParams: RequestParams = {
       fields: ['id', 'title'],
     };
 
     categoriesStore.getCategories(queryParams);
-  }, [rootStore.queryParams.params]);
+  }, [categoriesStore, rootStore.queryParams.params]);
 
   useEffect(() => {
     if (categoriesStore.meta === Meta.success) {
-      setCategories(categoriesStore.categories as Option[]);
-
       const newCategories = categoriesStore.categories.filter(
         (item) =>
           rootStore.queryParams.params.category &&
           rootStore.queryParams.params.category.split(',').includes(item.value),
       );
-
-      setSelectCategories(newCategories);
+      categoriesStore.addSelectedCategories(newCategories);
     }
-  }, [categoriesStore.meta]);
+  }, [categoriesStore, categoriesStore.meta, rootStore.queryParams.params.category]);
 
-  const handlerChange = useCallback((value: Option[]) => {
-    let strCategory = value.map((item) => item.value).join(',');
-    setSelectCategories([...value]);
-    rootStore.queryParams.updateParam('category', strCategory);
-    rootStore.queryParams.updateParam('page', '1');
-  }, []);
+  const handlerChange = useCallback(
+    (value: Option[]) => {
+      let strCategory = value.map((item) => item.value).join(',');
+      categoriesStore.addSelectedCategories([...value]);
+
+      rootStore.queryParams.updateParam('category', strCategory);
+      rootStore.queryParams.updateParam('page', '1');
+    },
+    [categoriesStore, rootStore.queryParams],
+  );
 
   const getTitle = useCallback((value: Option[]) => {
     const valuesStr = value.map((item) => item.value);
@@ -54,8 +53,8 @@ const Filter: React.FC = () => {
       <Search />
       <div className={style.filter__fields}>
         <MultiDropdown
-          options={categories}
-          value={selectCategories}
+          options={categoriesStore.categories}
+          value={categoriesStore.selectedCategories}
           onChange={handlerChange}
           getTitle={getTitle}
           className={style.filter__dropdown}

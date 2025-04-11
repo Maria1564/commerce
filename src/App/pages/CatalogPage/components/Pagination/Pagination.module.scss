@@ -14,7 +14,7 @@
 
   &__pages {
     @include m.align-items-center;
-    font-size: 18px;
+    font-size: v.$p-18;
     font-weight: 500;
   }
 }

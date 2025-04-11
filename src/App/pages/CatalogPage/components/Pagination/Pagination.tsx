@@ -1,60 +1,30 @@
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect } from 'react';
 import ArrowRightIcon from 'components/icons/ArrowRightIcon';
-import { PaginationStore } from 'store/PaginationStore/PaginationStore';
+import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
-import { useLocalStore } from 'utils/hooks/useLocalStore';
 import PageItem from './PageItem';
 import style from './Pagination.module.scss';
 
 const Pagination: React.FC = () => {
-  const paginationStore = useLocalStore(() => new PaginationStore());
+  const { paginationStore } = useCatalogPageContext();
   const rootStore = useRootStoreContext();
 
   useEffect(() => {
     if (rootStore.queryParams.params.page) {
-      const newParams = {
-        pagination: {
-          page: Number(rootStore.queryParams.params.page),
-          pageSize: 9,
-        },
-        ...((rootStore.queryParams.params.search || rootStore.queryParams.params.category) && {
-          filters: {
-            ...(rootStore.queryParams.params.search && {
-              title: {
-                $containsi: rootStore.queryParams.params.search,
-              },
-            }),
-
-            ...(rootStore.queryParams.params.category && {
-              productCategory: {
-                title: {
-                  $containsi: rootStore.queryParams.params.category.split(','),
-                },
-              },
-            }),
-          },
-        }),
-      };
-
-      paginationStore.getInfoPage(newParams);
+      paginationStore.getInfoPage(rootStore.queryParams.params);
     }
-  }, [
-    rootStore.queryParams.params.search,
-    rootStore.queryParams.params.category,
-    rootStore.queryParams.params.page,
-    paginationStore,
-  ]);
+  }, [paginationStore, rootStore.queryParams.params]);
 
   const handleNextPage = useCallback(() => {
     paginationStore.goToNextPage();
     rootStore.queryParams.updateParam('page', String(paginationStore.currentPage));
-  }, [paginationStore]);
+  }, [paginationStore, rootStore.queryParams]);
 
   const handlePrevPage = useCallback(() => {
     paginationStore.goToPrevPage();
     rootStore.queryParams.updateParam('page', String(paginationStore.currentPage));
-  }, [paginationStore]);
+  }, [paginationStore, rootStore.queryParams]);
 
   return (
     <div className={style.pagination}>

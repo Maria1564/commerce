@@ -8,7 +8,7 @@
   &__field {
     @include m.align-items-center;
     justify-content: space-around;
-    gap: 24px;
+    gap: v.$space-xl;
     background-color: v.$white;
     padding: v.$space-s v.$space-xs;
     cursor: pointer;
@@ -22,7 +22,7 @@
   &__menu {
     padding: v.$space-xxs;
     background-color: v.$white;
-    margin-top: 12px;
+    margin-top: v.$space-xs;
     list-style: none;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2509803922);
     display: none;

@@ -13,7 +13,7 @@
 
   &__menu {
     @include m.align-items-center;
-    gap: 48px;
+    gap: v.$space-48;
   }
 
   &__link {

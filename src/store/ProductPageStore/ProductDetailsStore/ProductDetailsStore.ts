@@ -1,7 +1,7 @@
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import qs from 'qs';
 import { normalizeProductApi, ProductApi, ProductModel } from 'store/models/product/product';
-import { ParamsType } from 'types/typeParams';
+import { RequestParams } from 'types/typeParams';
 import { apiClient } from 'utils/axiosConfig';
 import { ILocalStore } from 'utils/hooks/useLocalStore';
 import { Meta } from 'utils/meta';
@@ -30,7 +30,7 @@ export class ProductDetailsStore implements ILocalStore {
     return this._meta;
   }
 
-  getSelectedProduct(id: string, params: ParamsType): void {
+  getSelectedProduct(id: string, params: RequestParams): void {
     this._meta = Meta.loading;
     this._product = null;
 

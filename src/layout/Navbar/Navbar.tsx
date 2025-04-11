@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import React from 'react';
+import Container from 'components/Container';
 import Text from 'components/Text';
 import BagIcon from 'components/icons/BagIcon';
 import UserIcon from 'components/icons/UserIcon';
@@ -12,7 +12,7 @@ import style from './Navbar.module.scss';
 const Navbar: React.FC = () => {
   return (
     <div className={style.navbar}>
-      <div className={classNames('container', style.navbar__container)}>
+      <Container className={style.navbar__container}>
         <Header />
         <div className={style.navbar__menu}>
           {links.map((link) => (
@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
           <UserIcon className={style.navbar__icon} />
           <ToggleTheme />
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

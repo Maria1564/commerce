@@ -10,7 +10,6 @@ type LinkProps = {
 const Link: React.FC<LinkProps> = ({ to, children, isActive }) => {
   return (
     <NavLink to={to} className={isActive}>
-      {" "}
       {children}
     </NavLink>
   );

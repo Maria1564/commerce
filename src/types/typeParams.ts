@@ -1,21 +1,19 @@
-type PaginationParams = {
-  pageSize: number;
-  page: number;
-};
-
-type FilterOperator = {
-  [key: string]: string | string[] | number | boolean;
-};
-
-type Filters = {
-  [field: string]: FilterOperator | Filters;
-};
-
-export type ParamsType = {
-  fields?: string[]
-  populate?: string[] | string;
-  pagination?: PaginationParams;
+export type RequestParams = {
+  populate?: string |  string[];
+  pagination?: {
+    pageSize: number;
+    page: number;
+  };
+  filters?: {
+    title?: {
+      $containsi: string;
+    };
+    productCategory?: {
+      title: {
+        $containsi: string[];
+      };
+    };
+  };
   sort?: string;
-  filters?: Filters;
-  [key: string]: unknown;
+  fields?: string[];
 };

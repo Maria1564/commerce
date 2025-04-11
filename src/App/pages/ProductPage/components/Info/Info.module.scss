@@ -2,24 +2,23 @@
 @use "styles/mixins" as m;
 
 .info {
-  margin: 32px 0 48px;
+  margin: 32px 0 v.$space-48;
   display: flex;
   justify-content: space-between;
-  gap: 48px;
+  gap: v.$space-48;
 
   &__image {
-    width: 600px;
-    height: 600px;
+    @include m.square(600px);
   }
 
   &__description {
-    margin: 24px 0 80px;
+    margin: v.$space-xl 0 80px;
   }
 
   &__actions {
     @include m.align-items-center;
-    gap: 48px;
-    margin-top: 48px;
+    gap: v.$space-48;
+    margin-top: v.$space-48;
   }
 
   &__btn {

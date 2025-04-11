@@ -1,6 +1,6 @@
 import { action, computed, IReactionDisposer, makeObservable, observable, reaction, runInAction } from 'mobx';
 import qs from 'qs';
-import { ParamsType } from 'types/typeParams';
+import { RequestParams } from 'types/typeParams';
 import { apiClient } from 'utils/axiosConfig';
 import { ILocalStore } from 'utils/hooks/useLocalStore';
 
@@ -10,6 +10,8 @@ export class PaginationStore implements ILocalStore {
   private _pages: number[] = [];
   private _totalPages: number = 0;
   private _currentPage: number = 0;
+  private _requestPrams: RequestParams = {};
+  private _reaction: IReactionDisposer | null = null;
 
   constructor() {
     makeObservable<PaginationStore, PrivateField>(this, {
@@ -25,6 +27,8 @@ export class PaginationStore implements ILocalStore {
       goToNextPage: action,
       goToPrevPage: action,
     });
+
+    this._initReaction();
   }
 
   get pages(): number[] {
@@ -37,6 +41,32 @@ export class PaginationStore implements ILocalStore {
 
   get totalPages(): number {
     return this._totalPages;
+  }
+
+  private _createRequestParams(params: { [key: string]: string }): void {
+    this._requestPrams = {
+      pagination: {
+        page: Number(params.page),
+        pageSize: 9,
+      },
+      ...((params.search || params.category) && {
+        filters: {
+          ...(params.search && {
+            title: {
+              $containsi: params.search,
+            },
+          }),
+
+          ...(params.category && {
+            productCategory: {
+              title: {
+                $containsi: params.category.split(','),
+              },
+            },
+          }),
+        },
+      }),
+    };
   }
 
   private _createPagination(): void {
@@ -64,9 +94,12 @@ export class PaginationStore implements ILocalStore {
     }
   }
 
-  getInfoPage(params: ParamsType): void {
+  getInfoPage(params: { [key: string]: string }): void {
+    this._createRequestParams(params);
     apiClient
-      .get<{ meta: { pagination: { page: number; pageCount: number } } }>(`/products?${qs.stringify(params)}`)
+      .get<{
+        meta: { pagination: { page: number; pageCount: number } };
+      }>(`/products?${qs.stringify(this._requestPrams)}`)
       .then(({ data }) => {
         runInAction(() => {
           this._currentPage = data.meta.pagination.page;
@@ -88,13 +121,17 @@ export class PaginationStore implements ILocalStore {
   }
 
   destroy(): void {
-    this._reaction();
+    if (this._reaction) {
+      this._reaction();
+    }
   }
 
-  private readonly _reaction: IReactionDisposer = reaction(
-    () => [this._currentPage, this._totalPages],
-    () => {
-      this._createPagination();
-    },
-  );
+  private _initReaction() {
+    this._reaction = reaction(
+      () => [this._currentPage, this._totalPages],
+      () => {
+        this._createPagination();
+      },
+    );
+  }
 }

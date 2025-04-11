@@ -1,21 +1,23 @@
-import React from "react";
-import { benefits } from "./data";
-import style from "./KeyBenefits.module.scss";
+import React from 'react';
+import { firstList, secondList } from './data';
+import style from './KeyBenefits.module.scss';
 
 const KeyBenefits: React.FC = () => {
   return (
     <div className={style.benefits}>
       <ul>
-        {benefits.map(
-          (item, index) =>
-            index < 2 && <li key={index} className={style.benefits__item}>{item}</li>
-        )}
+        {firstList.map((item, index) => (
+          <li key={index} className={style.benefits__item}>
+            {item}
+          </li>
+        ))}
       </ul>
       <ul>
-        {benefits.map(
-          (item, index) =>
-            index >= 2 && <li key={index} className={style.benefits__item}>{item}</li>
-        )}
+        {secondList.map((item, index) => (
+          <li key={index} className={style.benefits__item}>
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );

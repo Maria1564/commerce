@@ -1,4 +1,6 @@
+@use "styles/variables" as v;
+
 .about {
-margin: 60px 0; 
+    margin: v.$space-60 0; 
 }
 

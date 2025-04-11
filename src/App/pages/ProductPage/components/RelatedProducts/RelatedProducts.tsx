@@ -1,37 +1,20 @@
-import { observer, useLocalStore } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import SkeletonCard from 'components/Card/Skeleton';
 import Text from 'components/Text';
-import { ProductListStore } from 'store/ProductsListStore/ProductsListStore';
-import { ProductModel } from 'store/models/product/product';
+import { useProductPageContext } from 'store/ProductPageStore/ProductsPageProvider';
 import { Meta } from 'utils/meta';
 import CardItem from './CardItem';
 import style from './RelatedProducts.module.scss';
 
 const RelatedProducts: React.FC = () => {
-  const [products, setProducts] = useState<ProductModel[]>([]);
-  const productsStore = useLocalStore(() => new ProductListStore());
-
+  const { productsStore } = useProductPageContext();
   const { id } = useParams();
 
   useEffect(() => {
-    const params = {
-      populate: ['images', 'productCategory'],
-      pagination: {
-        pageSize: 3,
-        page: Math.floor(Math.random() * 4) + 1,
-      },
-    };
-
-    productsStore.getProducts(params);
+    productsStore.getProducts({ page: String(Math.floor(Math.random() * 4) + 1) }, 3);
   }, [id]);
-
-  useEffect(() => {
-    if (productsStore.meta === Meta.success) {
-      setProducts(productsStore.relatedProducts);
-    }
-  }, [productsStore.meta]);
 
   return (
     <div className={style[`related-products`]}>
@@ -46,7 +29,8 @@ const RelatedProducts: React.FC = () => {
             <SkeletonCard />
           </>
         )}
-        {productsStore.meta === Meta.success && products.map((item) => <CardItem key={item.id} item={item} />)}
+        {productsStore.meta === Meta.success &&
+          productsStore.allProducts.map((item) => <CardItem key={item.id} item={item} />)}
       </div>
     </div>
   );

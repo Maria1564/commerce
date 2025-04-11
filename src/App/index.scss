@@ -12,14 +12,11 @@
 body {
   font-family: "Roboto";
   font-weight: 400;
-  height: 100vh;
+  min-height: 100vh;
   background-color: v.$background;
 }
 
-.container {
-  width: 1240px;
-  margin: 0 auto;
-}
+
 
 a {
   text-decoration: none;

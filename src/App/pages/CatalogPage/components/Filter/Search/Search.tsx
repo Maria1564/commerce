@@ -1,34 +1,36 @@
-import React, { useCallback, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useCallback } from 'react';
 import Button from 'components/Button';
 import Input from 'components/Input';
+import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import style from './Search.module.scss';
 
 const Search: React.FC = () => {
-  const [valueInp, setValueInp] = useState<string>('');
   const rootStore = useRootStoreContext();
+  const { searchStore } = useCatalogPageContext();
 
   const handlerChangeValue = useCallback(
     (value: string) => {
-      setValueInp(value);
+      searchStore.setValue(value);
     },
-    [setValueInp],
+    [searchStore],
   );
 
   const findProducts = useCallback(() => {
-    rootStore.queryParams.updateParam('search', valueInp);
+    rootStore.queryParams.updateParam('search', searchStore.valueSearch.trim());
 
-    if (valueInp.trim() !== '') {
+    if (searchStore.valueSearch.trim() !== '') {
       rootStore.queryParams.updateParam('page', '1');
     }
-    setValueInp('');
-  }, [valueInp, setValueInp]);
+    searchStore.clear();
+  }, [rootStore.queryParams, searchStore]);
 
   return (
     <div className={style.search}>
       <Input
         placeholder="Search product"
-        value={valueInp}
+        value={searchStore.valueSearch}
         onChange={handlerChangeValue}
         className={style.search__input}
       />
@@ -37,4 +39,4 @@ const Search: React.FC = () => {
   );
 };
 
-export default Search;
+export default observer(Search);

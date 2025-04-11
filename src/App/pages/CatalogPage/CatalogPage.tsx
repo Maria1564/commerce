@@ -13,12 +13,8 @@ const CatalogPage: React.FC = () => {
   const rootStore = useRootStoreContext();
 
   useEffect(() => {
-    const newParams = new URLSearchParams();
-    for (let key in rootStore.queryParams.params) {
-      newParams.set(key, rootStore.queryParams.params[key]);
-    }
-    setSearchParams(newParams);
-  }, [rootStore.queryParams.params]);
+    rootStore.queryParams.syncWithURL(setSearchParams)
+  }, [rootStore.queryParams, rootStore.queryParams.params, setSearchParams]);
 
   return (
     <div className={style.catalog}>
