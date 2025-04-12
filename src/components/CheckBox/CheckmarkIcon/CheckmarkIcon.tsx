@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon, { IconProps } from 'components/icons/Icon';
+import {Icon, IconProps } from 'components/icons/Icon';
 
 const CheckmarkIcon: React.FC<IconProps> = (props) => {
   return (

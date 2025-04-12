@@ -68,7 +68,11 @@ export class SortOptionsStore implements ILocalStore {
     })?.text!;
   };
 
-  destroy() {}
+  destroy() {
+    if(this._reaction) {
+      this._reaction()
+    }
+  }
 
   private _initReaction(): void {
     this._reaction = reaction(
