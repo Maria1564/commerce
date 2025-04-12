@@ -1,0 +1,54 @@
+@use "styles/variables" as v;
+
+.card {
+  width: 360px;
+  background: v.$white;
+  overflow: hidden;
+  transition:
+    box-shadow 0.5s,
+    transform 0.4s;
+
+  &__content {
+    background: v.$white;
+    padding: v.$space-48 v.$space-xs v.$space-48 v.$space-xs;
+    width: 360px;
+  }
+
+  &__about {
+    cursor: pointer;
+  }
+
+  &__image {
+    object-fit: cover;
+  }
+
+  &__capt-slot,
+  &__title,
+  &__subtitle {
+    text-align: start;
+  }
+
+  &__subtitle {
+    height: 40px;
+  }
+
+  &__title {
+    margin: v.$space-xxs 0;
+  }
+
+  &__other-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 10px 0 #00000040;
+    transform: scale(1.02);
+  }
+
+  &__content-slot {
+    color: v.$primary-color;
+  }
+}

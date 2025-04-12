@@ -1,0 +1,52 @@
+:root {
+  --brand: #518581;
+  --brand-hover: #86aaa7;
+  --brand-active: #487773;
+  --button-primary-bg-disabled: #d9d9d9;
+  --primary-color: #000000;
+  --secondary-color: #afadb5;
+  --white: #fff;
+  --background: #fafafa;
+  --border-color: #f3f3f3;
+  --background-input: #ebebeb87;
+}
+
+[data-theme="dark"] {
+  --primary-color: #ffffff;
+  --secondary-color: #8a8a8a;
+  --white: #1f222a;
+  --background: #181a20;
+  --border-color: #23262e;
+  --background-input: #16131387;
+}
+
+$brand: var(--brand);
+$brand-hover: var(--brand-hover);
+$brand-active: var(--brand-active);
+$button-primary-bg-disabled: var(--button-primary-bg-disabled);
+$primary-color: var(--primary-color);
+$secondary-color: var(--secondary-color);
+$white: var(--white);
+$background: var(--background);
+$background-input: var(--background-input);
+$border-color: var(--border-color);
+
+$p-20: 20px;
+$p-18: 18px;
+$p-16: 16px;
+$p-14: 14px;
+$p-12: 12px;
+$p-8: 8px;
+
+$space-60: 60px;
+$space-48: 48px;
+$space-xl: 24px;
+$space-l: 20px;
+$space-m: 16px;
+$space-s: 14px;
+$space-xs: 12px;
+$space-xxs: 8px;
+
+$checkbox-border: #ffffff80;
+$checkbox-hove-border: #ffffff00;
+$checkbox-color-disabled: #00000033;

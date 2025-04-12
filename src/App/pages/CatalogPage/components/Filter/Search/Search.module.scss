@@ -2,11 +2,11 @@
 @use "styles/variables" as v;
 
 .search {
-    width: 100%;
-    @include m.align-items-center;
-    gap: v.$space-xl;
+  width: 100%;
+  @include m.align-items-center;
+  gap: v.$space-xl;
 
-    &> input {
-        flex-grow: 1;
-    }
+  &__input {
+    flex-grow: 1;
+  }
 }

@@ -1,14 +1,14 @@
+@use "styles/variables" as v;
+
 .info {
-    display: flex;
-    gap: 60px;
-}
+  display: flex;
+  gap: v.$space-60;
 
-.name {
+  &__text {
+    margin-bottom: v.$space-l;
+  }
+
+  &__name-company {
     display: inline;
-}
-
-.text {
-    & p {
-        margin-bottom: 20px;
-    }
+  }
 }

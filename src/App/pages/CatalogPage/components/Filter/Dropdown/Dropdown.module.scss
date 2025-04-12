@@ -2,49 +2,38 @@
 @use "styles/variables" as v;
 
 .dropdown {
-    width: 220px;
-}
+  width: 220px;
+  position: relative;
 
-.select {
+  &__field {
     @include m.align-items-center;
     justify-content: space-around;
-    gap: 24px;
+    gap: v.$space-xl;
     background-color: v.$white;
     padding: v.$space-s v.$space-xs;
     cursor: pointer;
+  }
 
-    &_item {
-        user-select: none; 
-    }
-}
+  &__select-item {
+    user-select: none;
+    color: v.$primary-color;
+  }
 
-.menu {
+  &__menu {
     padding: v.$space-xxs;
     background-color: v.$white;
-    margin-top: 12px;
+    margin-top: v.$space-xs;
     list-style: none;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2509803922);
     display: none;
+    position: absolute;
 
     &_open {
-        display: block;
+      display: block;
     }
+  }
 
-    &_item {
-        padding: 5px 3px;
-        border-radius: 4px;
-        cursor: pointer;
-
-        &:hover {
-            color: v.$secondary-color;
-        }
-
-        &:not(:last-child) {
-            margin-bottom: v.$space-xs;
-        }
-    }
-}
-
-.active {
-    color: v.$brand;
+  &__arrow {
+    color: v.$primary-color;
+  }
 }

@@ -10,33 +10,43 @@ import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 export default [
   eslint.configs.recommended,
   {
-    files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
         ecmaFeatures: { jsx: true },
         ecmaVersion: 'latest',
-        sourceType: 'module'
+        sourceType: 'module',
       },
       globals: {
-      
         document: 'readonly',
         window: 'readonly',
-      
+
         browser: true,
-        es6: true
-      }
+        es6: true,
+      },
     },
     plugins: {
       '@typescript-eslint': eslintPluginTypescript,
       import: eslintPluginImport,
       react: eslintPluginReact,
       'react-hooks': eslintPluginReactHooks,
-      prettier: eslintPluginPrettier
+      prettier: eslintPluginPrettier,
     },
     rules: {
+      'react-hooks/exhaustive-deps': ['warn'],
       'no-console': 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
       'no-undef': 'off',
+      'react/jsx-uses-vars': 'error',
+      'react/jsx-uses-react': 'error',
       'import/order': [
         'error',
         {
@@ -46,24 +56,24 @@ export default [
             {
               pattern: './**/*.scss',
               group: 'sibling',
-              position: 'after'
-            }
-          ]
-        }
-      ]
+              position: 'after',
+            },
+          ],
+        },
+      ],
     },
     settings: {
       'import/parsers': {
-        '@typescript-eslint/parser': ['.ts', '.tsx', '.scss', '.svg', '.png', '.jpg']
+        '@typescript-eslint/parser': ['.ts', '.tsx', '.scss', '.svg', '.png', '.jpg'],
       },
       'import/resolver': {
         typescript: {
-          project: path.resolve('./tsconfig.app.json')
-        }
+          project: path.resolve('./tsconfig.app.json'),
+        },
       },
       'import/external-module-folders': ['node_modules', 'node_modules/@types'],
-      react: { version: 'detect' }
-    }
+      react: { version: 'detect' },
+    },
   },
-  { ignores: ['node_modules'] }
+  { ignores: ['node_modules'] },
 ];

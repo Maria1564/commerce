@@ -1,42 +1,39 @@
-import qs from "qs";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import Text from "components/Text";
-import { apiClient } from "config/axiosConfig";
-import { Product } from "types/index";
-import { normalizeData } from "utils/normalize";
-import CardItem from "./CardItem";
-import style from "./RelatedProducts.module.scss"
+import { observer } from 'mobx-react-lite';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { SkeletonCard } from 'components/Card/Skeleton';
+import { Text } from 'components/Text';
+import { useProductPageContext } from 'store/ProductPageStore/ProductsPageProvider';
+import { Meta } from 'utils/meta';
+import { CardItem } from './CardItem';
+import style from './RelatedProducts.module.scss';
 
 const RelatedProducts: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-
-  const {id} = useParams()
+  const { productsStore } = useProductPageContext();
+  const { id } = useParams();
 
   useEffect(() => {
-    const params = {
-      populate: ["images", "productCategory"],
-      pagination: {
-        pageSize: 3,
-        page: Math.floor(Math.random() * 4) + 1,
-      },
-    };
-
-    apiClient
-      .get(`/products?${qs.stringify(params)}`)
-      .then(({ data }) => setProducts(normalizeData(data.data)));
+    productsStore.getProducts({ page: String(Math.floor(Math.random() * 4) + 1) }, 3);
   }, [id]);
 
   return (
-    <div>
-      <Text view="title">Related Items</Text>
-      <div className={style.list}>
-        {products.map((item) => (
-          <CardItem key={item.id} item={item} />
-        ))}
+    <div className={style[`related-products`]}>
+      <Text view="title" color="primary">
+        Related Items
+      </Text>
+      <div className={style[`related-products__list`]}>
+        {productsStore.meta !== Meta.success && (
+          <>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </>
+        )}
+        {productsStore.meta === Meta.success &&
+          productsStore.allProducts.map((item) => <CardItem key={item.id} item={item} />)}
       </div>
     </div>
   );
 };
 
-export default RelatedProducts;
+export default observer(RelatedProducts);

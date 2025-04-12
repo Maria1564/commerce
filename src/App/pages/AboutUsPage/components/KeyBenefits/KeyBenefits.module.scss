@@ -1,32 +1,31 @@
 @use "styles/variables" as v;
+@use "styles/mixins" as m;
 
-.wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 120px;
-    margin-top: 60px;
-}
+.benefits {
+  display: flex;
+  justify-content: center;
+  gap: 120px;
+  margin-top: v.$space-60;
 
-
-.list_item {
-    font-size: 20px;
+  &__item {
+    font-size: v.$p-20;
     position: relative;
+    color: v.$primary-color;
 
     &:not(:last-child) {
-        margin-bottom: 20px;
+      margin-bottom: v.$space-l;
     }
-
 
     &:before {
-        content: "";
-        width: 25px;
-        height: 25px;
-        border: 5px solid v.$brand;
-        border-radius: 50%;
-        position: absolute;
+      content: "";
+      @include m.square(25px);
+      border: 5px solid v.$brand;
+      border-radius: 50%;
+      position: absolute;
 
-        top: 50%;
-        transform: translateY(-50%);
-        left: -35px;
+      top: 50%;
+      transform: translateY(-50%);
+      left: -35px;
     }
+  }
 }

@@ -1,18 +1,20 @@
 @use "styles/mixins" as m;
+@use "styles/variables" as v;
 
-.wrapper {
-  padding: 60px 0 146px;
-}
+.product {
+  padding: v.$space-60 0 146px;
 
-.link_back {
-  @include m.align-items-center;
-  gap: 18px;
-  
-  & svg {
-    transition: transform 0.5s;
+  &__link-back {
+    @include m.align-items-center;
+    gap: 18px;
   }
 
-  &:hover svg {
+  &__icon {
+    transition: transform 0.5s;
+    color: v.$primary-color;
+  }
+
+  &:hover &__icon {
     transform: translate(-5px);
   }
 }

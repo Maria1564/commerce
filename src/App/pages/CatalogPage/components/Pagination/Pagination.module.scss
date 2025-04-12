@@ -1,38 +1,20 @@
 @use "styles/mixins" as m;
 @use "styles/variables" as v;
 
+.pagination {
+  @include m.align-items-center;
+  gap: 15px;
 
-.wrapper {
-    @include m.align-items-center;
-    gap: 15px;
-}
+  color: v.$primary-color;
+  &__arrow {
+    &-left {
+      transform: rotate(180deg);
+    }
+  }
 
-.pages {
+  &__pages {
     @include m.align-items-center;
-    font-size: 18px;
+    font-size: v.$p-18;
     font-weight: 500;
-
-    & span {
-        display: block;
-        padding: 10px;
-    }
-}
-
-.page {
-    padding: 10px 14px;
-    cursor: pointer;
-    &__active {
-        background-color: v.$brand;
-        color: v.$white;
-    }
-}
-
-.arrow {
-    &_left {
-        transform: rotate(180deg);
-    }
-
-    &_disabled {
-        color: v.$secondary-color;
-    }
+  }
 }

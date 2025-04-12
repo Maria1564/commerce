@@ -1,19 +1,23 @@
-import { Outlet } from "react-router";
-import "./App.scss"
-import Navbar from "layout/Navbar";
-import QueryProvider from "./provider/QueryContext";
+import { observer } from 'mobx-react-lite';
+import { Outlet } from 'react-router';
+import './App.scss';
+import { Container } from 'components/Container';
+import { Navbar } from 'layout/Navbar';
+import { useQueryParamsInit } from 'store/RootStore/hooks/useQueryParamsInit';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 
 function App() {
+  useQueryParamsInit();
+  const rootStore = useRootStoreContext();
+
   return (
-    <>
-    <QueryProvider>
-      <Navbar/>
-      <div className="container">
-        <Outlet/>
-      </div>
-    </QueryProvider>
-    </>
-  )
+    <div>
+      {rootStore.auth.isAuth && <Navbar />}
+      <Container>
+        <Outlet />
+      </Container>
+    </div>
+  );
 }
 
-export default App;
+export default observer(App);

@@ -1,86 +1,64 @@
-import qs from "qs";
-import React, { useCallback, useEffect, useState } from "react";
-import { useQueryContext } from "App/provider/QueryContext";
-import MultiDropdown, { Option } from "components/MultiDropdown";
-import { apiClient } from "config/axiosConfig";
-import Dropdown from "./Dropdown";
-import Search from "./Search";
-import style from "./Filter.module.scss";
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useEffect } from 'react';
+import {MultiDropdown, Option } from 'components/MultiDropdown';
+import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
+import { RequestParams } from 'types/typeParams';
+import { Meta } from 'utils/meta';
+import { Dropdown } from './Dropdown';
+import { Search } from './Search';
+import style from './Filter.module.scss';
 
 const Filter: React.FC = () => {
-  const [selectCategories, setSelectCategories] = useState<Option[]>([]);
-  const [categories, setCategories] = useState<Option[]>([]);
-  const queryContext = useQueryContext();
-
-  if (!queryContext) {
-    return;
-  }
-
-  const { changeParamByKey, params } = queryContext;
+  const rootStore = useRootStoreContext();
+  const { categoriesStore } = useCatalogPageContext();
 
   useEffect(() => {
-    const queryParams = {
-      fields: ["id", "title"],
+    const queryParams: RequestParams = {
+      fields: ['id', 'title'],
     };
 
-    apiClient
-      .get(`/product-categories?${qs.stringify(queryParams)}`)
-      .then(({ data }) => {
-        setCategories(
-          data.data.map((item: { id: number; title: string }) => ({
-            key: item.id,
-            value: item.title,
-          }))
-        );
+    categoriesStore.getCategories(queryParams);
+  }, [categoriesStore]);
 
-       
-
-        const newCategories = data.data.filter((item: { title: string }) =>
-         params.category && params.category.split(",").includes(item.title)
-        );
-
-        setSelectCategories(
-          newCategories.map((item: { id: number; title: string }) => ({
-            key: item.id,
-            value: item.title,
-          }))
-        );
-      });
-  }, []);
+  useEffect(() => {
+    if (categoriesStore.meta === Meta.success) {
+      const newCategories = categoriesStore.categories.filter(
+        (item) =>
+          rootStore.queryParams.params.category &&
+          rootStore.queryParams.params.category.split(',').includes(item.value),
+      );
+      categoriesStore.addSelectedCategories(newCategories);
+    }
+  }, [categoriesStore, categoriesStore.meta, rootStore.queryParams.params.category]);
 
   const handlerChange = useCallback(
     (value: Option[]) => {
-      let strCategory = value.map((item) => item.value).join(",");
-      setSelectCategories([...value]);
-      changeParamByKey("category", strCategory);
-      changeParamByKey("page", "1");
+      categoriesStore.addSelectedCategories([...value]);
     },
-    [setSelectCategories]
+    [categoriesStore],
   );
 
-  const getTitle = useCallback(
-    (value: Option[]) => {
-      const valuesStr = value.map((item) => item.value);
-      return valuesStr.join(", ");
-    },
-    [selectCategories]
-  );
+  const getTitle = useCallback((value: Option[]) => {
+    const valuesStr = value.map((item) => item.value);
+    return valuesStr.join(', ');
+  }, []);
 
   return (
-    <div className={style.wrapper}>
+    <div className={style.filter}>
       <Search />
-      <div className={style.filters}>
+      <div className={style.filter__fields}>
         <MultiDropdown
-          options={categories}
-          value={selectCategories}
+          options={categoriesStore.categories}
+          value={categoriesStore.selectedCategories}
           onChange={handlerChange}
           getTitle={getTitle}
-          className={style.dropdown}
+          className={style.filter__dropdown}
         />
-        <Dropdown/>
+        <Dropdown />
       </div>
     </div>
   );
 };
 
-export default Filter;
+export default observer(Filter);

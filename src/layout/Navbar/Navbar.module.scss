@@ -1,22 +1,29 @@
 @use "styles/variables" as v;
 @use "styles/mixins" as m;
 
-.wrapper {
-    padding: v.$space-xl 0;
-    background-color: v.$white;
-    border: 2px solid #F3F3F3;
-}
+.navbar {
+  padding: v.$space-xl 0;
+  background-color: v.$white;
+  border: 2px solid v.$border-color;
 
-.container {
+  &__container {
     @include m.align-items-center;
     justify-content: space-between;
-}
+  }
 
-.active {
-    color: v.$brand;
-    position: relative;
-    
-    &:after {
+  &__menu {
+    @include m.align-items-center;
+    gap: v.$space-48;
+  }
+
+  &__link {
+    color: v.$primary-color;
+
+    &_active {
+      color: v.$brand;
+      position: relative;
+
+      &:after {
         content: "";
         display: block;
         position: absolute;
@@ -25,15 +32,16 @@
         background-color: v.$brand;
         bottom: -34px;
         left: 0;
+      }
     }
-}
+  }
 
-.menu {
-    @include m.align-items-center;
-    gap: 48px; 
-}
-
-.other {
+  &__actions {
     @include m.align-items-center;
     gap: v.$space-xl;
+  }
+
+  &__icon {
+    color: v.$primary-color;
+  }
 }

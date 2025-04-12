@@ -1,19 +1,18 @@
-import React, { useCallback } from "react";
-import { useNavigate } from "react-router";
-import Button from "components/Button";
-import Card from "components/Card";
-
-import { Product } from "types/index";
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router';
+import { Button } from 'components/Button';
+import { Card } from 'components/Card';
+import { ProductModel } from 'store/models/product/product';
 
 type CardItemProps = {
-  item: Product;
+  item: ProductModel;
 };
 
 const CardItem: React.FC<CardItemProps> = ({ item }) => {
   const navigate = useNavigate();
   const onClick = useCallback(() => {
     navigate(`/product/${item.id}`);
-  }, []);
+  }, [item.id, navigate]);
 
   return (
     <Card

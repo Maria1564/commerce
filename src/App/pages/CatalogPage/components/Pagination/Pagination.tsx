@@ -1,107 +1,51 @@
-import classNames from "classnames";
-import qs from "qs";
-import React, { useCallback, useEffect, useState } from "react";
-import { useQueryContext } from "App/provider/QueryContext";
-import ArrowRightIcon from "components/icons/ArrowRightIcon";
-import { apiClient } from "config/axiosConfig";
-import { createPagination } from "./utils";
-import style from "./Pagination.module.scss";
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useEffect } from 'react';
+import { ArrowRightIcon } from 'components/icons/ArrowRightIcon';
+import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
+import { PageItem } from './PageItem';
+import style from './Pagination.module.scss';
 
 const Pagination: React.FC = () => {
-  const [totalPage, setTotalPage] = useState<number>(4);
-  const [pages, setPages] = useState<(string | number)[]>([]);
-  
- const queryContext = useQueryContext();
- 
-   if (!queryContext) {
-     return
-   }
- 
-   const { params, changeParamByKey} = queryContext;
-   const [currPage, setCurrPage] = useState<number>(Number(params.page));
-   
-   useEffect(() => {
-     setPages(createPagination(totalPage, currPage));
-    }, [totalPage, currPage]);
+  const { paginationStore } = useCatalogPageContext();
+  const rootStore = useRootStoreContext();
 
-    
   useEffect(() => {
-    const newParams = {
-      pagination: {
-        page: params.page,
-        pageSize: 9,
-      },
-      ...((params.search || params.category) && 
-        {
-          filters: {
-            ...(params.search && {
-              title: {
-                $containsi: params.search
-              }
-            }),
-
-            ...(params.category && {
-              productCategory: {
-                title: {
-                  $containsi: params.category.split(",")
-                }
-              }
-            })
-          }
-        }
-      ),
-    };
-    let queryParams = qs.stringify(newParams);
-
-   
-    apiClient
-    .get(`/products?${queryParams}`)
-    .then(({ data }) => {
-        setCurrPage(Number(params.page))
-        setTotalPage(data.meta.pagination.pageCount)
-      }); 
-  }, [currPage, params.search, params.category]);
+    if (rootStore.queryParams.params.page) {
+      paginationStore.getInfoPage(rootStore.queryParams.params);
+    }
+  }, [paginationStore, rootStore.queryParams.params]);
 
   const handleNextPage = useCallback(() => {
-    setCurrPage(currPage+1)
-    changeParamByKey("page", String(currPage+1))
-  },[setCurrPage, currPage])
+    paginationStore.goToNextPage();
+  }, [paginationStore]);
 
-  const handlePrevPage = useCallback(() =>{
-    setCurrPage(currPage-1)
-    changeParamByKey("page", String(currPage-1))
-  }, [setCurrPage, currPage])
-
-  const togglePage = (page: number) => {
-    setCurrPage(page)
-    changeParamByKey("page", String(page))
-  }
+  const handlePrevPage = useCallback(() => {
+    paginationStore.goToPrevPage();
+  }, [paginationStore]);
 
   return (
-    <div className={style.wrapper}>
-      <ArrowRightIcon className={classNames(style.arrow_left, {
-        [style.arrow_disabled]: currPage === 1
-      })} onClick={ currPage === 1 ? ()=>{} : handlePrevPage}/>
-      <div className={style.pages}>
-        {pages.map((page) =>
-          typeof page === "number" ? (
-            <div key={page}
-              className={`${style.page} ${page === currPage && style.page__active}`}
-              onClick={() => togglePage(page)}
-            >
-              {page}
-            </div>
-          ) : (
-            <span>{page}</span>
-          )
-        )}
+    <div className={style.pagination}>
+      {paginationStore.currentPage && paginationStore.currentPage !== 1 && (
+        <ArrowRightIcon
+          className={style[`pagination__arrow-left`]}
+          onClick={paginationStore.currentPage === 1 ? () => {} : handlePrevPage}
+        />
+      )}
+      <div className={style.pagination__pages}>
+        {paginationStore.pages.map((page) => (
+          <PageItem key={page} currPage={paginationStore.currentPage} page={page} />
+        ))}
       </div>
-      <ArrowRightIcon className={classNames(style.arrow, {
-        [style.arrow_disabled]: currPage === totalPage
-      })}
-      onClick={currPage === totalPage ? () => {} : handleNextPage}/>
+      {paginationStore.currentPage &&
+      paginationStore.currentPage !== paginationStore.totalPages &&
+      paginationStore.totalPages ? (
+        <ArrowRightIcon
+          onClick={paginationStore.currentPage === paginationStore.totalPages ? () => {} : handleNextPage}
+        />
+      ) : null}
     </div>
   );
 };
 
-export default Pagination;
+export default observer(Pagination);

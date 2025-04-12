@@ -1,0 +1,28 @@
+@use "styles/variables" as v;
+@use 'styles/mixins' as m;
+
+.loader {
+  color: v.$brand;
+  animation: spin 1s linear infinite;
+
+  &__size {
+    &_s {
+      @include m.square(v.$space-xl);
+    }
+    &_m {
+      @include m.square(v.$space-48);
+    }
+    &_l {
+      @include m.square(v.$space-60);
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

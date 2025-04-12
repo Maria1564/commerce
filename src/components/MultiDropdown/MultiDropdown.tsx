@@ -1,9 +1,10 @@
-/* eslint-disable no-unused-vars */
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Input from 'components/Input';
-import ArrowDownIcon from 'components/icons/ArrowDownIcon';
-import "./MultiDropdown.scss"
+import { Input } from 'components/Input';
+import { ArrowDownIcon } from 'components/icons/ArrowDownIcon';
+import { useClickOutside } from 'utils/hooks/useClickOutside';
+import OptionItem from './components/OptionItem';
+import style from './MultiDropdown.module.scss';
 
 export type Option = {
   /** Ключ варианта, используется для отправки на бек/использования в коде */
@@ -27,81 +28,65 @@ export type MultiDropdownProps = {
   getTitle: (value: Option[]) => string;
 };
 
-const MultiDropdown: React.FC<MultiDropdownProps> = ({className:cn, value, options,  onChange, getTitle, disabled}) => {
-  const [openModal, setOpenModal] = useState(false);
+const MultiDropdown: React.FC<MultiDropdownProps> = ({
+  className: cn,
+  value,
+  options,
+  onChange,
+  getTitle,
+  disabled,
+}) => {
   const [inpValue, setInpValue] = useState<string>('');
-  const [filteredOptions, setFilteredOptions] = useState<Option[]>([])
+  const [filteredOptions, setFilteredOptions] = useState<Option[]>([]);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const { openModal, setOpenModal } = useClickOutside(dropdownRef);
 
-  
-    const closeModal = useCallback((event: MouseEvent)=>{
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as HTMLElement)) {
-        setOpenModal(false);
-      }
-    }, [])
-
-    window.addEventListener("click", closeModal)
-    
-    const placeholder = getTitle(value)
-    useEffect(()=>{
-      if(!openModal){
-        setInpValue(placeholder)
-      }else{
-        setInpValue("")
-        setFilteredOptions(options)
-      }
-
-    }, [openModal, placeholder, options])
-    
-
-    const handlerClickInput = useCallback(()=>{
-      if(openModal === false){
-        setOpenModal(true)
-      }
-    },[openModal])
-
-    const handlerChange = useCallback((str: string) => {
-      setInpValue(str)
-      setFilteredOptions(options.filter(item=>item.value.includes(str) ))
-      if(str.trim() === ""){
-        setFilteredOptions(options)
-      }
-      
-    }, [options])
-
-    const handlerSelectOption = (option: Option)=>{
-        const isSelected = value.some(v => v.key === option.key);
-      const newValue = isSelected
-        ? value.filter(v => v.key !== option.key)
-        : [...value, option]; 
-      
-        onChange(newValue)
+  const placeholder = getTitle(value);
+  useEffect(() => {
+    if (!openModal) {
+      setInpValue(placeholder);
+    } else {
+      setInpValue('');
+      setFilteredOptions(options);
     }
-  
-  return (
-   
-    <div ref={dropdownRef}  className={classNames("wrapper", cn)} >
-      <Input 
-     
-        value={inpValue} 
-        onChange={handlerChange} 
-        afterSlot={<ArrowDownIcon />}  
-        onClick={handlerClickInput} 
-        placeholder={placeholder || "Text"} 
-        disabled={disabled}
-      />
-        <div className='wrapper_items'> 
-      {
-       ( openModal && !disabled) && filteredOptions.map(elem =>(
-          <div className={classNames('item', {"item_select": placeholder.includes(elem.value)})} key={elem.key}  onClick={() => handlerSelectOption(elem)}>
-             {elem.value}
-             </div>
-        ))
+  }, [openModal, placeholder, options]);
+
+  const handlerClickInput = useCallback(() => {
+    if (openModal === false) {
+      setOpenModal(true);
+    }
+  }, [openModal, setOpenModal]);
+
+  const handlerChange = useCallback(
+    (str: string) => {
+      setInpValue(str);
+      setFilteredOptions(options.filter((item) => item.value.includes(str)));
+      if (str.trim() === '') {
+        setFilteredOptions(options);
       }
-        </div>
-    </div>
+    },
+    [options],
   );
 
+  return (
+    <div ref={dropdownRef} className={classNames(style.multydropdown, cn)}>
+      <Input
+        value={inpValue}
+        onChange={handlerChange}
+        afterSlot={<ArrowDownIcon className={style[`multydropdown__arrow-down`]} />}
+        onClick={handlerClickInput}
+        placeholder={placeholder || 'Text'}
+        disabled={disabled}
+      />
+      <div className={style.multydropdown__list}>
+        {openModal &&
+          !disabled &&
+          filteredOptions.map((elem) => (
+            <OptionItem placeholder={placeholder} key={elem.key} option={elem} onChange={onChange} value={value} />
+          ))}
+      </div>
+    </div>
+  );
 };
 
 export default React.memo(MultiDropdown);

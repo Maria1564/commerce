@@ -1,45 +1,23 @@
 export const createPagination = (totalPages: number, currentPage: number) => {
-  const pages: (number | string)[] = [];
+  const pages: number[] = [];
 
-  if (totalPages <= 5) {
-    for (let i = 1; i <= totalPages; i++) pages.push(i);
-
-    return pages;
+  if (totalPages === 0) {
+    return [];
+  }
+  if (totalPages === 1) {
+    return [1];
   }
 
-  const lastPage = totalPages;
-  if (currentPage < 4) {
-    if (currentPage < 3) {
-      for (let i = 1; i <= 3; i++) {
-        pages.push(i);
-      }
-    } else if (currentPage < 4) {
-      for (let i = 1; i <= 4; i++) {
-        pages.push(i);
-      }
-    }
-    pages.push("...", lastPage);
-  } else if (currentPage > totalPages - 3) {
-    pages.push(1, "...");
-    if (currentPage > totalPages - 2) {
-      for (let i = totalPages - 2; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      for (let i = totalPages - 3; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    }
+  if (totalPages === 2) {
+    return [1, 2];
+  }
+
+  if (currentPage === 1) {
+    pages.push(1, 2, 3);
+  } else if (currentPage === totalPages) {
+    pages.push(currentPage - 2, currentPage - 1, currentPage);
   } else {
-    pages.push(
-      1,
-      "...",
-      currentPage - 1,
-      currentPage,
-      currentPage + 1,
-      "...",
-      totalPages
-    );
+    pages.push(currentPage - 1, currentPage, currentPage + 1);
   }
 
   return pages;
