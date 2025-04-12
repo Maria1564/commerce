@@ -1,4 +1,5 @@
 import { computed, makeObservable, observable } from 'mobx';
+import RootStore from 'store/RootStore/RootStore';
 import { ILocalStore } from 'utils/hooks/useLocalStore';
 import { CategoryFilterStore } from './CategoryFilterStore/CategoryFilterStore';
 import { PaginationStore } from './PaginationStore/PaginationStore';
@@ -9,13 +10,18 @@ import { SortOptionsStore } from './SortOptionsStore/SortOptionsStore';
 type PrivateFields = '_categoriesStore' | '_paginationStore' | '_productsStore' | '_searchStore' | '_sortStore';
 
 export class CatalogPageStore implements ILocalStore {
-  private readonly _categoriesStore: CategoryFilterStore = new CategoryFilterStore();
-  private readonly _paginationStore: PaginationStore = new PaginationStore();
   private readonly _productsStore: ProductListStore = new ProductListStore();
-  private readonly _searchStore: SearchStore = new SearchStore();
-  private readonly _sortStore: SortOptionsStore = new SortOptionsStore();
+  private readonly _categoriesStore: CategoryFilterStore | null = null;
+  private readonly _paginationStore: PaginationStore | null = null;
+  private readonly _searchStore: SearchStore | null = null;
+  private readonly _sortStore: SortOptionsStore | null = null;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
+    this._paginationStore = new PaginationStore(rootStore);
+    this._categoriesStore = new CategoryFilterStore(rootStore);
+    this._searchStore = new SearchStore(rootStore);
+    this._sortStore = new SortOptionsStore(rootStore)
+
     makeObservable<CatalogPageStore, PrivateFields>(this, {
       _categoriesStore: observable,
       _paginationStore: observable,
@@ -35,19 +41,19 @@ export class CatalogPageStore implements ILocalStore {
   }
 
   get categoriesStore(): CategoryFilterStore {
-    return this._categoriesStore;
+    return this._categoriesStore!;
   }
 
   get searchStore(): SearchStore {
-    return this._searchStore;
+    return this._searchStore!;
   }
 
   get sortStore(): SortOptionsStore {
-    return this._sortStore;
+    return this._sortStore!;
   }
 
   get paginationStore(): PaginationStore {
-    return this._paginationStore;
+    return this._paginationStore!;
   }
 
   destroy(): void {}

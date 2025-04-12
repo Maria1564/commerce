@@ -1,4 +1,5 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, IReactionDisposer, makeObservable, observable, reaction } from 'mobx';
+import RootStore from 'store/RootStore/RootStore';
 import { ILocalStore } from 'utils/hooks/useLocalStore';
 
 export type Option = {
@@ -33,8 +34,10 @@ export class SortOptionsStore implements ILocalStore {
   ];
 
   private _selectOption: string = '';
+  private _rootStore: RootStore | null = null;
+  private _reaction: IReactionDisposer | null = null;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
     this._selectOption = this._optionslist[0].value;
 
     makeObservable<SortOptionsStore, PrivateFields>(this, {
@@ -42,6 +45,9 @@ export class SortOptionsStore implements ILocalStore {
       selectedNameOption: computed,
       updateSelectedNameOption: action,
     });
+
+    this._rootStore = rootStore;
+    this._initReaction();
   }
 
   get listOptions(): Option[] {
@@ -52,7 +58,7 @@ export class SortOptionsStore implements ILocalStore {
     return this._selectOption;
   }
 
-  updateSelectedNameOption(selectedOptionValue: string | undefined): void {
+  updateSelectedNameOption = (selectedOptionValue: string | undefined): void => {
     this._selectOption = this._optionslist.find((item) => {
       if (selectedOptionValue) {
         return item.value === selectedOptionValue;
@@ -60,7 +66,19 @@ export class SortOptionsStore implements ILocalStore {
         return item.value === '';
       }
     })?.text!;
-  }
+  };
 
   destroy() {}
+
+  private _initReaction(): void {
+    this._reaction = reaction(
+      () => this._selectOption,
+      () => {
+        const valueOption = this._optionslist.find((item) => item.text === this._selectOption)?.value;
+        if (valueOption !== undefined) {
+          this._rootStore?.queryParams.updateParam('sort', valueOption);
+        }
+      },
+    );
+  }
 }

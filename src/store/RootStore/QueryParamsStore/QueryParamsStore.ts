@@ -17,8 +17,6 @@ export class QueryParamsStore {
       updateParam: action,
       syncWithURL: action,
     });
-
-    
   }
 
   get params(): queryParams {

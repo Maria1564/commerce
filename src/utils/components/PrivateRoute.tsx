@@ -8,13 +8,11 @@ type PrivateRouteProps = {
   children: React.ReactNode;
 };
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+export const PrivateRoute: React.FC<PrivateRouteProps> = observer(({ children }) => {
   const { auth } = useRootStoreContext();
     
   if (!auth.isAuth) {
     return <Navigate to={Routes.login} replace />;
   }
   return <> {children} </>;
-};
-
-export default observer(PrivateRoute);
+});

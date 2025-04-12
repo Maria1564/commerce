@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect } from 'react';
-import Button from 'components/Button';
-import Input from 'components/Input';
-import Text from 'components/Text';
+import { Button } from 'components/Button';
+import { Input } from 'components/Input';
+import { Text } from 'components/Text';
 import { FormFields, FormStore } from 'store/FormStore/FormStore';
 import { useLocalStore } from 'utils/hooks/useLocalStore';
 import style from './Form.module.scss';
@@ -44,8 +44,8 @@ const Form: React.FC<FormProps> = ({ sendFormValues, link, text, isRegister = fa
   );
 
   useEffect(() => {
-    formStore.setRegisterMode(isRegister)
-  }, [formStore, isRegister])
+    formStore.setRegisterMode(isRegister);
+  }, [formStore, isRegister]);
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>

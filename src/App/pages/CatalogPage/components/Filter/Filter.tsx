@@ -1,17 +1,17 @@
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect } from 'react';
-import MultiDropdown, { Option } from 'components/MultiDropdown';
+import {MultiDropdown, Option } from 'components/MultiDropdown';
 import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { RequestParams } from 'types/typeParams';
 import { Meta } from 'utils/meta';
-import Dropdown from './Dropdown';
-import Search from './Search';
+import { Dropdown } from './Dropdown';
+import { Search } from './Search';
 import style from './Filter.module.scss';
 
 const Filter: React.FC = () => {
   const rootStore = useRootStoreContext();
-  const {categoriesStore} = useCatalogPageContext()
+  const { categoriesStore } = useCatalogPageContext();
 
   useEffect(() => {
     const queryParams: RequestParams = {
@@ -19,7 +19,7 @@ const Filter: React.FC = () => {
     };
 
     categoriesStore.getCategories(queryParams);
-  }, [categoriesStore, rootStore.queryParams.params]);
+  }, [categoriesStore]);
 
   useEffect(() => {
     if (categoriesStore.meta === Meta.success) {
@@ -34,13 +34,9 @@ const Filter: React.FC = () => {
 
   const handlerChange = useCallback(
     (value: Option[]) => {
-      let strCategory = value.map((item) => item.value).join(',');
       categoriesStore.addSelectedCategories([...value]);
-
-      rootStore.queryParams.updateParam('category', strCategory);
-      rootStore.queryParams.updateParam('page', '1');
     },
-    [categoriesStore, rootStore.queryParams],
+    [categoriesStore],
   );
 
   const getTitle = useCallback((value: Option[]) => {

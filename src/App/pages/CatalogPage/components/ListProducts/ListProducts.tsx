@@ -1,16 +1,16 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
-import SkeletonCard from 'components/Card/Skeleton';
-import Text from 'components/Text';
+import { SkeletonCard } from 'components/Card/Skeleton';
+import { Text } from 'components/Text';
 import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { Meta } from 'utils/meta';
-import CardItem from './CardItem';
+import { CardItem } from './CardItem';
 import style from './ListProducts.module.scss';
 
 const ListProducts: React.FC = () => {
   const rootStore = useRootStoreContext();
-  const {productsStore} = useCatalogPageContext()
+  const { productsStore } = useCatalogPageContext();
 
   // получение списка товаров
   useEffect(() => {

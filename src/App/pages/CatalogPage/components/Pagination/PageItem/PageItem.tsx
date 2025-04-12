@@ -1,9 +1,7 @@
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
-import { PaginationStore } from 'store/CatalogPageStore/PaginationStore/PaginationStore';
-import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
-import { useLocalStore } from 'utils/hooks/useLocalStore';
+import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
 import style from './PageItem.module.scss';
 
 type PageItemProps = {
@@ -12,12 +10,10 @@ type PageItemProps = {
 };
 
 const PageItem: React.FC<PageItemProps> = ({ page, currPage }) => {
-  const paginationStore = useLocalStore(() => new PaginationStore());
-  const rootStore = useRootStoreContext();
+  const { paginationStore } = useCatalogPageContext();
 
   const togglePage = useCallback(() => {
     paginationStore.togglePage(page);
-    rootStore.queryParams.updateParam('page', String(page));
   }, [page, paginationStore]);
 
   return (

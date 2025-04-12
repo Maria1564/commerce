@@ -1,5 +1,6 @@
 import { action, computed, IReactionDisposer, makeObservable, observable, reaction, runInAction } from 'mobx';
 import qs from 'qs';
+import RootStore from 'store/RootStore/RootStore';
 import { RequestParams } from 'types/typeParams';
 import { apiClient } from 'utils/axiosConfig';
 import { ILocalStore } from 'utils/hooks/useLocalStore';
@@ -12,8 +13,8 @@ export class PaginationStore implements ILocalStore {
   private _currentPage: number = 0;
   private _requestPrams: RequestParams = {};
   private _reaction: IReactionDisposer | null = null;
-
-  constructor() {
+private _rootStore: RootStore | null = null
+  constructor(rootStore: RootStore) {
     makeObservable<PaginationStore, PrivateField>(this, {
       _pages: observable,
       _totalPages: observable,
@@ -27,7 +28,7 @@ export class PaginationStore implements ILocalStore {
       goToNextPage: action,
       goToPrevPage: action,
     });
-
+    this._rootStore = rootStore
     this._initReaction();
   }
 
@@ -102,7 +103,11 @@ export class PaginationStore implements ILocalStore {
       }>(`/products?${qs.stringify(this._requestPrams)}`)
       .then(({ data }) => {
         runInAction(() => {
-          this._currentPage = data.meta.pagination.page;
+          if (data.meta.pagination.page > data.meta.pagination.pageCount) {
+            this._currentPage = 1;
+          } else {
+            this._currentPage = data.meta.pagination.page;
+          }
           this._totalPages = data.meta.pagination.pageCount;
         });
       });
@@ -130,6 +135,7 @@ export class PaginationStore implements ILocalStore {
     this._reaction = reaction(
       () => [this._currentPage, this._totalPages],
       () => {
+        this._rootStore?.queryParams.updateParam("page", String (this._currentPage))
         this._createPagination();
       },
     );

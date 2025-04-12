@@ -1,21 +1,19 @@
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
-import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { Option } from 'store/CatalogPageStore/SortOptionsStore/SortOptionsStore';
 import style from './OptionItem.module.scss';
 
 type OptionItemProps = {
   option: Option;
   selectedOption: string;
+  onChangeOption: (selectedOption: string | undefined) => void;
 };
 
-const OptionItem: React.FC<OptionItemProps> = ({ selectedOption, option }) => {
-  const rootStore = useRootStoreContext();
-
+const OptionItem: React.FC<OptionItemProps> = ({ selectedOption, option, onChangeOption }) => {
   const onSelectOption = useCallback(() => {
-    rootStore.queryParams.updateParam('sort', option.value);
-  }, [option.value, rootStore.queryParams]);
+    onChangeOption(option.value);
+  }, [onChangeOption, option.value]);
 
   return (
     <li

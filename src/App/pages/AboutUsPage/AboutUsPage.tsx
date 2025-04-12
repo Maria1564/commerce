@@ -1,6 +1,6 @@
 import React from 'react';
-import CompanyDescription from './components/CompanyDescription';
-import KeyBenefits from './components/KeyBenefits';
+import { CompanyDescription } from './components/CompanyDescription';
+import { KeyBenefits } from './components/KeyBenefits';
 import style from './AboutPage.module.scss';
 
 const AboutUsPage: React.FC = () => {

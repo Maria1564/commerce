@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import Text from 'components/Text';
+import { Text } from 'components/Text';
 import style from './Card.module.scss';
 
 export type CardProps = {

@@ -1,8 +1,8 @@
 import React from 'react';
-import Container from 'components/Container';
-import Text from 'components/Text';
-import BagIcon from 'components/icons/BagIcon';
-import UserIcon from 'components/icons/UserIcon';
+import { Container } from 'components/Container';
+import { Text } from 'components/Text';
+import { BagIcon } from 'components/icons/BagIcon';
+import { UserIcon } from 'components/icons/UserIcon';
 import Header from './components/Header';
 import Link from './components/Link';
 import ToggleTheme from './components/ToggleTheme';

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import Icon from 'components/icons/Icon';
+import { Icon } from 'components/icons/Icon';
 import style from './Loader.module.scss';
 
 export type LoaderProps = {

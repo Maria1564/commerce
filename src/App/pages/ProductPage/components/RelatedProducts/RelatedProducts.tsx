@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import SkeletonCard from 'components/Card/Skeleton';
-import Text from 'components/Text';
+import { SkeletonCard } from 'components/Card/Skeleton';
+import { Text } from 'components/Text';
 import { useProductPageContext } from 'store/ProductPageStore/ProductsPageProvider';
 import { Meta } from 'utils/meta';
-import CardItem from './CardItem';
+import { CardItem } from './CardItem';
 import style from './RelatedProducts.module.scss';
 
 const RelatedProducts: React.FC = () => {

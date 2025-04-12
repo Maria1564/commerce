@@ -8,13 +8,13 @@ type PublicRouteProps = {
   children: React.ReactNode;
 };
 
-const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
+export const PublicRoute: React.FC<PublicRouteProps> = observer(({ children }) => {
   const { auth } = useRootStoreContext();
   if (auth.isAuth) {
     return <Navigate to={Routes.catalog} replace />;
   }
 
   return <>{children}</>;
-};
+});
 
-export default observer(PublicRoute);
+

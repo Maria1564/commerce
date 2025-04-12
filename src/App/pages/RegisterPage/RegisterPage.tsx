@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
-import Form from 'components/Form';
-import Text from 'components/Text';
+import { Form } from 'components/Form';
+import { Text } from 'components/Text';
 import { Routes } from 'config/routes';
 import { FormFields } from 'store/FormStore/FormStore';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
@@ -12,7 +12,7 @@ import style from './RegisterPage.module.scss';
 const RegisterPage: React.FC = () => {
   const rootStore = useRootStoreContext();
   const navigate = useNavigate();
-  
+
   const sendDataUser = useCallback(
     (dataForm: FormFields) => {
       rootStore.auth.register(dataForm);

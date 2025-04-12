@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import Text from 'components/Text';
+import { Text } from 'components/Text';
 
 import { Routes } from 'config/routes';
 import style from './NotFoundPage.module.scss';

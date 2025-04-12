@@ -1,5 +1,6 @@
-import { action, computed, makeObservable, observable, runInAction } from 'mobx';
+import { action, computed, IReactionDisposer, makeObservable, observable, reaction, runInAction } from 'mobx';
 import qs from 'qs';
+import RootStore from 'store/RootStore/RootStore';
 import {
   FilterCategoryApi,
   FilterCategoryModel,
@@ -15,9 +16,11 @@ type PrivateFields = '_categories' | '_meta' | '_selectedCategories';
 export class CategoryFilterStore implements ILocalStore {
   private _categories: FilterCategoryModel[] = [];
   private _meta: string = Meta.initial;
-  private _selectedCategories: FilterCategoryModel[] = []
+  private _selectedCategories: FilterCategoryModel[] = [];
+  private _rootStore: RootStore | null = null;
+  private _reaction: IReactionDisposer | null = null;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
     makeObservable<CategoryFilterStore, PrivateFields>(this, {
       _categories: observable.ref,
       _meta: observable,
@@ -27,6 +30,9 @@ export class CategoryFilterStore implements ILocalStore {
       getCategories: action,
       addSelectedCategories: action,
     });
+
+    this._rootStore = rootStore;
+    this._initReaction();
   }
 
   get meta(): string {
@@ -38,7 +44,7 @@ export class CategoryFilterStore implements ILocalStore {
   }
 
   get selectedCategories(): FilterCategoryModel[] {
-    return this._selectedCategories
+    return this._selectedCategories;
   }
 
   getCategories(params: RequestParams): void {
@@ -60,9 +66,23 @@ export class CategoryFilterStore implements ILocalStore {
       });
   }
 
-  addSelectedCategories(categories:FilterCategoryModel[] ): void {
-    this._selectedCategories = categories
+  addSelectedCategories(categories: FilterCategoryModel[]): void {
+    this._selectedCategories = categories;
   }
 
-  destroy(): void {}
+  destroy(): void {
+    if (this._reaction) {
+      this._reaction();
+    }
+  }
+
+  private _initReaction(): void {
+    this._reaction = reaction(
+      () => this._selectedCategories,
+      () => {
+        let strCategory = this._selectedCategories.map((item) => item.value).join(',');
+        this._rootStore?.queryParams.updateParam('category', strCategory);
+      },
+    );
+  }
 }

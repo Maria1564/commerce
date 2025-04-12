@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
-import Text from 'components/Text';
+import { Text } from 'components/Text';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
-import Filter from './components/Filter';
-import ListProducts from './components/ListProducts';
-import Pagination from './components/Pagination';
+import { Filter } from './components/Filter';
+import { ListProducts } from './components/ListProducts';
+import { Pagination } from './components/Pagination';
 import style from './CatalogPage.module.scss';
 
 const CatalogPage: React.FC = () => {
@@ -13,7 +13,7 @@ const CatalogPage: React.FC = () => {
   const rootStore = useRootStoreContext();
 
   useEffect(() => {
-    rootStore.queryParams.syncWithURL(setSearchParams)
+    rootStore.queryParams.syncWithURL(setSearchParams);
   }, [rootStore.queryParams, rootStore.queryParams.params, setSearchParams]);
 
   return (

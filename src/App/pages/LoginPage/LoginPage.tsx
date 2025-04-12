@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
-import Form from 'components/Form';
-import Text from 'components/Text';
+import { Form } from 'components/Form';
+import { Text } from 'components/Text';
 import { Routes } from 'config/routes';
 import { FormFields } from 'store/FormStore/FormStore';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
@@ -25,7 +25,7 @@ const LoginPage: React.FC = () => {
       alert('неверный логин или пароль');
       return;
     }
-  
+
     if (auth.isAuth) {
       navigate(Routes.catalog, { replace: true });
     }

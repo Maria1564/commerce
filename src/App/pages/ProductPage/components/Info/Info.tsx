@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import Button from 'components/Button';
-import Loader from 'components/Loader';
-import Text from 'components/Text';
+import { Button } from 'components/Button';
+import { Loader } from 'components/Loader';
+import { Text } from 'components/Text';
 import { useProductPageContext } from 'store/ProductPageStore/ProductsPageProvider';
 import { Meta } from 'utils/meta';
 import style from './Info.module.scss';

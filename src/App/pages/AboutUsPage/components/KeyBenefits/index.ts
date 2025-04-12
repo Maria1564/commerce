@@ -1,1 +1,1 @@
-export {default} from "./KeyBenefits"
+export { default as KeyBenefits } from './KeyBenefits';

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import Button from 'components/Button';
-import Card from 'components/Card';
+import { Button } from 'components/Button';
+import { Card } from 'components/Card';
 import { ProductModel } from 'store/models/product/product';
 
 type CardItemProps = {

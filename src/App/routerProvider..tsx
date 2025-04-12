@@ -1,16 +1,16 @@
 import { RouteObject, Navigate } from 'react-router';
 import { Routes } from 'config/routes';
 import { AboutUsPage } from 'pages/AboutUsPage';
-import CatalogPage from 'pages/CatalogPage';
-import LoginPage from 'pages/LoginPage';
-import NotFoundPage from 'pages/NotFoundPage';
-import ProductPage from 'pages/ProductPage';
-import RegisterPage from 'pages/RegisterPage';
+import { CatalogPage } from 'pages/CatalogPage';
+import { LoginPage } from 'pages/LoginPage';
+import { NotFoundPage } from 'pages/NotFoundPage';
+import { ProductPage } from 'pages/ProductPage';
+import { RegisterPage } from 'pages/RegisterPage';
 import { CatalogPageProvider } from 'store/CatalogPageStore/CatalogPageProvider';
 import { ProductPageProvider } from 'store/ProductPageStore/ProductsPageProvider';
 import { RootStoreProvider } from 'store/RootStore/rootStoreProvider';
-import PrivateRoute from 'utils/components/PrivateRoute';
-import PublicRoute from 'utils/components/PublicRoute';
+import { PrivateRoute } from 'utils/components/PrivateRoute';
+import { PublicRoute } from 'utils/components/PublicRoute';
 import App from './App';
 
 export const routeConfig: RouteObject[] = [

@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { useLocalStore } from 'utils/hooks/useLocalStore';
 import { CatalogPageStore } from './CatalogPageStore';
 
@@ -9,7 +10,8 @@ type CatalogPageProviderProps = {
 };
 
 export const CatalogPageProvider: React.FC<CatalogPageProviderProps> = ({ children }) => {
-  const catalogPageStore = useLocalStore(() => new CatalogPageStore());
+  const rootStore = useRootStoreContext()
+  const catalogPageStore = useLocalStore(() => new CatalogPageStore(rootStore));
   return <CatalogPgeContext.Provider value={catalogPageStore}>{children}</CatalogPgeContext.Provider>;
 };
 

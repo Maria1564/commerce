@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect } from 'react';
-import ArrowRightIcon from 'components/icons/ArrowRightIcon';
+import { ArrowRightIcon } from 'components/icons/ArrowRightIcon';
 import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
-import PageItem from './PageItem';
+import { PageItem } from './PageItem';
 import style from './Pagination.module.scss';
 
 const Pagination: React.FC = () => {
@@ -18,13 +18,11 @@ const Pagination: React.FC = () => {
 
   const handleNextPage = useCallback(() => {
     paginationStore.goToNextPage();
-    rootStore.queryParams.updateParam('page', String(paginationStore.currentPage));
-  }, [paginationStore, rootStore.queryParams]);
+  }, [paginationStore]);
 
   const handlePrevPage = useCallback(() => {
     paginationStore.goToPrevPage();
-    rootStore.queryParams.updateParam('page', String(paginationStore.currentPage));
-  }, [paginationStore, rootStore.queryParams]);
+  }, [paginationStore]);
 
   return (
     <div className={style.pagination}>
