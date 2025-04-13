@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { Button } from 'components/Button';
 import { Card } from 'components/Card';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { ProductModel } from 'store/models/product/product';
 
 type CardItemProps = {
@@ -10,9 +11,15 @@ type CardItemProps = {
 
 const CardItem: React.FC<CardItemProps> = ({ item }) => {
   const navigate = useNavigate();
+  const { cart } = useRootStoreContext();
+
   const onClick = useCallback(() => {
     navigate(`/product/${item.id}`);
   }, [item.id, navigate]);
+
+  const addProductCart = useCallback(() => {
+    cart.addProduct(item);
+  }, [cart, item]);
 
   return (
     <Card
@@ -21,7 +28,7 @@ const CardItem: React.FC<CardItemProps> = ({ item }) => {
       title={item.title}
       subtitle={item.description}
       contentSlot={`$${item.price}`}
-      actionSlot={<Button>Add to Cart</Button>}
+      actionSlot={<Button onClick={addProductCart}>Add to Cart</Button>}
       onClick={onClick}
     />
   );

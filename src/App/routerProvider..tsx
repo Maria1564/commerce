@@ -1,6 +1,7 @@
 import { RouteObject, Navigate } from 'react-router';
 import { Routes } from 'config/routes';
 import { AboutUsPage } from 'pages/AboutUsPage';
+import { CartPage } from 'pages/CartPage';
 import { CatalogPage } from 'pages/CatalogPage';
 import { LoginPage } from 'pages/LoginPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
@@ -54,6 +55,10 @@ export const routeConfig: RouteObject[] = [
             <AboutUsPage />
           </PrivateRoute>
         ),
+      },
+      {
+        path: Routes.cart,
+        element: <CartPage />,
       },
       {
         path: Routes.register,

@@ -25,4 +25,4 @@ const Button: React.FC<ButtonProps> = ({ loading, children, ...other }) => {
   );
 };
 
-export default Button;
+export default React.memo(Button);

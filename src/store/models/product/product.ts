@@ -1,5 +1,5 @@
 export type ProductModel = {
-  id: number;
+  id: string;
   category?: string;
   title: string;
   description: string;
@@ -8,7 +8,7 @@ export type ProductModel = {
 };
 
 export type ProductApi = {
-  documentId: number;
+  documentId: string;
   title: string;
   description: string;
   price: number;
