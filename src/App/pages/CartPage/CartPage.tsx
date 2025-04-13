@@ -1,11 +1,20 @@
-import React from 'react'
-
-
+import React, { useEffect } from 'react';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
+import { CartProductList } from './CartProductList';
+import style from './CartPage.module.scss';
 
 const CartPage: React.FC = () => {
-  return (
-    <div>CartPage</div>
-  )
-}
+  const { cart } = useRootStoreContext();
 
-export default CartPage
+  useEffect(() => {
+    cart.checkedCart();
+  }, [cart]);
+
+  return (
+    <div className={style.cart}>
+      <CartProductList />
+    </div>
+  );
+};
+
+export default CartPage;

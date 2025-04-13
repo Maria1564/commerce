@@ -1,0 +1,20 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.cart-products {
+  &__link {
+    cursor: pointer;
+    @include m.align-items-center;
+    gap: v.$space-xs;
+    margin: v.$space-l 0 40px;
+  }
+
+  &__header {
+    @include m.align-items-center;
+    gap: 30px;
+  }
+
+  &__action {
+    cursor: pointer;
+  }
+}

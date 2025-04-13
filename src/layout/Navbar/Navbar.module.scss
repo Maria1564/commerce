@@ -18,6 +18,7 @@
 
   &__link {
     color: v.$primary-color;
+    position: relative;
 
     &_active {
       color: v.$brand;
@@ -43,5 +44,21 @@
 
   &__icon {
     color: v.$primary-color;
+
+    &_active {
+      position: relative;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-color: v.$brand;
+        position: absolute;
+        border-radius: 50%;
+        left: -10px;
+        top: -4px;
+      }
+    }
   }
 }

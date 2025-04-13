@@ -1,6 +1,7 @@
-import { action, computed, makeObservable, observable, toJS } from 'mobx';
+import { action, computed, IReactionDisposer, makeObservable, observable, reaction } from 'mobx';
 import { ProductModel } from 'store/models/product/product';
 import { ILocalStore } from 'utils/hooks/useLocalStore';
+
 export type ProductsCart = {
   id: string;
   title: string;
@@ -10,24 +11,31 @@ export type ProductsCart = {
   count: number;
 };
 
-type PrivateFields = '_productsList' | '_totalCartAmount';
+type PrivateFields = '_productsList' | '_totalCartAmount' | '_isAdded';
 
 export class CartStore implements ILocalStore {
   private _productsList: ProductsCart[] = [];
   private _totalCartAmount: number = 0;
+  private _isAdded: boolean = false;
+  private _reaction: IReactionDisposer | null = null;
 
   constructor() {
     makeObservable<CartStore, PrivateFields>(this, {
       _productsList: observable,
       _totalCartAmount: observable,
+      _isAdded: observable,
       productsList: computed,
       totalCartAmount: computed,
+      isAdded: computed,
       addProduct: action,
       clearCart: action,
       decrementProductById: action,
       incrementProductById: action,
       removeProductById: action,
+      checkedCart: action,
     });
+
+    this._initReaction();
   }
 
   get productsList(): ProductsCart[] {
@@ -36,6 +44,10 @@ export class CartStore implements ILocalStore {
 
   get totalCartAmount(): number {
     return this._totalCartAmount;
+  }
+
+  get isAdded(): boolean {
+    return this._isAdded;
   }
 
   addProduct(product: ProductModel): void {
@@ -113,5 +125,24 @@ export class CartStore implements ILocalStore {
     this._productsList = [];
   }
 
-  destroy(): void {}
+  checkedCart(): void {
+    this._isAdded = false;
+  }
+
+  destroy(): void {
+    if (this._reaction) {
+      this._reaction();
+    }
+  }
+
+  private _initReaction(): void {
+    this._reaction = reaction(
+      () => this._productsList.length,
+      (next, prev) => {
+        if (next > prev) {
+          this._isAdded = true;
+        }
+      },
+    );
+  }
 }

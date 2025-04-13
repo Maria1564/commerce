@@ -58,7 +58,11 @@ export const routeConfig: RouteObject[] = [
       },
       {
         path: Routes.cart,
-        element: <CartPage />,
+        element: (
+          <PrivateRoute>
+            <CartPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: Routes.register,
