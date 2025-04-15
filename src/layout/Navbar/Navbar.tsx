@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router';
 import { Container } from 'components/Container';
 import { Text } from 'components/Text';
 import { BagIcon } from 'components/icons/BagIcon';
-import { UserIcon } from 'components/icons/UserIcon';
 import { Routes } from 'config/routes';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
+import { AccountDropdown } from './components/AccountDropdown';
 import Header from './components/Header';
 import Link from './components/Link';
 import ToggleTheme from './components/ToggleTheme';
@@ -15,12 +15,12 @@ import { links } from './data';
 import style from './Navbar.module.scss';
 
 const Navbar: React.FC = () => {
-  const { cart } = useRootStoreContext(); 
-  const navigate = useNavigate()
+  const { cart } = useRootStoreContext();
+  const navigate = useNavigate();
 
   const handleNavigate = useCallback(() => {
-    navigate(Routes.cart)
-  }, [navigate])
+    navigate(Routes.cart);
+  }, [navigate]);
 
   return (
     <div className={style.navbar}>
@@ -41,10 +41,13 @@ const Navbar: React.FC = () => {
           ))}
         </div>
         <div className={style.navbar__actions}>
-          <div className={classNames(style.navbar__icon, cart.isAdded && style.navbar__icon_active)} onClick={handleNavigate}>
+          <div
+            className={classNames(style.navbar__icon, cart.isAdded && style.navbar__icon_active)}
+            onClick={handleNavigate}
+          >
             <BagIcon />
           </div>
-          <UserIcon className={style.navbar__icon} />
+          <AccountDropdown />
           <ToggleTheme />
         </div>
       </Container>

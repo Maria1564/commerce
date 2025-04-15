@@ -23,7 +23,8 @@ export class AuthStore {
       _restoreSessionFromStorage: action,
       login: action,
       register: action,
-      resetAuthState: action
+      resetAuthState: action,
+      logout: action,
     });
 
     this._restoreSessionFromStorage();
@@ -41,13 +42,13 @@ export class AuthStore {
     return this._meta;
   }
 
-  get errorMessage():string {
-    return this._errorMessage
+  get errorMessage(): string {
+    return this._errorMessage;
   }
 
   resetAuthState = (): void => {
-      this._meta = Meta.initial;
-      this._errorMessage = '';
+    this._meta = Meta.initial;
+    this._errorMessage = '';
   };
 
   private _restoreSessionFromStorage = () => {
@@ -71,7 +72,7 @@ export class AuthStore {
     this._meta = Meta.loading;
     this._user = null;
     this._isAuth = false;
-    this._errorMessage = ""
+    this._errorMessage = '';
     // localStorage.removeItem('auth');
 
     apiClient
@@ -97,7 +98,7 @@ export class AuthStore {
     this._meta = Meta.loading;
     this._user = null;
     this._isAuth = false;
-    this._errorMessage =""
+    this._errorMessage = '';
 
     apiClient
       .post<{ user: UserApi }>(`/auth/local/register`, {
@@ -109,8 +110,7 @@ export class AuthStore {
         runInAction(() => {
           this._meta = Meta.success;
 
-
-          setTimeout(() => this._meta = Meta.initial, 1000)
+          setTimeout(() => (this._meta = Meta.initial), 1000);
         });
       })
       .catch((error) => {
@@ -119,5 +119,11 @@ export class AuthStore {
           this._errorMessage = error.response.data.error.message || 'Неизвестная ошибка';
         });
       });
+  }
+
+  logout(): void {
+    this._isAuth = false
+    this._user = null;
+    localStorage.removeItem("auth")
   }
 }

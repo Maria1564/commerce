@@ -5,6 +5,7 @@ export type ProductModel = {
   description: string;
   urlImage: string;
   price: number;
+  isInStock: boolean;
 };
 
 export type ProductApi = {
@@ -14,6 +15,7 @@ export type ProductApi = {
   price: number;
   images: { url: string }[];
   productCategory: { title: string };
+  isInStock: boolean;
 };
 
 export const normalizeProductApi = (data: ProductApi): ProductModel => {
@@ -24,5 +26,6 @@ export const normalizeProductApi = (data: ProductApi): ProductModel => {
     urlImage: data.images[0].url,
     ...(data.productCategory && { category: data.productCategory.title }),
     price: data.price,
+    isInStock: data.isInStock,
   };
 };

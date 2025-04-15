@@ -18,7 +18,7 @@ const Dropdown: React.FC = () => {
     sortStore.updateSelectedNameOption(rootStore.queryParams.params.sort);
   }, [rootStore.queryParams.params.sort, sortStore]);
 
-  const handleClick = useCallback(() => setOpenModal(!openModal), [openModal, setOpenModal]);
+  const handleClick = useCallback(() => {setOpenModal(true)}, [setOpenModal]);
 
   return (
     <div className={style.dropdown}>
