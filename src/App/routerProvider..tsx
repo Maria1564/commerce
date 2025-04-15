@@ -7,6 +7,7 @@ import { LoginPage } from 'pages/LoginPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { ProductPage } from 'pages/ProductPage';
 import { RegisterPage } from 'pages/RegisterPage';
+import { CartPageProvider } from 'store/CartPageStore/CartPageProvider';
 import { CatalogPageProvider } from 'store/CatalogPageStore/CatalogPageProvider';
 import { ProductPageProvider } from 'store/ProductPageStore/ProductsPageProvider';
 import { RootStoreProvider } from 'store/RootStore/rootStoreProvider';
@@ -60,7 +61,9 @@ export const routeConfig: RouteObject[] = [
         path: Routes.cart,
         element: (
           <PrivateRoute>
-            <CartPage />
+            <CartPageProvider>
+              <CartPage />
+            </CartPageProvider>
           </PrivateRoute>
         ),
       },

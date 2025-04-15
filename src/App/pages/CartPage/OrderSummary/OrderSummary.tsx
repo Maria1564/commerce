@@ -1,28 +1,31 @@
 import classNames from 'classnames';
-import { observer, useLocalStore } from 'mobx-react-lite';
-import React, { useCallback } from 'react';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 import { Button } from 'components/Button';
-import { Input } from 'components/Input';
 import { Text } from 'components/Text';
-import { InputStore } from 'store/InputStore/InputStore';
+import { useCartPageContext } from 'store/CartPageStore/CartPageProvider';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
+import { InputField } from './InputField';
 import style from './OrderSummary.module.scss';
 
 const OrderSummary: React.FC = () => {
   const { cart } = useRootStoreContext();
-  const inputStore = useLocalStore(() => new InputStore());
-
-  const handleChange = useCallback((value: string) => {
-    inputStore.setValue(value);
-  }, []);
-
+  const {orderFormStore} = useCartPageContext()
+  
+const handleSubmit = () => {
+  const isValidate = orderFormStore.validate()
+  if(isValidate) {
+    alert("Заказ принят")
+    cart.clearCart()
+    orderFormStore.setAddress("")
+    orderFormStore.setPhone("")
+  }
+}
   return (
     <div className={style[`order-summary`]}>
       <div className={style[`order-summary__delivery-address`]}>
-        <label>
-          Укажите адрес пункта выдачи:
-          <Input onChange={handleChange} value={inputStore.value} className={style[`order-summary__input`]} />
-        </label>
+        <InputField label="Укажите адрес пункта выдачи" valueInput='address'/>
+        <InputField label="Укажите ваш номер телефона" valueInput='phone'/>
       </div>
 
       <div className={style[`order-summary__totals`]}>
@@ -50,7 +53,7 @@ const OrderSummary: React.FC = () => {
             ${cart.totalCartAmount}
           </Text>
         </div>
-        {<Button disabled={!cart.totalCartAmount}>Заказать</Button>}
+        {<Button disabled={!cart.totalCartAmount} onClick={handleSubmit}>Заказать</Button>}
       </div>
     </div>
   );

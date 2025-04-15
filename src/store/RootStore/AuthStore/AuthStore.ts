@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, runInAction, toJS } from 'mobx';
+import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { FormFields } from 'store/FormStore/FormStore';
 import { normalizeUserApi, UserApi, UserModel } from 'store/models/auth/user';
 import { apiClient } from 'utils/axiosConfig';
@@ -89,7 +89,6 @@ export class AuthStore {
         runInAction(() => {
           this._meta = Meta.error;
           this._errorMessage = error.response.data.error.message || 'Неизвестная ошибка';
-          console.log(toJS(this._errorMessage))
         }),
       );
   }

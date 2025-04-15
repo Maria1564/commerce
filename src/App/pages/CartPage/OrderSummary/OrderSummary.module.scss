@@ -16,14 +16,6 @@
     }
   }
 
-  &__input {
-    margin-top: 10px;
-    width: 80%;
-    & input {
-      background: v.$background-input;
-    }
-  }
-
   &__totals {
     width: 300px;
     margin-top: 55px;
