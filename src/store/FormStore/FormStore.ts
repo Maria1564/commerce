@@ -34,6 +34,7 @@ export class FormStore implements ILocalStore {
       setPassword: action,
       validate: action,
       _clearForm: action,
+      setErrorMessage: action
     });
   }
 
@@ -55,6 +56,10 @@ export class FormStore implements ILocalStore {
 
   get errorMessage(): string {
     return this._errorMessage;
+  }
+
+  setErrorMessage(value: string):void {
+    this._errorMessage = value
   }
 
   private _clearForm(): void {

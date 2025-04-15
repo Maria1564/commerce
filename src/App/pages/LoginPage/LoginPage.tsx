@@ -6,7 +6,6 @@ import { Text } from 'components/Text';
 import { Routes } from 'config/routes';
 import { FormFields } from 'store/FormStore/FormStore';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
-import { Meta } from 'utils/meta';
 import style from './LoginPage.module.scss';
 
 const LoginPage: React.FC = () => {
@@ -21,15 +20,14 @@ const LoginPage: React.FC = () => {
   );
 
   useEffect(() => {
-    if (auth.meta === Meta.error) {
-      alert('неверный логин или пароль');
-      return;
-    }
-
     if (auth.isAuth) {
       navigate(Routes.catalog, { replace: true });
     }
   }, [auth.isAuth, auth.meta, navigate]);
+
+  useEffect(() => {
+    return () => auth.resetAuthState();
+  }, [auth]);
 
   return (
     <div className={style.login}>
@@ -48,6 +46,7 @@ const LoginPage: React.FC = () => {
               Зарегистрироваться
             </Link>
           }
+          errorMessage={auth.errorMessage}
         />
       </div>
     </div>

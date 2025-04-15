@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { CartProductList } from './CartProductList';
+import { OrderSummary } from './OrderSummary';
 import style from './CartPage.module.scss';
 
 const CartPage: React.FC = () => {
@@ -13,6 +14,7 @@ const CartPage: React.FC = () => {
   return (
     <div className={style.cart}>
       <CartProductList />
+      <OrderSummary />
     </div>
   );
 };

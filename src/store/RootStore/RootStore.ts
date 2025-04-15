@@ -7,5 +7,5 @@ export default class RootStore {
   readonly queryParams = new QueryParamsStore();
   readonly auth = new AuthStore();
   readonly theme = new ThemeStore();
-  readonly cart = new CartStore()
+  readonly cart = new CartStore();
 }

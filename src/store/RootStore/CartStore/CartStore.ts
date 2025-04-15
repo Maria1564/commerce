@@ -79,9 +79,9 @@ export class CartStore implements ILocalStore {
   }
 
   removeProductById(idProduct: string): void {
-    this._productsList = this._productsList.filter((item) => item.id !== idProduct);
-
     const selectProduct = this._productsList.find((item) => item.id === idProduct);
+
+    this._productsList = this._productsList.filter((item) => item.id !== idProduct);
 
     if (selectProduct) {
       this._totalCartAmount -= selectProduct?.sum;

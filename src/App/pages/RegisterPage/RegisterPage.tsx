@@ -21,15 +21,14 @@ const RegisterPage: React.FC = () => {
   );
 
   useEffect(() => {
-    if (rootStore.auth.meta === Meta.error) {
-      alert('Пользователь с таким именем/почтой уже есть');
-      return;
-    }
-
     if (rootStore.auth.meta === Meta.success) {
       navigate(Routes.login, { replace: true });
     }
   }, [navigate, rootStore.auth.meta]);
+
+  useEffect(() => {
+    return () => rootStore.auth.resetAuthState();
+  }, [rootStore.auth]);
 
   return (
     <div className={style.register}>
@@ -49,6 +48,7 @@ const RegisterPage: React.FC = () => {
             </Link>
           }
           isRegister
+          errorMessage={rootStore.auth.errorMessage}
         />
       </div>
     </div>

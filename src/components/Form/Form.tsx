@@ -12,15 +12,19 @@ type FormProps = {
   link?: React.ReactNode;
   text: string;
   isRegister?: boolean;
+  errorMessage?: string
 };
 
-const Form: React.FC<FormProps> = ({ sendFormValues, link, text, isRegister = false }) => {
+const Form: React.FC<FormProps> = ({ sendFormValues, link, text, isRegister = false, errorMessage = "" }) => {
   const formStore = useLocalStore(() => new FormStore());
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     formStore.validate(sendFormValues);
   };
+
+  useEffect(() => {
+    formStore.setErrorMessage(errorMessage)
+  }, [errorMessage, formStore])
 
   const changeUsername = useCallback(
     (value: string) => {

@@ -41,7 +41,9 @@ const CartProductList: React.FC = () => {
         {cart.productsList.length ? (
           cart.productsList.map((item) => <ProductItem key={item.id} product={item} />)
         ) : (
-          <Text view="p-18">Корзина пуста</Text>
+          <Text view="p-18" color="primary">
+            Корзина пуста
+          </Text>
         )}
       </div>
     </div>
