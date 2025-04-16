@@ -7,6 +7,7 @@ import { CategoryListPage } from 'pages/CategoryListPage';
 import { LoginPage } from 'pages/LoginPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { ProductPage } from 'pages/ProductPage';
+import { ProfilePage } from 'pages/ProfilePage';
 import { RegisterPage } from 'pages/RegisterPage';
 import { CartPageProvider } from 'store/CartPageStore/CartPageProvider';
 import { CatalogPageProvider } from 'store/CatalogPageStore/CatalogPageProvider';
@@ -78,6 +79,14 @@ export const routeConfig: RouteObject[] = [
             </CategoryListPageProvider>
           </PrivateRoute>
         ),
+      },
+      {
+        path: Routes.profile,
+        element: (
+          <PrivateRoute>
+            <ProfilePage/>
+          </PrivateRoute>
+        )
       },
       {
         path: Routes.register,

@@ -21,6 +21,10 @@ const AccountDropdown: React.FC = () => {
     navigate(`/login`, { replace: true });
   };
 
+  const onNavigate = () => {
+    navigate(`/profile`)
+  }
+
   return (
     <div className={style[`account-drop`]}>
       <div ref={ref} onClick={onOpenModal}>
@@ -28,7 +32,7 @@ const AccountDropdown: React.FC = () => {
       </div>
       {openModal && (
         <div className={style[`account-drop__panel`]}>
-          <div className={style[`account-drop__panel-item`]}>профиль</div>
+          <div className={style[`account-drop__panel-item`]} onClick={onNavigate}>профиль</div>
           <div
             className={classNames(style[`account-drop__logout`], style[`account-drop__panel-item`])}
             onClick={onLogout}

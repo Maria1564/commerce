@@ -7,5 +7,6 @@ export const Routes = {
   login: '/login',
   cart: '/cart',
   categories: '/categories',
+  profile: "/profile",
   other: '*',
 };
