@@ -18,6 +18,7 @@ export class CartStore implements ILocalStore {
   private _totalCartAmount: number = 0;
   private _isAdded: boolean = false;
   private _reaction: IReactionDisposer | null = null;
+  private _reactionStorage: IReactionDisposer | null = null;
 
   constructor() {
     makeObservable<CartStore, PrivateFields>(this, {
@@ -34,8 +35,10 @@ export class CartStore implements ILocalStore {
       removeProductById: action,
       checkedCart: action,
     });
+    this._restoreSessionFromStorage();
 
     this._initReaction();
+    this._saveLocaleStorage();
   }
 
   get productsList(): ProductsCart[] {
@@ -133,6 +136,10 @@ export class CartStore implements ILocalStore {
     if (this._reaction) {
       this._reaction();
     }
+
+    if (this._reactionStorage) {
+      this._reactionStorage();
+    }
   }
 
   private _initReaction(): void {
@@ -144,5 +151,24 @@ export class CartStore implements ILocalStore {
         }
       },
     );
+  }
+
+  private _saveLocaleStorage(): void {
+    this._reactionStorage = reaction(
+      () => this._productsList,
+      () => {
+        localStorage.setItem('cart', JSON.stringify(this._productsList));
+        localStorage.setItem('amount', JSON.stringify(this._totalCartAmount));
+      },
+    );
+  }
+
+  private _restoreSessionFromStorage(): void {
+    const productsCart = localStorage.getItem('cart');
+    const amount = localStorage.getItem('amount');
+    if (productsCart && amount) {
+      this._productsList = JSON.parse(productsCart);
+      this._totalCartAmount = JSON.parse(amount);
+    }
   }
 }

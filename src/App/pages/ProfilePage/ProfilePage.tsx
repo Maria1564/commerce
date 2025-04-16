@@ -1,14 +1,31 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { MdEdit } from 'react-icons/md';
 import { Button } from 'components/Button';
 import { Text } from 'components/Text';
 import { UserIcon } from 'components/icons/UserIcon';
+import { InputStore } from 'store/InputStore/InputStore';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
+import { useLocalStore } from 'utils/hooks/useLocalStore';
 import style from './ProfilePage.module.scss';
 
 const ProfilePage: React.FC = () => {
   const { auth } = useRootStoreContext();
+  const inputStore = useLocalStore(() => new InputStore());
+
+  useEffect(() => {
+    if (auth.user) {
+      inputStore.setValue(auth.user?.username);
+    }
+  }, [auth.user, inputStore]);
+
+  const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+    inputStore.setValue(e.target.value);
+  };
+
+  const onSave = useCallback(() => {
+    auth.setUsername(inputStore.value);
+  }, [auth, inputStore.value]);
 
   return (
     <div className={style.profile}>
@@ -24,7 +41,12 @@ const ProfilePage: React.FC = () => {
               Имя
             </Text>
             <div className={style.profile__username}>
-              <input type="text" className={style.profile__field} value={auth.user?.username} />
+              <input
+                type="text"
+                className={style.profile__field}
+                value={inputStore.value}
+                onChange={onChangeUsername}
+              />
               <MdEdit className={style[`profile__icon-edit`]} />
             </div>
           </div>
@@ -34,7 +56,9 @@ const ProfilePage: React.FC = () => {
             </Text>
             <input type="text" className={style.profile__field} value={auth.user?.login} />
           </div>
-          <Button className={style.profile__save}>Сохранить</Button>
+          <Button className={style[`profile__btn-save`]} onClick={onSave}>
+            Сохранить
+          </Button>
         </div>
       </div>
     </div>

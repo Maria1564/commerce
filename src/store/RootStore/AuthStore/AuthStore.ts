@@ -122,8 +122,15 @@ export class AuthStore {
   }
 
   logout(): void {
-    this._isAuth = false
+    this._isAuth = false;
     this._user = null;
-    localStorage.removeItem("auth")
+    localStorage.removeItem('auth');
+  }
+
+  setUsername(newUsername: string): void {
+    if (this._user) {
+      this._user.username = newUsername;
+      localStorage.setItem('auth', JSON.stringify(this._user));
+    }
   }
 }
