@@ -11,7 +11,7 @@ export const links: typeLink[] = [
     text: "Products",
   },
   {
-    to: Routes.main,
+    to: Routes.categories,
     text: "Categories",
   },
   {

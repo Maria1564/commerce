@@ -6,5 +6,6 @@ export const Routes = {
   register: '/register',
   login: '/login',
   cart: '/cart',
+  categories: '/categories',
   other: '*',
 };

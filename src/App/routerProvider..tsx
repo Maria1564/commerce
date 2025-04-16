@@ -3,12 +3,14 @@ import { Routes } from 'config/routes';
 import { AboutUsPage } from 'pages/AboutUsPage';
 import { CartPage } from 'pages/CartPage';
 import { CatalogPage } from 'pages/CatalogPage';
+import { CategoryListPage } from 'pages/CategoryListPage';
 import { LoginPage } from 'pages/LoginPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { ProductPage } from 'pages/ProductPage';
 import { RegisterPage } from 'pages/RegisterPage';
 import { CartPageProvider } from 'store/CartPageStore/CartPageProvider';
 import { CatalogPageProvider } from 'store/CatalogPageStore/CatalogPageProvider';
+import { CategoryListPageProvider } from 'store/CategoryListPageStore/CategoryListPageProvider';
 import { ProductPageProvider } from 'store/ProductPageStore/ProductsPageProvider';
 import { RootStoreProvider } from 'store/RootStore/rootStoreProvider';
 import { PrivateRoute } from 'utils/components/PrivateRoute';
@@ -64,6 +66,16 @@ export const routeConfig: RouteObject[] = [
             <CartPageProvider>
               <CartPage />
             </CartPageProvider>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: Routes.categories,
+        element: (
+          <PrivateRoute>
+            <CategoryListPageProvider>
+              <CategoryListPage />
+            </CategoryListPageProvider>
           </PrivateRoute>
         ),
       },

@@ -1,0 +1,37 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.category {
+  border: 2px solid v.$brand;
+  width: 280px;
+  padding: 15px 10px;
+  border-radius: v.$border-radius;
+  background-color: v.$white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.4s;
+
+  &:hover {
+    background-color: v.$brand;
+
+    .category__icon {
+      color: v.$white;
+    }
+
+    .category__text {
+      color: v.$white;
+    }
+  }
+
+  &__icon {
+    color: v.$brand;
+    @include m.square(60px);
+    transition: color 0.4s;
+  }
+
+  &__text {
+    transition: color 0.4s;
+  }
+}
