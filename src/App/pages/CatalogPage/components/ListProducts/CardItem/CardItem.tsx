@@ -5,6 +5,8 @@ import { Card } from 'components/Card';
 import { Text } from 'components/Text';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { ProductModel } from 'store/models/product/product';
+import { Rating } from './Rating';
+import style from './CardItem.module.scss';
 
 type CardItemProps = {
   item: ProductModel;
@@ -25,7 +27,12 @@ const CardItem: React.FC<CardItemProps> = ({ item }) => {
   return (
     <Card
       image={item.urlImage}
-      captionSlot={item.category}
+      captionSlot={
+        <div className={style.card__caption}>
+          {item.category}
+          <Rating rating={item.rating} />
+        </div>
+      }
       title={item.title}
       subtitle={item.description}
       contentSlot={`$${item.price}`}

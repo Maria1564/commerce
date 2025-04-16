@@ -13,7 +13,7 @@ const ProductPage: React.FC = () => {
       <Link to={Routes.catalog} replace className={style[`product__link-back`]}>
         <ArrowLeftIcon className={style.product__icon} />
         <Text view="p-20" color="primary">
-          back
+          назад
         </Text>
       </Link>
       <Info />
