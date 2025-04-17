@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router';
 import { Button } from 'components/Button';
 import { Text } from 'components/Text';
 import { ProductsCart } from 'store/RootStore/CartStore/CartStore';
@@ -13,6 +14,7 @@ type ProductItemProps = {
 
 const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
   const { cart } = useRootStoreContext();
+  const navigate = useNavigate()
 
   const onDecrementProduct = useCallback(() => {
     cart.decrementProductById(product.id);
@@ -26,12 +28,16 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
     cart.removeProductById(product.id)
   }, [cart, product.id])
 
+  const onNavigate = useCallback(() => {
+    navigate(`/product/${product.id}`)
+  }, [navigate, product.id])
+
   return (
     <div className={style.product}>
       <div className={style.product__info}>
         <img src={product.imgUrl} alt={product.title} width={150} height={150} />
-        <div className={style.product__content}>
-          <Text view="p-20" color="primary" weight="bold" className={style.product__title}>
+        <div className={style.product__content} onClick={onNavigate}>
+          <Text view="p-20" color="primary" weight="bold" className={style.product__title} >
             {product.title}
           </Text>
           <Text color="primary" view="p-18">

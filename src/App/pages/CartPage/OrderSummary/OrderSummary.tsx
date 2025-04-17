@@ -16,13 +16,7 @@ const OrderSummary: React.FC = () => {
     const isValidate = orderFormStore.validate();
     if (isValidate) {
       alert('Заказ принят');
-      let products = cart.productsList.map((item) => ({
-        id: item.id,
-        title: item.title,
-        price: item.price,
-        count: item.count,
-      }));
-      orderHistory.addOrder(products, cart.totalCartAmount);
+      orderHistory.addOrder(cart.productsList, cart.totalCartAmount);
       cart.clearCart();
       orderFormStore.setAddress('');
       orderFormStore.setPhone('');

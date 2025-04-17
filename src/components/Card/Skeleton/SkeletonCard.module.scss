@@ -3,6 +3,8 @@
 
 .card-skeleton {
   background-color: v.$white;
+  border-radius: v.$border-radius;
+  overflow: hidden;
   width: 360px;
 
   &__img {

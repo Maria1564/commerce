@@ -11,7 +11,7 @@ export type ProductsCart = {
   count: number;
 };
 
-type PrivateFields = '_productsList' | '_totalCartAmount' | '_isAdded';
+type PrivateFields = '_productsList' | '_totalCartAmount' | '_isAdded' | '_restoreSessionFromStorage';
 
 export class CartStore implements ILocalStore {
   private _productsList: ProductsCart[] = [];
@@ -34,7 +34,10 @@ export class CartStore implements ILocalStore {
       incrementProductById: action,
       removeProductById: action,
       checkedCart: action,
+      addProductsFromOrder: action,
+      _restoreSessionFromStorage: action,
     });
+
     this._restoreSessionFromStorage();
 
     this._initReaction();
@@ -53,15 +56,21 @@ export class CartStore implements ILocalStore {
     return this._isAdded;
   }
 
-  addProduct(product: ProductModel): void {
-    const selectedProduct: ProductsCart = {
-      id: product.id,
-      title: product.title,
-      count: 1,
-      imgUrl: product.urlImage,
-      price: product.price,
-      sum: product.price,
-    };
+  addProduct(product: ProductModel | ProductsCart): void {
+    let selectedProduct: ProductsCart;
+
+    if ('urlImage' in product) {
+      selectedProduct = {
+        id: product.id,
+        title: product.title,
+        count: 1,
+        imgUrl: product.urlImage,
+        price: product.price,
+        sum: product.price,
+      };
+    } else {
+      selectedProduct = product;
+    }
 
     const haveProduct = this._productsList.some((item) => item.id === selectedProduct.id);
 
@@ -140,6 +149,13 @@ export class CartStore implements ILocalStore {
     if (this._reactionStorage) {
       this._reactionStorage();
     }
+  }
+
+  addProductsFromOrder(orderProducts: ProductsCart[]): void {
+    orderProducts.forEach((product) => {
+      this.addProduct(product);
+    });
+    this._isAdded = true
   }
 
   private _initReaction(): void {

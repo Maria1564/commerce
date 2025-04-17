@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text } from 'components/Text';
-import { OrderProduct } from 'store/RootStore/OrderHistoryStore/OrderHistoryStore';
+import { ProductsCart } from 'store/RootStore/CartStore/CartStore';
 import style from './OrderProductItem.module.scss';
 
 type OrderProductItemProps = {
-  product: OrderProduct;
+  product: ProductsCart;
 };
 
 const OrderProductItem: React.FC<OrderProductItemProps> = ({ product }) => {

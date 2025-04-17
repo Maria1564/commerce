@@ -1,12 +1,18 @@
 import { observer } from 'mobx-react-lite';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Button } from 'components/Button';
 import { Input } from 'components/Input';
 import { useCatalogPageContext } from 'store/CatalogPageStore/CatalogPageProvider';
+import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import style from './Search.module.scss';
 
 const Search: React.FC = () => {
   const { searchStore } = useCatalogPageContext();
+  const { queryParams } = useRootStoreContext();
+
+  useEffect(() => {
+    searchStore.setValue(queryParams.params.search);
+  }, [queryParams.params.search, searchStore]);
 
   const handlerChangeValue = useCallback(
     (value: string) => {

@@ -3,13 +3,13 @@ import { ProductsCart } from '../CartStore/CartStore';
 
 type OrderState = 'processing' | 'shipped' | 'delivered';
 
-export type OrderProduct = Omit<ProductsCart, 'imgUrl' | 'sum'>;
+
 
 export type Order = {
   id: number;
   total: number;
   status: OrderState;
-  products: OrderProduct[];
+  products: ProductsCart[];
 };
 
 type PrivateFields = '_orders' | '_restoreSessionFromStorage';
@@ -32,7 +32,7 @@ export class OrderHistoryStore {
     return this._orders;
   }
 
-  addOrder(products: OrderProduct[], sum: number): void {
+  addOrder(products: ProductsCart[], sum: number): void {
     this._orders.unshift({
       id: this._orders.length + 1,
       total: sum,

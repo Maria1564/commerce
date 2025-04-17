@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Text } from 'components/Text';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
@@ -27,4 +28,4 @@ const OrderHistoryPage: React.FC = () => {
   );
 };
 
-export default OrderHistoryPage;
+export default observer(OrderHistoryPage);

@@ -2,6 +2,7 @@
 
 .card {
   width: 360px;
+  border-radius: v.$border-radius;
   background: v.$white;
   overflow: hidden;
   transition:

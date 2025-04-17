@@ -27,8 +27,11 @@
   &__info {
     @include m.align-items-center;
     justify-content: space-between;
-    cursor: pointer;
     margin-bottom: 8px;
+  }
+
+  &__order-number {
+    cursor: pointer;
   }
 
   &__products-list {
@@ -50,5 +53,16 @@
   &__total {
     width: max-content;
     margin-left: auto;
+  }
+
+  &__action {
+    font-weight: 500;
+    margin-top: 12px;
+    color: v.$brand;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
