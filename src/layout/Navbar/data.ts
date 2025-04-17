@@ -18,4 +18,8 @@ export const links: typeLink[] = [
     to: Routes.about,
     text: "About us",
   },
+  {
+    to: Routes.orders,
+    text: "Orders"
+  }
 ];

@@ -47,10 +47,18 @@ const Info: React.FC = () => {
               ${productStore.product?.price}
             </Text>
             <div className={style.info__actions}>
-              {/* <Button>Buy now</Button> */}
-              <Button className={style.info__btn_outline} onClick={addProductCart}>
-                Add to Cart
-              </Button>
+              {productStore.product?.isInStock ? (
+                <>
+                  {/* <Button>Buy now</Button> */}
+                  <Button className={style.info__btn_outline} onClick={addProductCart}>
+                    Add to Cart
+                  </Button>
+                </>
+              ) : (
+                <Text tag="span" view="p-20" color="primary">
+                  Нет в наличии
+                </Text>
+              )}
             </div>
           </div>
         </div>

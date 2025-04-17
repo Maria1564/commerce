@@ -9,12 +9,18 @@ import { CardItem } from './CardItem';
 import style from './RelatedProducts.module.scss';
 
 const RelatedProducts: React.FC = () => {
-  const { productsStore } = useProductPageContext();
+  const { productsStore, productStore } = useProductPageContext();
   const { id } = useParams();
 
   useEffect(() => {
-    productsStore.getProducts({ page: String(Math.floor(Math.random() * 4) + 1) }, 3);
-  }, [id]);
+    const params = {
+      priceMin: String(Number(productStore.product?.price) - 20),
+      priceMax: String(Number(productStore.product?.price) + 20),
+      excludeId: String(productStore.product?.id),
+    };
+
+    productsStore.getProducts(params, 3);
+  }, [id, productStore.product, productsStore]);
 
   return (
     <div className={style[`related-products`]}>

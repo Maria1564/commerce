@@ -7,6 +7,7 @@ export const Routes = {
   login: '/login',
   cart: '/cart',
   categories: '/categories',
-  profile: "/profile",
+  profile: '/profile',
+  orders: '/orders',
   other: '*',
 };

@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { Button } from 'components/Button';
 import { Card } from 'components/Card';
+import { Text } from 'components/Text';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { ProductModel } from 'store/models/product/product';
 
@@ -28,7 +29,15 @@ const CardItem: React.FC<CardItemProps> = ({ item }) => {
       title={item.title}
       subtitle={item.description}
       contentSlot={`$${item.price}`}
-      actionSlot={<Button onClick={addProductCart}>Add to Cart</Button>}
+      actionSlot={
+        item.isInStock ? (
+          <Button onClick={addProductCart}>Add to Cart</Button>
+        ) : (
+          <Text tag="span" view="p-16" color="primary">
+            Нет в наличии
+          </Text>
+        )
+      }
       onClick={onClick}
     />
   );

@@ -1,0 +1,54 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.accordion {
+  background-color: v.$white;
+  padding: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid v.$secondary-color;
+  border-radius: v.$border-radius;
+  margin-bottom: 15px;
+
+  &__status {
+    font-weight: 500;
+    &_red {
+      color: rgb(245, 78, 78);
+    }
+
+    &_yellow {
+      color: rgb(245, 245, 94);
+    }
+
+    &_blue {
+      color: rgb(64, 64, 201);
+    }
+  }
+
+  &__info {
+    @include m.align-items-center;
+    justify-content: space-between;
+    cursor: pointer;
+    margin-bottom: 8px;
+  }
+
+  &__products-list {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 10px;
+    transition:
+      padding-top 0.8s,
+      max-height 0.8s ease;
+  }
+
+  &_active {
+    .accordion__products-list {
+      max-height: 300px;
+      padding-top: 20px;
+    }
+  }
+
+  &__total {
+    width: max-content;
+    margin-left: auto;
+  }
+}

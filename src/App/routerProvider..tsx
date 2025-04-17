@@ -6,6 +6,7 @@ import { CatalogPage } from 'pages/CatalogPage';
 import { CategoryListPage } from 'pages/CategoryListPage';
 import { LoginPage } from 'pages/LoginPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
+import { OrderHistoryPage } from 'pages/OrderHistoryPage';
 import { ProductPage } from 'pages/ProductPage';
 import { ProfilePage } from 'pages/ProfilePage';
 import { RegisterPage } from 'pages/RegisterPage';
@@ -84,9 +85,17 @@ export const routeConfig: RouteObject[] = [
         path: Routes.profile,
         element: (
           <PrivateRoute>
-            <ProfilePage/>
+            <ProfilePage />
           </PrivateRoute>
-        )
+        ),
+      },
+      {
+        path: Routes.orders,
+        element: (
+          <PrivateRoute>
+            <OrderHistoryPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: Routes.register,

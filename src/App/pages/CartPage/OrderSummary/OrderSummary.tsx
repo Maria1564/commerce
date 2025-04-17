@@ -9,23 +9,30 @@ import { InputField } from './InputField';
 import style from './OrderSummary.module.scss';
 
 const OrderSummary: React.FC = () => {
-  const { cart } = useRootStoreContext();
-  const {orderFormStore} = useCartPageContext()
-  
-const handleSubmit = () => {
-  const isValidate = orderFormStore.validate()
-  if(isValidate) {
-    alert("Заказ принят")
-    cart.clearCart()
-    orderFormStore.setAddress("")
-    orderFormStore.setPhone("")
-  }
-}
+  const { cart, orderHistory } = useRootStoreContext();
+  const { orderFormStore } = useCartPageContext();
+
+  const handleSubmit = () => {
+    const isValidate = orderFormStore.validate();
+    if (isValidate) {
+      alert('Заказ принят');
+      let products = cart.productsList.map((item) => ({
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        count: item.count,
+      }));
+      orderHistory.addOrder(products, cart.totalCartAmount);
+      cart.clearCart();
+      orderFormStore.setAddress('');
+      orderFormStore.setPhone('');
+    }
+  };
   return (
     <div className={style[`order-summary`]}>
       <div className={style[`order-summary__delivery-address`]}>
-        <InputField label="Укажите адрес пункта выдачи" valueInput='address'/>
-        <InputField label="Укажите ваш номер телефона" valueInput='phone'/>
+        <InputField label="Укажите адрес пункта выдачи" valueInput="address" />
+        <InputField label="Укажите ваш номер телефона" valueInput="phone" />
       </div>
 
       <div className={style[`order-summary__totals`]}>
@@ -53,7 +60,11 @@ const handleSubmit = () => {
             ${cart.totalCartAmount}
           </Text>
         </div>
-        {<Button disabled={!cart.totalCartAmount} onClick={handleSubmit}>Заказать</Button>}
+        {
+          <Button disabled={!cart.totalCartAmount} onClick={handleSubmit}>
+            Заказать
+          </Button>
+        }
       </div>
     </div>
   );

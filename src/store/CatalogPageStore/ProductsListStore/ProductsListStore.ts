@@ -48,9 +48,9 @@ export class ProductListStore implements ILocalStore {
       populate: ['images', 'productCategory'],
       pagination: {
         pageSize: pageSize,
-        page: Number(params.page),
+        page: Number(params.page || 0),
       },
-      ...((params.search || params.category) && {
+      ...((params.search || params.category || params.priceMin || params.priceMax || params.excludeId) && {
         filters: {
           ...(params.search && {
             title: {
@@ -65,6 +65,20 @@ export class ProductListStore implements ILocalStore {
               },
             },
           }),
+
+          ...(params.priceMin &&
+            params.priceMax && {
+              price: {
+                $gte: Number(params.priceMin),
+                $lte: Number(params.priceMax),
+              },
+            }),
+
+          ...(params.excludeId && {
+            documentId: {
+              $ne: params.excludeId,
+            },
+          }),
         },
       }),
       ...(params.sort && { sort: params.sort }),
@@ -74,7 +88,6 @@ export class ProductListStore implements ILocalStore {
   getProducts(params: { [key: string]: string }, pageSize: number): void {
     this._meta = Meta.loading;
     this._listProducts = [];
-
     this._createRequestParams(params, pageSize);
 
     apiClient
