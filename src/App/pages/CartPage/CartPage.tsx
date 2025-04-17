@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
-import { CartProductList } from './CartProductList';
-import { OrderSummary } from './OrderSummary';
+import { CartProductList } from './components/CartProductList';
+import { OrderSummary } from './components/OrderSummary';
 import style from './CartPage.module.scss';
 
 const CartPage: React.FC = () => {
