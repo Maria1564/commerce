@@ -27,7 +27,7 @@
 
   &__icon {
     color: v.$brand;
-    @include m.square(60px);
+    @include m.square(v.$space-60);
     transition: color 0.4s;
   }
 

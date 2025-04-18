@@ -3,7 +3,7 @@
 
 .accordion {
   background-color: v.$white;
-  padding: 20px;
+  padding: v.$space-l;
   padding-bottom: 10px;
   border-bottom: 1px solid v.$secondary-color;
   border-radius: v.$border-radius;
@@ -27,7 +27,7 @@
   &__info {
     @include m.align-items-center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: v.$space-xxs;
   }
 
   &__order-number {
@@ -46,7 +46,7 @@
   &_active {
     .accordion__products-list {
       max-height: 300px;
-      padding-top: 20px;
+      padding-top: v.$space-l;
     }
   }
 
@@ -57,7 +57,7 @@
 
   &__action {
     font-weight: 500;
-    margin-top: 12px;
+    margin-top: v.$space-xs;
     color: v.$brand;
     cursor: pointer;
 

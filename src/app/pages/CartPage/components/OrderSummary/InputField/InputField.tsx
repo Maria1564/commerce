@@ -25,13 +25,13 @@ const InputField: React.FC<InputFieldProps> = ({label, valueInput}) => {
   );
 
   return (
-    <>
+    <div  className={style.field}>
     <label>
      {label}
       <Input onChange={handleChange} value={orderFormStore[valueInput].value} className={style.field__input} required/>
     </label>
     {orderFormStore[valueInput].errorMessage && <Text className={style.field__error}>{orderFormStore[valueInput].errorMessage}</Text>}
-    </>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { Button } from 'components/Button';
 import { Loader } from 'components/Loader';
 import { Text } from 'components/Text';
@@ -14,6 +14,7 @@ const Info: React.FC = () => {
   const { id } = useParams();
   const { productStore } = useProductPageContext();
   const { cart } = useRootStoreContext();
+  const navigate = useNavigate();
 
   //получение данных о выбранном товаре
   useEffect(() => {
@@ -29,6 +30,13 @@ const Info: React.FC = () => {
       cart.addProduct(productStore.product);
     }
   }, [cart, productStore.product]);
+
+  const handleBuyNow = useCallback(() => {
+    if (productStore.product) {
+      cart.addProduct(productStore.product);
+    }
+    navigate('/cart');
+  }, [cart, navigate, productStore.product]);
 
   return (
     <>
@@ -61,7 +69,7 @@ const Info: React.FC = () => {
             <div className={style.info__actions}>
               {productStore.product?.isInStock ? (
                 <>
-                  {/* <Button>Buy now</Button> */}
+                  <Button onClick={handleBuyNow}>Buy now</Button>
                   <Button className={style.info__btn_outline} onClick={addProductCart}>
                     Add to Cart
                   </Button>
