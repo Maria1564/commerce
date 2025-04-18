@@ -11,7 +11,10 @@ const Search: React.FC = () => {
   const { queryParams } = useRootStoreContext();
 
   useEffect(() => {
-    searchStore.setValue(queryParams.params.search);
+    if(queryParams.params.search) {
+
+      searchStore.setValue(queryParams.params.search);
+    }
   }, [queryParams.params.search, searchStore]);
 
   const handlerChangeValue = useCallback(

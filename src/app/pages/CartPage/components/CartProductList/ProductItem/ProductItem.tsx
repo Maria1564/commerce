@@ -14,7 +14,7 @@ type ProductItemProps = {
 
 const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
   const { cart } = useRootStoreContext();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onDecrementProduct = useCallback(() => {
     cart.decrementProductById(product.id);
@@ -25,24 +25,30 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
   }, [cart, product.id]);
 
   const onRemoveProduct = useCallback(() => {
-    cart.removeProductById(product.id)
-  }, [cart, product.id])
+    cart.removeProductById(product.id);
+  }, [cart, product.id]);
 
   const onNavigate = useCallback(() => {
-    navigate(`/product/${product.id}`)
-  }, [navigate, product.id])
+    navigate(`/product/${product.id}`);
+  }, [navigate, product.id]);
 
   return (
     <div className={style.product}>
       <div className={style.product__info}>
         <img src={product.imgUrl} alt={product.title} width={150} height={150} />
         <div className={style.product__content} onClick={onNavigate}>
-          <Text view="p-20" color="primary" weight="bold" className={style.product__title} >
+          <Text view="p-20" color="primary" weight="bold" className={style.product__title}>
             {product.title}
           </Text>
-          <Text color="primary" view="p-18">
+          <div className="">
+
+          <Text color="primary" view="p-18" className={classNames(product.discountedPrice && style.product__price_old)}>
             ${product.price}
           </Text>
+          {product.discountedPrice ? <Text color="primary" view="p-18">
+            ${product.discountedPrice}
+          </Text>: null}
+          </div>
         </div>
       </div>
 
@@ -63,7 +69,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
           </div>
         </div>
         <Text color="primary" weight="medium" view="p-18">
-          ${product.sum}
+          ${(product.count * (product.discountedPrice ? product.discountedPrice : product.price))}
         </Text>
         <Button onClick={onRemoveProduct}>Удалить</Button>
       </div>

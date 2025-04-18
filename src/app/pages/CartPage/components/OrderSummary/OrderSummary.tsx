@@ -1,11 +1,10 @@
-import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Button } from 'components/Button';
-import { Text } from 'components/Text';
 import { useCartPageContext } from 'store/CartPageStore/CartPageProvider';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { InputField } from './InputField';
+import { SummaryRow } from './SummaryRow';
 import style from './OrderSummary.module.scss';
 
 const OrderSummary: React.FC = () => {
@@ -16,7 +15,7 @@ const OrderSummary: React.FC = () => {
     const isValidate = orderFormStore.validate();
     if (isValidate) {
       alert('Заказ принят');
-      orderHistory.addOrder(cart.productsList, cart.totalCartAmount);
+      orderHistory.addOrder(cart.productsList, cart.totalDiscountedAmount);
       cart.clearCart();
       orderFormStore.setAddress('');
       orderFormStore.setPhone('');
@@ -30,30 +29,14 @@ const OrderSummary: React.FC = () => {
       </div>
 
       <div className={style[`order-summary__totals`]}>
-        <div className={style[`order-summary__row`]}>
-          <Text view="p-16" color="secondary" tag="span">
-            Сумма товара(ов)
-          </Text>
-          <Text weight="medium" color="primary" view="p-16">
-            ${cart.totalCartAmount}
-          </Text>
-        </div>
-        <div className={style[`order-summary__row`]}>
-          <Text view="p-16" color="secondary" tag="span">
-            Доставка
-          </Text>
-          <Text weight="medium" color="primary" view="p-16">
-            бесплатно
-          </Text>
-        </div>
-        <div className={classNames(style[`order-summary__row`], style[`order-summary__row-total`])}>
-          <Text view="p-16" color="secondary" tag="span">
-            ИТОГО
-          </Text>
-          <Text weight="bold" color="accent" view="p-18">
-            ${cart.totalCartAmount}
-          </Text>
-        </div>
+        <SummaryRow label="Сумма товара(ов)" content={`$${cart.totalCartAmount}`} />
+        <SummaryRow label="Доставка" content="бесплатно" />
+        <SummaryRow label="Скидка" content={`- $${(cart.totalCartAmount - cart.totalDiscountedAmount)}`} />
+        <SummaryRow
+          className={style[`order-summary__row-total`]}
+          label="ИТОГО"
+          content={`$${cart.totalDiscountedAmount}`}
+        />
         {
           <Button disabled={!cart.totalCartAmount} onClick={handleSubmit}>
             Заказать

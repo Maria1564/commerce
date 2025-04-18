@@ -39,4 +39,14 @@
       }
     }
   }
+
+  &__price {
+    &_old {
+      color: v.$secondary-color;
+      text-decoration: line-through;
+      text-decoration-thickness: 3px;
+      text-decoration-color: v.$brand;
+      font-weight: 400;
+    }
+  }
 }

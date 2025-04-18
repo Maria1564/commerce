@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
@@ -43,9 +44,20 @@ const Info: React.FC = () => {
             <Text view="p-20" color="secondary" className={style.info__description}>
               {productStore.product?.description}
             </Text>
-            <Text view="title" color="primary">
-              ${productStore.product?.price}
-            </Text>
+            <div>
+              <Text
+                view="title"
+                color="primary"
+                className={classNames(productStore.product?.discountedPrice && style.info__price_old)}
+              >
+                ${productStore.product?.price}
+              </Text>
+              {productStore.product?.discountedPrice ? (
+                <Text view="title" color="primary">
+                  ${productStore.product?.discountedPrice}
+                </Text>
+              ) : null}
+            </div>
             <div className={style.info__actions}>
               {productStore.product?.isInStock ? (
                 <>

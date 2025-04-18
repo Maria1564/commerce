@@ -1,12 +1,6 @@
-@use "styles/mixins" as m;
 @use "styles/variables" as v;
 
 .card {
-  &__caption {
-    @include m.align-items-center;
-    gap: v.$space-l;
-  }
-
   &__price {
     &_old {
       color: v.$secondary-color;

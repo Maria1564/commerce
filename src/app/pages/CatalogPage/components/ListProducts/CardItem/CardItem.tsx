@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { Button } from 'components/Button';
@@ -15,7 +16,6 @@ type CardItemProps = {
 const CardItem: React.FC<CardItemProps> = ({ item }) => {
   const navigate = useNavigate();
   const { cart } = useRootStoreContext();
-
   const onClick = useCallback(() => {
     navigate(`/product/${item.id}`);
   }, [item.id, navigate]);
@@ -35,7 +35,23 @@ const CardItem: React.FC<CardItemProps> = ({ item }) => {
       }
       title={item.title}
       subtitle={item.description}
-      contentSlot={`$${item.price}`}
+      contentSlot={
+        <>
+          <Text
+            tag="span"
+            view="p-18"
+            weight="bold"
+            className={classNames(item.discountedPrice && style.card__price_old)}
+          >
+            ${item.price}
+          </Text>
+          {item.discountedPrice ? (
+            <Text tag="span" view="p-18" weight="bold">
+              ${item.discountedPrice}
+            </Text>
+          ) : null}
+        </>
+      }
       actionSlot={
         item.isInStock ? (
           <Button onClick={addProductCart}>Add to Cart</Button>

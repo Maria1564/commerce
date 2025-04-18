@@ -3,8 +3,6 @@ import { ProductsCart } from '../CartStore/CartStore';
 
 type OrderState = 'processing' | 'shipped' | 'delivered';
 
-
-
 export type Order = {
   id: number;
   total: number;
@@ -39,7 +37,6 @@ export class OrderHistoryStore {
       status: 'processing',
       products,
     });
-
     localStorage.setItem('orders', JSON.stringify(this._orders));
   }
 

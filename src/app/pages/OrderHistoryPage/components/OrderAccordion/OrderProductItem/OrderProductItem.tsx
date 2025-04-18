@@ -14,7 +14,7 @@ const OrderProductItem: React.FC<OrderProductItemProps> = ({ product }) => {
         {product.title}
       </Text>
       <Text tag="span" color="secondary" view="p-16">
-        {product.count} х ${product.price}
+        {product.count} х ${product.discountedPrice ? product.discountedPrice : product.price}
       </Text>
     </div>
   );
