@@ -29,7 +29,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className={style.profile}>
-      <Text tag="h2" color="primary" view="title">
+      <Text tag="h2" color="primary" view="title" className={style.profile__title}>
         Профиль
       </Text>
 

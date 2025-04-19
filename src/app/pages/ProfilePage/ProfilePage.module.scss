@@ -5,6 +5,11 @@
   margin: 40px 0;
   border-radius: v.$border-radius;
 
+  &__title {
+    width: max-content;
+    margin: 0 auto;
+  }
+
   &__wrapper {
     width: 540px;
     margin: 0 auto;
