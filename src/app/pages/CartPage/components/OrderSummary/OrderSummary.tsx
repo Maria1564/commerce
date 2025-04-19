@@ -15,7 +15,6 @@ const OrderSummary: React.FC = () => {
   const handleSubmit = () => {
     const isValidate = orderFormStore.validate();
     if (isValidate) {
-      // alert('Заказ принят');
       toast.success('Заказ принят');
       orderHistory.addOrder(cart.productsList, cart.totalDiscountedAmount);
       cart.clearCart();

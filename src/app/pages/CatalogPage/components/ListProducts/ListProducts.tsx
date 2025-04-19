@@ -22,7 +22,7 @@ const ListProducts: React.FC = () => {
   return (
     <div className={style.products}>
       <div className={style.products__total}>
-        <Text className={style.products__text}>Total products</Text>
+        <Text className={style.products__text}>Количество товаров</Text>
         <Text view="p-20" tag="span" color="accent" weight="bold">
           {productsStore.total}
         </Text>

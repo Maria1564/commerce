@@ -20,7 +20,7 @@ const CatalogPage: React.FC = () => {
     <div className={style.catalog}>
       <div className={style.catalog__title}>
         <Text view="title" weight="bold">
-          Products
+          Товары
         </Text>
         <Text view="p-20" color="secondary" className={style.catalog__text}>
           {' '}

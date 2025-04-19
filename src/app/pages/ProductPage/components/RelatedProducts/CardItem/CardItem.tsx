@@ -49,7 +49,7 @@ const CardItem: React.FC<CardItemProps> = ({ item }) => {
       }
       actionSlot={
         item.isInStock ? (
-          <Button onClick={addProductCart}>Add to Cart</Button>
+          <Button onClick={addProductCart}>добавить</Button>
         ) : (
           <Text tag="span" view="p-16" color="primary">
             Нет в наличии

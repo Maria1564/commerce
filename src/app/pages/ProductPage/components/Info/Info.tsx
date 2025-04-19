@@ -69,9 +69,9 @@ const Info: React.FC = () => {
             <div className={style.info__actions}>
               {productStore.product?.isInStock ? (
                 <>
-                  <Button onClick={handleBuyNow}>Buy now</Button>
+                  <Button onClick={handleBuyNow}>купить</Button>
                   <Button className={style.info__btn_outline} onClick={addProductCart}>
-                    Add to Cart
+                    добавить
                   </Button>
                 </>
               ) : (

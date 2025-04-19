@@ -11,8 +11,7 @@ const Search: React.FC = () => {
   const { queryParams } = useRootStoreContext();
 
   useEffect(() => {
-    if(queryParams.params.search) {
-
+    if (queryParams.params.search) {
       searchStore.setValue(queryParams.params.search);
     }
   }, [queryParams.params.search, searchStore]);
@@ -34,7 +33,7 @@ const Search: React.FC = () => {
         onChange={handlerChangeValue}
         className={style.search__input}
       />
-      <Button onClick={findProducts}>Find now</Button>
+      <Button onClick={findProducts}>поиск</Button>
     </div>
   );
 };
