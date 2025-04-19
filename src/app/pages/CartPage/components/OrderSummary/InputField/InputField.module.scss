@@ -1,0 +1,20 @@
+@use "styles/variables" as v;
+
+.field {
+  &__input {
+    margin-top: 10px;
+    width: 80%;
+
+    & input {
+      background: v.$background-input;
+    }
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}

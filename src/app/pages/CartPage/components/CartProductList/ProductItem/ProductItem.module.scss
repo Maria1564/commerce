@@ -1,0 +1,70 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.product {
+  @include m.align-items-center;
+  justify-content: space-between;
+  border-bottom: 1px solid v.$secondary-color;
+  gap: 90px;
+  padding: 10px 10px v.$space-xs;
+  margin-bottom: 25px;
+
+  &__info {
+    @include m.align-items-center;
+    gap: 25px;
+  }
+
+  &__actions {
+    @include m.align-items-center;
+    gap: 45px;
+  }
+
+  &__counter {
+    @include m.align-items-center;
+    gap: v.$space-m;
+
+    & > output {
+      font-size: v.$p-20;
+      font-weight: bold;
+      color: v.$primary-color;
+    }
+  }
+
+  &__btn-counter {
+    color: v.$primary-color;
+    font-size: 24px;
+    padding: 5px v.$space-xs;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: border 0.5s;
+    user-select: none;
+
+    &:hover {
+      border: 1px solid v.$secondary-color;
+    }
+
+    &_disable {
+      color: v.$secondary-color;
+
+      &:hover {
+        border-color: transparent;
+      }
+    }
+  }
+
+  &__title {
+    margin-bottom: v.$space-l;
+    cursor: pointer;
+  }
+
+  &__price {
+    &_old {
+      color: v.$secondary-color;
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: v.$brand;
+      font-weight: 400;
+    }
+  }
+}

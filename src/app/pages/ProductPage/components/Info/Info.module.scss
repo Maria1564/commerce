@@ -1,0 +1,52 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.info {
+  margin: 32px 0 v.$space-48;
+  display: flex;
+  justify-content: space-between;
+  gap: v.$space-48;
+
+  &__image {
+    @include m.square(600px);
+  }
+
+  &__description {
+    margin: v.$space-xl 0 80px;
+  }
+
+  &__actions {
+    @include m.align-items-center;
+    gap: v.$space-48;
+    margin-top: v.$space-48;
+  }
+
+  &__btn {
+    &_outline {
+      border: 1px solid v.$primary-color;
+      background-color: v.$white;
+      color: v.$primary-color;
+      transition: all 0.5s;
+
+      &:hover {
+        background-color: v.$white;
+        border-color: v.$secondary-color;
+        color: v.$secondary-color;
+      }
+
+      &:active {
+        background-color: v.$white;
+      }
+    }
+  }
+
+  &__price {
+    &_old {
+      color: v.$secondary-color;
+      text-decoration: line-through;
+      text-decoration-thickness: 3px;
+      text-decoration-color: v.$brand;
+      font-weight: 400;
+    }
+  }
+}

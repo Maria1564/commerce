@@ -2,12 +2,14 @@ import { action, computed, IReactionDisposer, makeObservable, observable, reacti
 import RootStore from 'store/RootStore/RootStore';
 import { ILocalStore } from 'utils/hooks/useLocalStore';
 
+type funcDebounce = (callback: () => void, delay: number) => void;
 type PrivateFields = '_valueSearch';
 
 export class SearchStore implements ILocalStore {
   private _valueSearch: string = '';
   private _rootStore: RootStore | null = null;
   private _reaction: IReactionDisposer | null = null;
+  private _debounce: funcDebounce | null = null;
 
   constructor(rootStore: RootStore) {
     makeObservable<SearchStore, PrivateFields>(this, {
@@ -19,6 +21,8 @@ export class SearchStore implements ILocalStore {
 
     this._rootStore = rootStore;
     this._initReaction();
+
+    this._debounce = this._createDebounce();
   }
 
   get valueSearch(): string {
@@ -39,10 +43,27 @@ export class SearchStore implements ILocalStore {
     }
   }
 
+  private _createDebounce() {
+    let timeout: ReturnType<typeof setTimeout>;
+    return (callback: () => void, delay: number) => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        callback();
+      }, delay);
+    };
+  }
+
   private _initReaction(): void {
     this._reaction = reaction(
       () => this._valueSearch,
-      (value) => this._rootStore?.queryParams.updateParam('search', value.trim()),
+      (value) => {
+        if (this._debounce) {
+          this._debounce(() => {
+            this._rootStore?.queryParams.updateParam('search', value.trim());
+          }, 1000);
+        }
+      },
     );
   }
 }

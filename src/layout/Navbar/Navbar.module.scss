@@ -51,8 +51,7 @@
       &::after {
         content: "";
         display: block;
-        width: 20px;
-        height: 20px;
+        @include m.square(v.$space-l);
         background-color: v.$brand;
         position: absolute;
         border-radius: 50%;

@@ -6,7 +6,7 @@ import { apiClient } from 'utils/axiosConfig';
 import { ILocalStore } from 'utils/hooks/useLocalStore';
 import { Meta } from 'utils/meta';
 
-type PrivateField = '_listProducts' | '_meta' | '_total';
+type PrivateField = '_listProducts' | '_meta' | '_total' | '_applyClientSorting';
 
 export class ProductListStore implements ILocalStore {
   private _listProducts: ProductModel[] = [];
@@ -24,6 +24,7 @@ export class ProductListStore implements ILocalStore {
       meta: computed,
       total: computed,
       getProducts: action,
+      _applyClientSorting: action,
     });
   }
 
@@ -48,9 +49,9 @@ export class ProductListStore implements ILocalStore {
       populate: ['images', 'productCategory'],
       pagination: {
         pageSize: pageSize,
-        page: Number(params.page),
+        page: Number(params.page || 0),
       },
-      ...((params.search || params.category) && {
+      ...((params.search || params.category || params.priceMin || params.priceMax || params.excludeId) && {
         filters: {
           ...(params.search && {
             title: {
@@ -65,16 +66,41 @@ export class ProductListStore implements ILocalStore {
               },
             },
           }),
+
+          ...(params.priceMin &&
+            params.priceMax && {
+              price: {
+                $gte: Number(params.priceMin),
+                $lte: Number(params.priceMax),
+              },
+            }),
+
+          ...(params.excludeId && {
+            documentId: {
+              $ne: params.excludeId,
+            },
+          }),
         },
       }),
       ...(params.sort && { sort: params.sort }),
     };
   }
 
+  //сортировка с учетом скидочной цены
+  private _applyClientSorting(sort: string): void {
+    if (!sort.includes('price')) return;
+    const [_, desc] = sort.split(':');
+
+    this._listProducts = this._listProducts.sort((a, b) => {
+      const firstItem = a.discountedPrice > 0 ? a.discountedPrice : a.price;
+      const secondItem = b.discountedPrice > 0 ? b.discountedPrice : b.price;
+      return desc ? secondItem - firstItem : firstItem - secondItem;
+    });
+  }
+
   getProducts(params: { [key: string]: string }, pageSize: number): void {
     this._meta = Meta.loading;
     this._listProducts = [];
-
     this._createRequestParams(params, pageSize);
 
     apiClient
@@ -86,6 +112,7 @@ export class ProductListStore implements ILocalStore {
           this._listProducts = data.data.map(normalizeProductApi);
           this._meta = Meta.success;
           this._total = data.meta.pagination.total;
+          this._applyClientSorting(params.sort || '');
         });
       })
       .catch(() => {

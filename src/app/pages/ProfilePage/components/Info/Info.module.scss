@@ -1,0 +1,26 @@
+.info {
+  margin-bottom: 25px;
+
+  &__wrapper {
+    position: relative;
+  }
+
+  &__field {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    padding: 10px 5px;
+    font-size: 18px;
+    color: v.$primary-color;
+    border-bottom: 1px solid v.$brand;
+  }
+
+  &__icon-edit {
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    color: v.$brand;
+    @include m.square(25px);
+    cursor: pointer;
+  }
+}

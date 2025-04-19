@@ -1,0 +1,10 @@
+@use "styles/mixins" as m;
+
+.product-item {
+  @include m.align-items-center;
+  justify-content: space-between;
+
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}

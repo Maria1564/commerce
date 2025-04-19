@@ -1,0 +1,63 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.profile {
+  margin: 40px 0;
+  border-radius: v.$border-radius;
+
+  &__title {
+    width: max-content;
+    margin: 0 auto;
+  }
+
+  &__wrapper {
+    width: 540px;
+    margin: 0 auto;
+    padding: 45px 30px;
+    margin-top: 25px;
+    background-color: v.$white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+  }
+
+  &__user-icon {
+    @include m.square(80px);
+    color: v.$primary-color;
+    border-radius: 50%;
+  }
+
+  &__item {
+    &:not(:last-of-type) {
+      margin-bottom: 25px;
+    }
+  }
+
+  &__btn-save {
+    margin-top: 35px;
+  }
+
+  &__username {
+    position: relative;
+  }
+
+  &__icon-edit {
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    color: v.$brand;
+    @include m.square(25px);
+    cursor: pointer;
+  }
+
+  &__field {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    padding: 10px 5px;
+    font-size: 18px;
+    color: v.$primary-color;
+    border-bottom: 1px solid v.$brand;
+  }
+}
