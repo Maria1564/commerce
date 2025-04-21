@@ -103,7 +103,8 @@ private _rootStore: RootStore | null = null
       }>(`/products?${qs.stringify(this._requestPrams)}`)
       .then(({ data }) => {
         runInAction(() => {
-          if (data.meta.pagination.page > data.meta.pagination.pageCount) {
+          console.log(data)
+          if (data.meta.pagination && data.meta.pagination.page > data.meta.pagination.pageCount) {
             this._currentPage = 1;
           } else {
             this._currentPage = data.meta.pagination.page;
