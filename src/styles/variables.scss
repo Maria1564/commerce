@@ -15,7 +15,7 @@
 [data-theme="dark"] {
   --primary-color: #ffffff;
   --secondary-color: #8a8a8a;
-  --white: #1f222a;
+  --white: #;
   --background: #181a20;
   --border-color: #23262e;
   --background-input: #16131387;
@@ -53,3 +53,5 @@ $space-xxs: 8px;
 $checkbox-border: #ffffff80;
 $checkbox-hove-border: #ffffff00;
 $checkbox-color-disabled: #00000033;
+
+$border-radius: 4px;

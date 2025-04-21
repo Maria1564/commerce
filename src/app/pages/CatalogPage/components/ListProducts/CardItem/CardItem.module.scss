@@ -1,0 +1,19 @@
+@use "styles/mixins" as m;
+@use "styles/variables" as v;
+
+.card {
+  &__caption {
+    @include m.align-items-center;
+    gap: v.$space-l;
+  }
+
+  &__price {
+    &_old {
+      color: v.$secondary-color;
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: v.$brand;
+      font-weight: 400;
+    }
+  }
+}

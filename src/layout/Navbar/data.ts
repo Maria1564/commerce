@@ -8,14 +8,18 @@ export type typeLink = {
 export const links: typeLink[] = [
   {
     to: Routes.catalog,
-    text: "Products",
+    text: "Каталог",
   },
   {
-    to: Routes.main,
-    text: "Categories",
+    to: Routes.categories,
+    text: "Категории",
   },
   {
     to: Routes.about,
-    text: "About us",
+    text: "О нас",
   },
+  {
+    to: Routes.orders,
+    text: "Заказы"
+  }
 ];

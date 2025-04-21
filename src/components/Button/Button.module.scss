@@ -11,6 +11,7 @@
   cursor: pointer;
   font-style: normal;
   height: max-content;
+  border-radius: v.$border-radius;
   transition: background 0.5s;
 
   &:active {
