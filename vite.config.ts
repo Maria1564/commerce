@@ -22,8 +22,13 @@ const parseTsConfigPaths = (
 };
 
 export default defineConfig({
+  base: '/commerce/',
   plugins: [react()],
   resolve: {
     alias: parseTsConfigPaths(tsconfig.compilerOptions.paths),
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
   },
 });
