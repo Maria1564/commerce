@@ -1,0 +1,17 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.favorite {
+  @include m.square(35px);
+  color: v.$primary-color;
+  cursor: pointer;
+  transition: transform 0.5s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &_active {
+    color: v.$brand;
+  }
+}

@@ -20,7 +20,7 @@ export class CatalogPageStore implements ILocalStore {
     this._paginationStore = new PaginationStore(rootStore);
     this._categoriesStore = new CategoryFilterStore(rootStore);
     this._searchStore = new SearchStore(rootStore);
-    this._sortStore = new SortOptionsStore(rootStore)
+    this._sortStore = new SortOptionsStore(rootStore);
 
     makeObservable<CatalogPageStore, PrivateFields>(this, {
       _categoriesStore: observable,

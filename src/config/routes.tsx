@@ -9,5 +9,6 @@ export const Routes = {
   categories: '/categories',
   profile: '/profile',
   orders: '/orders',
+  favorites: "/favorites",
   other: '*',
 };
