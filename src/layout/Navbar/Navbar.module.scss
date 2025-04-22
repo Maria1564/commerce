@@ -60,4 +60,9 @@
       }
     }
   }
+
+  &__favorite-icon {
+    color: v.$primary-color;
+    @include m.square(24px);
+  }
 }

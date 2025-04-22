@@ -7,17 +7,17 @@ import { FavoriteToggle } from 'components/FavoriteToggle';
 import { Text } from 'components/Text';
 import { useRootStoreContext } from 'store/RootStore/rootStoreProvider';
 import { ProductModel } from 'store/models/product/product';
-import { Rating } from './Rating';
-import style from './CardItem.module.scss';
+import style from './FavoriteCard.module.scss';
 
-type CardItemProps = {
+type FavoriteCardProps = {
   item: ProductModel;
 };
 
-const CardItem: React.FC<CardItemProps> = ({ item }) => {
-  const navigate = useNavigate();
+const FavoriteCard: React.FC<FavoriteCardProps> = ({ item }) => {
   const { cart } = useRootStoreContext();
-  const onClick = useCallback(() => {
+  const navigate = useNavigate();
+
+  const openProductPage = useCallback(() => {
     navigate(`/product/${item.id}`);
   }, [item.id, navigate]);
 
@@ -28,12 +28,7 @@ const CardItem: React.FC<CardItemProps> = ({ item }) => {
   return (
     <Card
       image={item.urlImage}
-      captionSlot={
-        <div className={style.card__caption}>
-          {item.category}
-          <Rating rating={item.rating} />
-        </div>
-      }
+      captionSlot={<div className={style.card__caption}>{item.category}</div>}
       title={item.title}
       subtitle={item.description}
       contentSlot={
@@ -68,9 +63,9 @@ const CardItem: React.FC<CardItemProps> = ({ item }) => {
           </div>
         )
       }
-      onClick={onClick}
+      onClick={openProductPage}
     />
   );
 };
 
-export default React.memo(CardItem);
+export default FavoriteCard;

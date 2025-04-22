@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
+import { MdFavoriteBorder } from 'react-icons/md';
 import { useNavigate } from 'react-router';
 import { Container } from 'components/Container';
 import { Text } from 'components/Text';
@@ -47,6 +48,7 @@ const Navbar: React.FC = () => {
           >
             <BagIcon />
           </div>
+          <MdFavoriteBorder onClick={() => navigate(Routes.favorites)} className={style[`navbar__favorite-icon`]} />
           <AccountDropdown />
           <ToggleTheme />
         </div>

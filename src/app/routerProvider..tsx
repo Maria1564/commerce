@@ -4,6 +4,7 @@ import { AboutUsPage } from 'pages/AboutUsPage';
 import { CartPage } from 'pages/CartPage';
 import { CatalogPage } from 'pages/CatalogPage';
 import { CategoryListPage } from 'pages/CategoryListPage';
+import { FavoritePage } from 'pages/FavoritePage';
 import { LoginPage } from 'pages/LoginPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { OrderHistoryPage } from 'pages/OrderHistoryPage';
@@ -18,6 +19,7 @@ import { RootStoreProvider } from 'store/RootStore/rootStoreProvider';
 import { PrivateRoute } from 'utils/components/PrivateRoute';
 import { PublicRoute } from 'utils/components/PublicRoute';
 import App from './App';
+import { FavoritePageProvider } from 'store/FavoritePageStore/FavoritePageProvider';
 
 export const routeConfig: RouteObject[] = [
   {
@@ -94,6 +96,16 @@ export const routeConfig: RouteObject[] = [
         element: (
           <PrivateRoute>
             <OrderHistoryPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: Routes.favorites,
+        element: (
+          <PrivateRoute>
+            <FavoritePageProvider>
+              <FavoritePage />
+            </FavoritePageProvider>
           </PrivateRoute>
         ),
       },

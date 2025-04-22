@@ -1,0 +1,12 @@
+@use "styles/variables" as v;
+
+.favorite {
+    margin-top: 40px;
+
+    &__list {
+        margin-top: v.$space-l;
+        display: flex;
+        gap: 30px 80px;
+        flex-wrap: wrap;
+    }
+}
